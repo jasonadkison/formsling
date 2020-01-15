@@ -1,14 +1,5 @@
 <h1>Welcome</h1>
 
-<nav style="text-align: right">
-<% if user_signed_in? %>
-    <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
-  <% else %>
-    <%= link_to('Login', new_user_session_path)  %> |
-    <%= link_to('Sign Up', new_user_registration_path)  %>
-  <% end %>
-</nav>
-
 <% if user_signed_in? %>
   <p>Check out <%= link_to "the app", app_path %>!</p>
 <% end %>
