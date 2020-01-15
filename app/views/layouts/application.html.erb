@@ -10,40 +10,40 @@
     <!-- !TODO: move to webpacker -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
-    <%= stylesheet_pack_tag 'stylesheets/application', media: 'all' %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
   </head>
 
   <body>
-    <header class="header">
-      <div class="container">
-        <nav class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <%= link_to 'FormSling', root_path, title: 'Home' %>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <%= link_to 'FormSling', root_path, class: 'navbar-item' %>
+
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div class="navbar-menu">
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <% if user_signed_in? %>
+                <%= link_to('Dashboard', app_path, class: 'button is-primary') unless controller_name == 'dashboard' %>
+                <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'button is-light') %>
+              <% else %>
+                <%= link_to(content_tag(:strong, 'Sign Up'), new_user_registration_path, class: 'button is-primary') %>
+                <%= link_to('Login', new_user_session_path, class: 'button is-light')  %>
+              <% end %>
             </div>
           </div>
-          <div class="level-right">
-            <% if user_signed_in? %>
-              <p class="level-item">
-                <%= link_to('Dashboard', app_path, class: 'button is-dark is-outlined') unless controller_name == 'dashboard' %>
-              </p>
-              <p class="level-item">
-                <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'button is-dark is-outlined') %>
-              </p>
-            <% else %>
-              <p class="level-item">
-                <%= link_to('Login', new_user_session_path, class: 'button is-dark is-outlined')  %>
-              </p>
-              <p>
-                <%= link_to('Sign Up', new_user_registration_path, class: 'button is-dark is-outlined') %>
-              </p>
-            <% end %>
-          </div>
-        </nav>
+        </div>
       </div>
-    </header>
+    </nav>
     <section class="section">
       <div class="container">
+        <%= render 'layouts/notifications' %>
         <%= yield %>
       </div>
     </section>
@@ -53,11 +53,6 @@
       </div>
     </footer>
 
-    <!--
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
-    -->
     <%= javascript_pack_tag 'application' %>
   </body>
 </html>
