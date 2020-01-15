@@ -1,0 +1,33 @@
+version: "3"
+services:
+  db:
+    image: postgres:11
+    ports:
+      - 5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./log:/root/log:cached
+  app:
+    build: .
+    command: bash -c "rm -rf ./tmp/pids/server.pid && foreman start -f Procfile.dev-server"
+    volumes:
+      - .:/app:cached
+      - rails_cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+    ports:
+      - 3000:3000
+      - 3035:3035
+    environment:
+      - DATABASE_URL=postgres://postgres@db
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    depends_on:
+      - db
+
+volumes:
+  postgres:
+  bundle:
+  node_modules:
+  rails_cache:
+  packs:
