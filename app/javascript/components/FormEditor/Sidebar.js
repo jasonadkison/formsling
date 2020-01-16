@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEditor } from '@craftjs/core';
 
-import Tools from './Tools';
 import Properties from './Properties';
 
 const Sidebar = () => {
@@ -13,8 +12,6 @@ const Sidebar = () => {
 
   return (
     <div className="column is-one-third">
-      <Tools />
-      <br />
       <Properties />
     </div>
   );

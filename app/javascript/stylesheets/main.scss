@@ -3,11 +3,18 @@
 // Import a Google Font
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
+// bulma overrides must be imported before bulma
 @import './variables';
+
+// bulma and extensions
 @import '~bulma';
-@import '~bulma-switch';
-@import '~bulma-slider';
 @import '~bulma-checkradio';
+@import '~bulma-divider';
+@import '~bulma-slider';
+@import '~bulma-switch';
+@import '~bulma-tooltip';
+
+// custom styles
 @import './layout';
 @import './forms';
 @import './editor';

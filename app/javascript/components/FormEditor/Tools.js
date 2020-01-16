@@ -1,37 +1,28 @@
 import React from 'react';
 import { Canvas, useEditor } from '@craftjs/core';
 import Text from './Text';
-import Textarea from './Textarea';
 
 const Tools = () => {
   const { connectors, query } = useEditor();
 
   return (
-    <div className="tools">
-      <nav className="panel">
-        <p className="panel-heading">
-          Fields
-          <span className="help">(Drag to add)</span>
-        </p>
-        <a
-          className="panel-block is-active"
-          ref={ref => connectors.create(ref, <Text />)}
-        >
-          <span className="panel-icon">
-            <i className="fas fa-book" aria-hidden="true" />
-          </span>
-          Single Line Text
-        </a>
-        <a
-          className="panel-block is-active"
-          ref={ref => connectors.create(ref, <Textarea />)}
-        >
-          <span className="panel-icon">
-            <i className="fas fa-book" aria-hidden="true" />
-          </span>
-          Multi Line Text
-        </a>
-      </nav>
+    <div className="column">
+      <div className="tools">
+        <div className="buttons has-addons">
+          <p className="control">
+            <button
+              className="button"
+              ref={ref => connectors.create(ref, <Text />)}
+              title="Text"
+              data-tooltip="Text"
+            >
+              <span className="icon">
+                <i className="fas fa-align-left" aria-hidden="true" />
+              </span>
+            </button>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

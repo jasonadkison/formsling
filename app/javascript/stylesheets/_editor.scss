@@ -4,12 +4,6 @@
     * { cursor: pointer }
   }
 
-  header {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #eee;
-  }
-
   .box {
     border: 1px solid $white;
     &.selected {

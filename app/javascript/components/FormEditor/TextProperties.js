@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNode } from '@craftjs/core';
 import Property from './Property';
 
-const TextProperties = () => {
-  const { setProp, label, helpText, placeholder } = useNode(node => node.data.props);
+const TextareaProperties = () => {
+  const {
+    setProp,
+    label,
+    helpText,
+    placeholder,
+    rows,
+  } = useNode(node => node.data.props);
 
   return (
     <>
@@ -32,6 +38,21 @@ const TextProperties = () => {
         </Property>
       </div>
       <div className="panel-block">
+        <Property label="Input Size">
+          <input
+            className="slider is-fullwidth"
+            type="range"
+            step="1"
+            min="1"
+            max="18"
+            defaultValue={rows}
+            onChange={(e) => {
+              setProp(props => props.rows = e.target.value);
+            }}
+          />
+        </Property>
+      </div>
+      <div className="panel-block">
         <Property label="Help Text">
           <input
             className="input"
@@ -47,4 +68,4 @@ const TextProperties = () => {
   );
 };
 
-export default TextProperties;
+export default TextareaProperties;

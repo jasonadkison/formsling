@@ -21,9 +21,18 @@ const Properties = () => {
   return selected.properties ? (
     <div className="properties">
       <nav className="panel is-primary">
-        <p className="panel-heading">
-          Properties
-        </p>
+        <div className="panel-heading">
+          <div className="level">
+            <div className="level-left">
+              Properties
+            </div>
+            <div className="level-right">
+              <span className="tag is-info is-light">
+                {selected.name}
+              </span>
+            </div>
+          </div>
+        </div>
         {selected.properties && React.createElement(selected.properties)}
         {selected.isDeletable ? (
           <div className="panel-block">
@@ -39,7 +48,14 @@ const Properties = () => {
         ) : null}
       </nav>
     </div>
-  ) : <p>Click on a field to edit its properties.</p>;
+  ) : (
+    <p className="content">
+      <span className="icon">
+        <i className="fas fa-info-circle" />
+      </span>
+      Click a field to view its properties.
+    </p>
+  );
 };
 
 export default Properties;

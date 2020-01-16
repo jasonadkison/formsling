@@ -4,10 +4,10 @@ import axios from 'axios';
 import { Editor, Frame, Canvas } from "@craftjs/core";
 
 import Header from './Header';
+import Tools from './Tools';
 import Sidebar from './Sidebar';
 
 import Text from './Text';
-import Textarea from './Textarea';
 
 const initialState = {
   loading: true,
@@ -49,17 +49,20 @@ const FormEditor = () => {
     <div id="editor">
       <Editor resolver={{ Text }}>
         <Header form={form} />
+        <div className="is-divider"></div>
         <div className="columns">
+          <Tools />
           <Frame>
-            <Canvas is="div" className="column">
+            <Canvas is="div" className="column is-three-fifths">
               <Text
                 label="Hello world!"
                 helpText="This is some sample help text."
               />
-              <Textarea
+              <Text
                 label="Sample Textarea"
                 placeholder="Enter some text here..."
                 helpText="This is just a sample!"
+                rows={4}
               />
               <Text
                 label="Curious George"

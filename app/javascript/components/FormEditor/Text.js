@@ -6,8 +6,9 @@ import TextProperties from './TextProperties';
 const Text = (props) => {
   const {
     label,
-    helpText,
     placeholder,
+    helpText,
+    rows,
   } = props;
 
   return (
@@ -15,12 +16,21 @@ const Text = (props) => {
       <div className="field">
         <label className="label">{label}</label>
         <div className="control">
-          <input
-            className="input"
-            type="text"
-            placeholder={placeholder}
-            disabled
-          />
+          {rows === '1' || rows === 1 ? (
+            <input
+              className="input"
+              type="text"
+              placeholder={placeholder}
+              disabled
+            />
+          ) : (
+            <textarea
+              className="textarea"
+              placeholder={placeholder}
+              rows={rows}
+              disabled
+            />
+          )}
         </div>
         {helpText && (
           <p className="help">{helpText}</p>
@@ -40,6 +50,7 @@ Text.defaultProps = {
   label: 'Field Label',
   placeholder: '',
   helpText: '',
+  rows: 1,
 };
 
 Text.craft = {
