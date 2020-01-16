@@ -19,19 +19,17 @@ const App = () => {
           <MainMenu />
         </div>
         <div className="column">
-          <div className="content">
-            <Switch>
-              <Route path="/subscription">
-                <Subscription />
-              </Route>
-              <Route path="/account">
-                <Account />
-              </Route>
-              <Route path="/">
-                <Dashboard />
-              </Route>
-            </Switch>
-          </div>
+          <Switch>
+            <Route path="/subscription">
+              <Subscription />
+            </Route>
+            <Route path="/account">
+              <Account />
+            </Route>
+            <Route path="/">
+              <Dashboard />
+            </Route>
+          </Switch>
         </div>
       </div>
     </Router>
