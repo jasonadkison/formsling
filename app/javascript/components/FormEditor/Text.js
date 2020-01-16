@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNode } from '@craftjs/core';
+import DraggableBox from './DraggableBox';
+import TextProperties from './TextProperties';
 
 const Text = (props) => {
   const {
@@ -9,17 +10,8 @@ const Text = (props) => {
     placeholder,
   } = props;
 
-  const { connectors: { connect, drag }, isActive, setProp } = useNode((node) => ({
-    isActive: node.events.selected,
-  }));
-
-  const [isEditing, setIsEditing] = useState(false);
-
   return (
-    <div
-      ref={ref => connect(drag(ref))}
-      className={`box ${isActive ? 'selected' : ''}`}
-    >
+    <DraggableBox>
       <div className="field">
         <label className="label">{label}</label>
         <div className="control">
@@ -33,67 +25,7 @@ const Text = (props) => {
           <p className="help">{helpText}</p>
         )}
       </div>
-    </div>
-  );
-};
-
-const TextProperties = () => {
-  const { setProp, label, helpText, placeholder } = useNode(node => node.data.props);
-
-  return (
-    <>
-      <div className="panel-block">
-        <div className="control">
-          <label className="label">
-            Label Text
-          </label>
-          <div className="control">
-            <input
-              className="input"
-              type="text"
-              defaultValue={label}
-              onChange={(e) => {
-                setProp(props => props.label = e.target.value);
-              }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="panel-block">
-        <div className="control">
-          <label className="label">
-            Placeholder
-          </label>
-          <div className="control">
-            <input
-              className="input"
-              type="text"
-              defaultValue={placeholder}
-              onChange={(e) => {
-                setProp(props => props.placeholder = e.target.value);
-              }}
-            />
-          </div>
-        </div>
-      </div>
-      <div className="panel-block">
-        <div className="control">
-          <label className="label">
-            Help Text
-          </label>
-          <div className="control">
-            <input
-              className="input"
-              type="text"
-              defaultValue={helpText}
-              onChange={(e) => {
-                setProp(props => props.helpText = e.target.value);
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    </>
+    </DraggableBox>
   );
 };
 
