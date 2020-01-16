@@ -9,7 +9,7 @@ import FormResults from './FormResults';
 import FormEditor from './FormEditor';
 import FormExample from './FormExample';
 
-const Dashboard = () => {
+const Forms = () => {
 
   const { path, url } = useRouteMatch();
 
@@ -33,4 +33,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Forms;

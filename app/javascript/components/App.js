@@ -6,7 +6,8 @@ import {
   Link
 } from "react-router-dom";
 import MainMenu from './MainMenu';
-import Dashboard from './Dashboard';
+import Forms from './Forms';
+import Usage from './Usage';
 import Subscription from './Subscription';
 import Account from './Account';
 import FormList from './FormList';
@@ -20,6 +21,9 @@ const App = () => {
         </div>
         <div className="column">
           <Switch>
+          <Route path="/usage">
+              <Usage />
+            </Route>
             <Route path="/subscription">
               <Subscription />
             </Route>
@@ -27,7 +31,7 @@ const App = () => {
               <Account />
             </Route>
             <Route path="/">
-              <Dashboard />
+              <Forms />
             </Route>
           </Switch>
         </div>
