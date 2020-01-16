@@ -7,6 +7,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 
 import Text from './Text';
+import Textarea from './Textarea';
 
 const initialState = {
   loading: true,
@@ -54,6 +55,11 @@ const FormEditor = () => {
               <Text
                 label="Hello world!"
                 helpText="This is some sample help text."
+              />
+              <Textarea
+                label="Sample Textarea"
+                placeholder="Enter some text here..."
+                helpText="This is just a sample!"
               />
               <Text
                 label="Curious George"

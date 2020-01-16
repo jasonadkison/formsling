@@ -4,7 +4,7 @@ import { useEditor } from '@craftjs/core';
 const Properties = () => {
   const { actions, selected } = useEditor((state, query) => {
     const currentNodeId = state.events.selected;
-    let selected;
+    let selected = {};
 
     if (currentNodeId) {
       selected = {
@@ -18,9 +18,9 @@ const Properties = () => {
     return { selected };
   });
 
-  return selected ? (
+  return selected.properties ? (
     <div className="properties">
-      <nav className="panel">
+      <nav className="panel is-primary">
         <p className="panel-heading">
           Properties
         </p>

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
 
-const Text = (props) => {
+const Textarea = (props) => {
   const {
     label,
-    helpText,
     placeholder,
+    helpText,
+    rows,
   } = props;
 
   const { connectors: { connect, drag }, isActive, setProp } = useNode((node) => ({
@@ -23,10 +24,11 @@ const Text = (props) => {
       <div className="field">
         <label className="label">{label}</label>
         <div className="control">
-          <input
-            className="input"
+          <textarea
+            className="textarea"
             type="text"
             placeholder={placeholder}
+            rows={rows}
           />
         </div>
         {helpText && (
@@ -37,8 +39,14 @@ const Text = (props) => {
   );
 };
 
-const TextProperties = () => {
-  const { setProp, label, helpText, placeholder } = useNode(node => node.data.props);
+const TextareaProperties = () => {
+  const {
+    setProp,
+    label,
+    helpText,
+    placeholder,
+    rows,
+  } = useNode(node => node.data.props);
 
   return (
     <>
@@ -79,6 +87,26 @@ const TextProperties = () => {
       <div className="panel-block">
         <div className="control">
           <label className="label">
+            Initial Size
+          </label>
+          <div className="control">
+            <input
+              className="slider is-fullwidth"
+              type="range"
+              step="1"
+              min="1"
+              max="18"
+              defaultValue={rows}
+              onChange={(e) => {
+                setProp(props => props.rows = e.target.value);
+              }}
+            />
+          </div>
+        </div>
+      </div>
+      <div className="panel-block">
+        <div className="control">
+          <label className="label">
             Help Text
           </label>
           <div className="control">
@@ -97,22 +125,23 @@ const TextProperties = () => {
   );
 };
 
-Text.propTypes = {
+Textarea.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
   helpText: PropTypes.string,
 };
 
-Text.defaultProps = {
+Textarea.defaultProps = {
   label: 'Field Label',
   placeholder: '',
   helpText: '',
+  rows: 4,
 };
 
-Text.craft = {
+Textarea.craft = {
   related: {
-    properties: TextProperties,
+    properties: TextareaProperties,
   },
 };
 
-export default Text;
+export default Textarea;
