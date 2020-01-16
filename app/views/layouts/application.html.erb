@@ -14,42 +14,20 @@
   </head>
 
   <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <%= link_to 'FormSling', root_path, class: 'navbar-item' %>
+    <%= render 'layouts/nav' %>
 
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-
-      <div class="navbar-menu">
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <% if user_signed_in? %>
-                <%= link_to('Dashboard', app_path, class: 'button is-primary') unless controller_name == 'dashboard' %>
-                <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'button is-light') %>
-              <% else %>
-                <%= link_to(content_tag(:strong, 'Sign Up'), new_user_registration_path, class: 'button is-primary') %>
-                <%= link_to('Login', new_user_session_path, class: 'button is-light')  %>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
     <section class="section">
       <div class="container">
         <%= render 'layouts/notifications' %>
         <%= yield %>
       </div>
     </section>
+
     <footer class="footer">
       <div class="container">
-        Copyright &copy; 2020 FormSling. All rights reserved.
+        <div class="content has-text-centered">
+          Copyright &copy; 2020 FormSling. All rights reserved.
+        </div>
       </div>
     </footer>
 
