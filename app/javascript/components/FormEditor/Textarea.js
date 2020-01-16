@@ -21,6 +21,7 @@ const Textarea = (props) => {
             type="text"
             placeholder={placeholder}
             rows={rows}
+            disabled
           />
         </div>
         {helpText && (

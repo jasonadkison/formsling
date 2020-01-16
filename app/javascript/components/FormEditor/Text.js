@@ -19,6 +19,7 @@ const Text = (props) => {
             className="input"
             type="text"
             placeholder={placeholder}
+            disabled
           />
         </div>
         {helpText && (
