@@ -1,4 +1,8 @@
 #editor {
+  [draggable="true"] {
+    cursor: pointer;
+    * { cursor: pointer }
+  }
   [draggable="true"]:not(:last-child) {
     margin-bottom: 1.25rem;
   }
@@ -7,5 +11,12 @@
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid #eee;
+  }
+
+  .box {
+    border: 1px solid $white;
+    &.is-active {
+      border-color: $primary;
+    }
   }
 }

@@ -53,14 +53,22 @@ const FormEditor = () => {
           <div className="column">
             <Frame>
               <Canvas is="div">
-                <Text size="small" text="Hello world!" />
-                <Text size="small" text="Curious George" />
-                <Text size="small" text="The Itsy Bitsy Spider" />
+                <Text
+                  label="Hello world!"
+                  helpText="This is some sample help text."
+                />
+                <Text
+                  label="Curious George"
+                />
+                <Text
+                  label="The Itsy Bitsy Spider"
+                />
               </Canvas>
             </Frame>
           </div>
           <div className="column is-one-third">
             <Tools />
+            <br />
             <Properties />
           </div>
         </div>
