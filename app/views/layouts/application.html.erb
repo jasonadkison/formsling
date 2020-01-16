@@ -18,7 +18,7 @@
 
     <section class="section">
       <div class="container">
-        <%= render 'layouts/notifications' %>
+        <%= render 'layouts/notifications' unless controller_name == 'dashboard' %>
         <%= yield %>
       </div>
     </section>
