@@ -19,37 +19,49 @@ const Properties = () => {
     return { selected };
   });
 
-  return selected.properties ? (
-    <div className="properties">
-      <nav className="panel is-primary">
-        <div className="panel-heading">
-          <div className="level">
-            <div className="level-left">
-              Properties
-            </div>
-            <div className="level-right">
-              <span className="tag is-info is-light">
-                {selected.name}
-              </span>
-            </div>
-          </div>
+  if (selected.properties) {
+    return (
+      <div className="properties">
+        <div className="content">
+          <p>
+            <span className="icon">
+              <i className="fas fa-arrows-alt-v" />
+            </span>
+            Drag and drop fields into the desired order.
+          </p>
         </div>
-        {selected.properties && React.createElement(selected.properties)}
-        {selected.isDeletable ? (
-          <div className="panel-block">
-            <Property label="Danger Zone">
-              <button
-                className="button is-danger"
-                onClick={() => actions.delete(selected.id)}
-              >
-                Delete Field
-              </button>
-            </Property>
+        <nav className="panel is-primary">
+          <div className="panel-heading">
+            <div className="level">
+              <div className="level-left">
+                Properties
+              </div>
+              <div className="level-right">
+                <span className="tag is-info is-light">
+                  {selected.name}
+                </span>
+              </div>
+            </div>
           </div>
-        ) : null}
-      </nav>
-    </div>
-  ) : (
+          {selected.properties && React.createElement(selected.properties)}
+          {selected.isDeletable ? (
+            <div className="panel-block">
+              <Property label="Danger Zone">
+                <button
+                  className="button is-danger"
+                  onClick={() => actions.delete(selected.id)}
+                >
+                  Delete Field
+                </button>
+              </Property>
+            </div>
+          ) : null}
+        </nav>
+      </div>
+    );
+  }
+
+  return (
     <div className="content">
       <p>
         <span className="icon">

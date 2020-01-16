@@ -4,11 +4,17 @@
     * { cursor: pointer }
   }
 
+  .drag-area {
+    padding-top: 1.5rem;
+  }
+
   .drag-box {
-    padding: 0.5rem 1rem;
+    padding: 0 1rem;
     margin-bottom: 0.75rem;
-    border: 2px solid $white;
+    border: 1px solid $white;
+    border-radius: 6px;
     &.enabled {
+      padding: 1rem;
       border-color: #eee;
       &:hover {
         border-color: lighten($primary, 35);

@@ -8,6 +8,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 
 import Text from './Text';
+import Dropdown from './Dropdown';
 
 const initialState = {
   loading: true,
@@ -47,13 +48,14 @@ const FormEditor = ({ enabled }) => {
 
   return (
     <div id="editor">
-      <Editor resolver={{ Text }} enabled={enabled}>
+      <Editor resolver={{ Text, Dropdown }} enabled={enabled}>
         <Header form={form} />
         <div className="is-divider"></div>
         <div className="columns">
           <div className="column is-three-fifths">
             <Frame>
-              <Canvas is="div" className="box">
+              <Canvas is="div" className="box drag-area">
+                {/*
                 <Text
                   label="Hello world!"
                   helpText="This is some sample help text."
@@ -65,6 +67,12 @@ const FormEditor = ({ enabled }) => {
                   helpText="This is just a sample!"
                   rows={4}
                 />
+                <Dropdown
+                  label="Choose a number"
+                  placeholder="Choose option"
+                  options={['One', 'Two', 'Three']}
+                  initialValue="Three"
+                />
                 <Text
                   label="Curious George"
                   initialValue="I have an initial value!"
@@ -72,6 +80,7 @@ const FormEditor = ({ enabled }) => {
                 <Text
                   label="The Itsy Bitsy Spider"
                 />
+                */}
               </Canvas>
             </Frame>
           </div>
