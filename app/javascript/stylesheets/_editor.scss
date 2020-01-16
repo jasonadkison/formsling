@@ -6,6 +6,9 @@
 
   .box {
     border: 1px solid $white;
+    &:hover {
+      border-color: lighten($primary, 35)
+    }
     &.selected {
       border-color: $primary;
     }
