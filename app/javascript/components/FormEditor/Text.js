@@ -21,14 +21,12 @@ const Text = (props) => {
               className="input"
               type="text"
               placeholder={placeholder}
-              disabled
             />
           ) : (
             <textarea
               className="textarea"
               placeholder={placeholder}
               rows={rows}
-              disabled
             />
           )}
         </div>

@@ -16,10 +16,10 @@ const App = () => {
   return (
     <Router>
       <div id="app" className="columns">
-        <div className="column">
+        <div className="column is-2">
           <MainMenu />
         </div>
-        <div className="column is-four-fifths">
+        <div className="column">
           <Switch>
             <Route path="/usage">
               <Usage />

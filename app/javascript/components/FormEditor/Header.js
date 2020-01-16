@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useEditor } from '@craftjs/core';
 
-const Header = ({ form }) => {
+const Header = ({ form, dispatch }) => {
   const { name } = form;
   const { actions, query, enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
@@ -32,6 +33,12 @@ const Header = ({ form }) => {
       </div>
     </header>
   );
+};
+
+Header.propTypes = {
+  form: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default Header;

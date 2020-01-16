@@ -49,12 +49,20 @@ const Properties = () => {
       </nav>
     </div>
   ) : (
-    <p className="content">
-      <span className="icon">
-        <i className="fas fa-info-circle" />
-      </span>
-      Click a field to view its properties.
-    </p>
+    <div className="content">
+      <p>
+        <span className="icon">
+          <i className="fas fa-mouse-pointer" />
+        </span>
+        Click an active field to view its properties.
+      </p>
+      <p>
+        <span className="icon">
+          <i className="fas fa-arrows-alt-v" />
+        </span>
+        Drag and drop fields into the desired order.
+      </p>
+    </div>
   );
 };
 

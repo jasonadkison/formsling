@@ -23,7 +23,7 @@ const Forms = () => {
           <FormResults />
         </Route>
         <Route path="/forms/:id/edit">
-          <FormEditor />
+          <FormEditor enabled={true} />
         </Route>
         <Route path="/forms/:id/example">
           <FormExample />

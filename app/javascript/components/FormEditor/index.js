@@ -1,10 +1,10 @@
 import React, { useEffect, useReducer } from 'react';
+import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Editor, Frame, Canvas } from "@craftjs/core";
 
 import Header from './Header';
-import Tools from './Tools';
 import Sidebar from './Sidebar';
 
 import Text from './Text';
@@ -23,7 +23,7 @@ const reducer = (state, action) => {
   }
 };
 
-const FormEditor = () => {
+const FormEditor = ({ enabled }) => {
   const { id } = useParams();
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -47,11 +47,10 @@ const FormEditor = () => {
 
   return (
     <div id="editor">
-      <Editor resolver={{ Text }}>
+      <Editor resolver={{ Text }} enabled={enabled}>
         <Header form={form} />
         <div className="is-divider"></div>
         <div className="columns">
-          <Tools />
           <Frame>
             <Canvas is="div" className="column is-three-fifths">
               <Text
@@ -77,6 +76,14 @@ const FormEditor = () => {
       </Editor>
     </div>
   );
+};
+
+FormEditor.propTypes = {
+  enabled: PropTypes.bool,
+};
+
+FormEditor.defaultProps = {
+  enabled: true,
 };
 
 export default FormEditor;
