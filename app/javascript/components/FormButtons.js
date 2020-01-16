@@ -5,21 +5,21 @@ import { Link } from 'react-router-dom';
 const FormButtons = ({ id }) => (
   <p className="buttons">
     <Link
-      to={`/forms/${id}/results`}
-      className="button is-info is-inverted"
-      title="View Results"
-    >
-      <span className="icon">
-        <i className="fas fa-th-list" />
-      </span>
-    </Link>
-    <Link
       to={`/forms/${id}/edit`}
       className="button is-primary is-inverted"
       title="Edit Form"
     >
       <span className="icon is-small">
         <i className="fas fa-edit" />
+      </span>
+    </Link>
+    <Link
+      to={`/forms/${id}/results`}
+      className="button is-info is-inverted"
+      title="View Results"
+    >
+      <span className="icon">
+        <i className="fas fa-th-list" />
       </span>
     </Link>
     <Link
