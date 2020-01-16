@@ -10,7 +10,7 @@ const Sidebar = () => {
   }));
 
   return (
-    <div className="column is-one-third">
+    <div className="column is-two-fifths">
       {enabled && (
         <>
           <Tools />
@@ -23,7 +23,7 @@ const Sidebar = () => {
           <span className="icon">
             <i className="fas fa-info-circle" />
           </span>
-          Toggle edit mode to make changes to your form.
+          Toggle edit mode to start making changes.
         </p>
       )}
     </div>

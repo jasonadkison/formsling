@@ -13,8 +13,12 @@ const Property = ({ label, children }) => (
 );
 
 Property.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   children: PropTypes.element.isRequired,
+};
+
+Property.defaultProps = {
+  label: '',
 };
 
 export default Property;

@@ -51,26 +51,30 @@ const FormEditor = ({ enabled }) => {
         <Header form={form} />
         <div className="is-divider"></div>
         <div className="columns">
-          <Frame>
-            <Canvas is="div" className="column is-three-fifths">
-              <Text
-                label="Hello world!"
-                helpText="This is some sample help text."
-              />
-              <Text
-                label="Sample Textarea"
-                placeholder="Enter some text here..."
-                helpText="This is just a sample!"
-                rows={4}
-              />
-              <Text
-                label="Curious George"
-              />
-              <Text
-                label="The Itsy Bitsy Spider"
-              />
-            </Canvas>
-          </Frame>
+          <div className="column is-three-fifths">
+            <Frame>
+              <Canvas is="div" className="box">
+                <Text
+                  label="Hello world!"
+                  helpText="This is some sample help text."
+                />
+                <Text
+                  label="Sample Textarea"
+                  initialValue="This is the initial value"
+                  placeholder="Enter some text here..."
+                  helpText="This is just a sample!"
+                  rows={4}
+                />
+                <Text
+                  label="Curious George"
+                  initialValue="I have an initial value!"
+                />
+                <Text
+                  label="The Itsy Bitsy Spider"
+                />
+              </Canvas>
+            </Frame>
+          </div>
           <Sidebar />
         </div>
       </Editor>

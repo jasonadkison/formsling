@@ -4,13 +4,18 @@
     * { cursor: pointer }
   }
 
-  .box {
-    border: 1px solid $white;
-    &:hover {
-      border-color: lighten($primary, 35)
-    }
-    &.selected {
-      border-color: $primary;
+  .drag-box {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.75rem;
+    border: 2px solid $white;
+    &.enabled {
+      border-color: #eee;
+      &:hover {
+        border-color: lighten($primary, 35);
+      }
+      &.selected {
+        border-color: $primary;
+      }
     }
   }
 }

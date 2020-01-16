@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEditor } from '@craftjs/core';
+import Property from './Property';
 
 const Properties = () => {
   const { actions, selected } = useEditor((state, query) => {
@@ -36,14 +37,14 @@ const Properties = () => {
         {selected.properties && React.createElement(selected.properties)}
         {selected.isDeletable ? (
           <div className="panel-block">
-            <p>
+            <Property label="Danger Zone">
               <button
                 className="button is-danger"
                 onClick={() => actions.delete(selected.id)}
               >
                 Delete Field
               </button>
-            </p>
+            </Property>
           </div>
         ) : null}
       </nav>
