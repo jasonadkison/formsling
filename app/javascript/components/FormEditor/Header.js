@@ -1,7 +1,12 @@
 import React from 'react';
+import { useEditor } from '@craftjs/core';
 
 const Header = ({ form }) => {
   const { name } = form;
+  const { actions, query, enabled } = useEditor((state) => ({
+    enabled: state.options.enabled,
+  }));
+
   return (
     <header>
       <div className="level">
@@ -12,7 +17,16 @@ const Header = ({ form }) => {
         </div>
         <div className="level-right">
           <div className="level-item">
-            <button className="button is-primary">Edit Form</button>
+            <div className="field">
+              <input
+                id="editor-switch"
+                type="checkbox"
+                className="switch"
+                checked={enabled}
+                onChange={(e) => actions.setOptions(options => options.enabled = e.target.checked)}
+              />
+              <label htmlFor="editor-switch">Edit Mode</label>
+            </div>
           </div>
         </div>
       </div>

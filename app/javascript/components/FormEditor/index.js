@@ -4,8 +4,7 @@ import axios from 'axios';
 import { Editor, Frame, Canvas } from "@craftjs/core";
 
 import Header from './Header';
-import Tools from './Tools';
-import Properties from './Properties';
+import Sidebar from './Sidebar';
 
 import Text from './Text';
 
@@ -50,27 +49,21 @@ const FormEditor = () => {
       <Editor resolver={{ Text }}>
         <Header form={form} />
         <div className="columns">
-          <div className="column">
-            <Frame>
-              <Canvas is="div">
-                <Text
-                  label="Hello world!"
-                  helpText="This is some sample help text."
-                />
-                <Text
-                  label="Curious George"
-                />
-                <Text
-                  label="The Itsy Bitsy Spider"
-                />
-              </Canvas>
-            </Frame>
-          </div>
-          <div className="column is-one-third">
-            <Tools />
-            <br />
-            <Properties />
-          </div>
+          <Frame>
+            <Canvas is="div" className="column">
+              <Text
+                label="Hello world!"
+                helpText="This is some sample help text."
+              />
+              <Text
+                label="Curious George"
+              />
+              <Text
+                label="The Itsy Bitsy Spider"
+              />
+            </Canvas>
+          </Frame>
+          <Sidebar />
         </div>
       </Editor>
     </div>

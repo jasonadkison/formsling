@@ -14,7 +14,7 @@ const Tools = () => {
         </p>
         <a
           className="panel-block is-active"
-          ref={ref => connectors.create(ref, <Text text="Lorem ipsum text goes here." />)}
+          ref={ref => connectors.create(ref, <Text />)}
         >
           <span className="panel-icon">
             <i className="fas fa-book" aria-hidden="true" />

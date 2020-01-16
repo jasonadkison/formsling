@@ -13,7 +13,6 @@ const Properties = () => {
         properties: state.nodes[currentNodeId].related && state.nodes[currentNodeId].related.properties,
         isDeletable: query.node(currentNodeId).isDeletable(),
       };
-      console.log(selected);
     }
 
     return { selected };

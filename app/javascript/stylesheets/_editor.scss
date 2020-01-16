@@ -3,9 +3,6 @@
     cursor: pointer;
     * { cursor: pointer }
   }
-  [draggable="true"]:not(:last-child) {
-    margin-bottom: 1.25rem;
-  }
 
   header {
     margin-bottom: 2rem;
