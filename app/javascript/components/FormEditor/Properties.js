@@ -27,7 +27,7 @@ const Properties = () => {
             <span className="icon">
               <i className="fas fa-arrows-alt-v" />
             </span>
-            Drag and drop fields into the desired order.
+            Drag and drop elements into the desired order.
           </p>
         </div>
         <nav className="panel is-primary">
@@ -47,12 +47,15 @@ const Properties = () => {
           {selected.isDeletable ? (
             <div className="panel-block">
               <Property label="Danger Zone">
-                <button
-                  className="button is-danger"
-                  onClick={() => actions.delete(selected.id)}
-                >
-                  Delete Field
-                </button>
+                <div className="content">
+                  <button
+                    className="button is-danger"
+                    onClick={() => actions.delete(selected.id)}
+                  >
+                    Delete Element
+                  </button>
+                  <p className="help is-danger">* Also deletes any child elements.</p>
+                </div>
               </Property>
             </div>
           ) : null}
@@ -73,7 +76,7 @@ const Properties = () => {
         <span className="icon">
           <i className="fas fa-arrows-alt-v" />
         </span>
-        Drag and drop fields into the desired order.
+        Drag and drop elements into the desired order.
       </p>
     </div>
   );

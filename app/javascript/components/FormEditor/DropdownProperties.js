@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNode } from '@craftjs/core';
-import bulmaTagsinput from 'bulma-tagsinput';
 import CreatableSelect from 'react-select/creatable';
 
 import Property from './Property';

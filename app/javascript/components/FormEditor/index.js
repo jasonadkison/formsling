@@ -9,6 +9,7 @@ import Sidebar from './Sidebar';
 
 import Text from './Text';
 import Dropdown from './Dropdown';
+import Columns from './Columns';
 
 const initialState = {
   loading: true,
@@ -48,7 +49,7 @@ const FormEditor = ({ enabled }) => {
 
   return (
     <div id="editor">
-      <Editor resolver={{ Text, Dropdown }} enabled={enabled}>
+      <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
         <Header form={form} />
         <div className="is-divider"></div>
         <div className="columns">
@@ -81,6 +82,7 @@ const FormEditor = ({ enabled }) => {
                   label="The Itsy Bitsy Spider"
                 />
                 */}
+                <Columns totalColumns={2} />
               </Canvas>
             </Frame>
           </div>

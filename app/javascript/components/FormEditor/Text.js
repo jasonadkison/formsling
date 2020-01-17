@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import DraggableBox from './DraggableBox';
+import DragBox from './DragBox';
 import TextProperties from './TextProperties';
 
 const Text = (props) => {
@@ -15,7 +15,7 @@ const Text = (props) => {
   } = props;
 
   return (
-    <DraggableBox>
+    <DragBox>
       <div className="field">
         <label className="label">
           {label}
@@ -51,7 +51,7 @@ const Text = (props) => {
           <p className="help">{helpText}</p>
         )}
       </div>
-    </DraggableBox>
+    </DragBox>
   );
 };
 

@@ -1,7 +1,7 @@
 #editor {
   [draggable="true"] {
     cursor: pointer;
-    * { cursor: pointer }
+    * { cursor: initial; }
   }
 
   .drag-area {
@@ -13,14 +13,22 @@
     margin-bottom: 0.75rem;
     border: 1px solid $white;
     border-radius: 6px;
+    background: $white;
+
     &.enabled {
       padding: 1rem;
       border-color: #eee;
+
       &:hover {
         border-color: lighten($primary, 35);
       }
       &.selected {
         border-color: $primary;
+      }
+
+      .column.is-crafted {
+        background: $background;
+        border: 0.25rem solid $white;
       }
     }
   }
