@@ -15,7 +15,7 @@ const Text = (props) => {
   } = props;
 
   return (
-    <DragBox>
+    <DragBox label="Text">
       <div className="field">
         <label className="label">
           {label}

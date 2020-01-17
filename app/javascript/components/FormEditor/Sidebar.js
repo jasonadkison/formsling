@@ -9,16 +9,14 @@ const Sidebar = () => {
     enabled: state.options.enabled,
   }));
 
+  if (!enabled) return null;
+
   return (
-    <div>
+    <aside className="sidebar">
       <Tools />
-      {enabled && (
-        <>
-          <br />
-          <Properties />
-        </>
-      )}
-    </div>
+      <br />
+      <Properties />
+    </aside>
   );
 };
 

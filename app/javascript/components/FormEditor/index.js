@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Editor, Frame, Canvas } from "@craftjs/core";
+import StickyBox from "react-sticky-box";
 
 import PortalContext from '../PortalContext';
 import Header from './Header';
@@ -66,39 +67,19 @@ const FormEditor = ({ enabled }) => {
         <div id="editor">
           <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
             <Header form={form} handleSave={handleSave} />
-            <Frame>
-              <Canvas is="div" className="drag-area">
-                {/*
-                <Text
-                  label="Hello world!"
-                  helpText="This is some sample help text."
-                />
-                <Text
-                  label="Sample Textarea"
-                  initialValue="This is the initial value"
-                  placeholder="Enter some text here..."
-                  helpText="This is just a sample!"
-                  rows={4}
-                />
-                <Dropdown
-                  label="Choose a number"
-                  placeholder="Choose option"
-                  options={['One', 'Two', 'Three']}
-                  initialValue="Three"
-                />
-                <Text
-                  label="Curious George"
-                  initialValue="I have an initial value!"
-                />
-                <Text
-                  label="The Itsy Bitsy Spider"
-                />
-                <Columns totalColumns={2} />
-                */}
-              </Canvas>
-            </Frame>
-            {createPortal(<Sidebar />, context.sidebarDomNode.current)}
-            {createPortal(<Breadcrumbs {...form} />, context.breadcrumbDomNode.current)}
+            <div className="columns">
+              <div className="column is-two-thirds">
+                <Frame>
+                  <Canvas is="div" className="drag-area" />
+                </Frame>
+              </div>
+              <div className="column">
+                <StickyBox offsetTop={50} offsetBottom={20}>
+                  <Sidebar />
+                </StickyBox>
+              </div>
+            </div>
+            {context.breadcrumbDomNode.current && createPortal(<Breadcrumbs {...form} />, context.breadcrumbDomNode.current)}
           </Editor>
         </div>
       )}

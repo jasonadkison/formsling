@@ -11,12 +11,11 @@ const Tools = () => {
   }));
 
   return (
-    <div className="tools">
-      <p className="menu-label">Elements (Drag to add)</p>
-      <div className="buttons has-addons">
-        <p className="control">
-          <button
-            className="button"
+    <nav className="navbar is-light" role="navigation" aria-label="main navigation">
+      <div className="navbar-menu is-active">
+        <div className="navbar-start">
+          <a
+            className="navbar-item"
             ref={ref => connectors.create(ref, <Text />)}
             title="Text"
             data-tooltip="Text"
@@ -25,9 +24,9 @@ const Tools = () => {
             <span className="icon">
               <i className="fas fa-font" aria-hidden="true" />
             </span>
-          </button>
-          <button
-            className="button"
+          </a>
+          <a
+            className="navbar-item"
             ref={ref => connectors.create(ref, <Dropdown />)}
             title="Dropdown"
             data-tooltip="Dropdown"
@@ -36,9 +35,9 @@ const Tools = () => {
             <span className="icon">
               <i className="fas fa-list-alt" aria-hidden="true" />
             </span>
-          </button>
-          <button
-            className="button"
+          </a>
+          <a
+            className="navbar-item"
             ref={ref => connectors.create(ref, <Columns />)}
             title="Columns"
             data-tooltip="Columns"
@@ -47,10 +46,10 @@ const Tools = () => {
             <span className="icon">
               <i className="fas fa-columns" aria-hidden="true" />
             </span>
-          </button>
-        </p>
+          </a>
+        </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

@@ -1,39 +1,40 @@
-#sidebar-portal {
-  margin: 1.5rem 0;
-}
-#breadcrumb-portal {
-  margin: 1.5rem 0;
-}
-
 #editor {
-  margin: 1.5rem 0;
-
-  .drag-area {
-    margin: 3rem 0;
+  .drag-area,
+  .sidebar {
+    margin: 1rem 0;
   }
 
+  // Draggable boxes
   .drag-box {
-    //padding: 0 1rem;
-    margin-bottom: 0.75rem;
+    > .field {
+      margin-bottom: 1rem;
+    }
     border: 2px solid $white;
     border-radius: 6px;
     background: $white;
-    cursor: pointer;
 
+    // Fix pointers
+    cursor: pointer;
     .drag-box * { cursor: pointer };
 
+    // Styles here only apply when the editor is toggled on.
     &.enabled {
       padding: 1rem;
+      margin: 1.75rem 0;
       border: 2px solid #eee;
+      position: relative;
 
+      // Default hover styling
       &:hover {
         border-color: lighten($primary, 30);
       }
 
+      // Default active styling
       &.selected {
         border-color: $primary;
       }
 
+      // Default Columns styling
       .column.is-crafted {
         background: $background;
         margin: 0.25rem;
@@ -41,9 +42,30 @@
         cursor: initial;
       }
 
+      // Show Columns boundary when hovering or active
       &.selected .column.is-crafted,
       .column.is-crafted:hover {
         border: 2px dashed $primary;
+      }
+
+      // The badge that displays the name of the Element
+      &::before {
+        content: attr(data-label);
+        align-items: stretch;
+        display: flex;
+        background: $yellow;
+        border-radius: 2px 2px 0 0;
+        bottom: 100%;
+        color: rgba(0,0,0,.7);
+        font-size: 7px;
+        font-weight: 700;
+        left: -1px;
+        letter-spacing: 1px;
+        margin-left: -1px;
+        padding: 3px 5px;
+        position: absolute;
+        text-transform: uppercase;
+        vertical-align: top;
       }
     }
 

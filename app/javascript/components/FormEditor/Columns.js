@@ -14,7 +14,7 @@ const Columns = ({ totalColumns }) => {
   }
 
   return (
-    <DragBox>
+    <DragBox label="Columns">
       <div className="columns">
         {columns}
       </div>
