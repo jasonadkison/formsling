@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
@@ -13,14 +13,13 @@ import Dropdown from './Dropdown';
 import Columns from './Columns';
 
 const initialState = {
-  loading: true,
-  form: null,
+  updated_at: undefined,
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case 'RECEIVE_FORM':
-      return { ...state, form: { ...action.payload }, loading: false };
+      return { ...state, ...action.payload };
     default:
       throw new Error();
   }
@@ -28,23 +27,30 @@ const reducer = (state, action) => {
 
 const FormEditor = ({ enabled, sidebarDomNode }) => {
   const { id } = useParams();
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [form, dispatch] = useReducer(reducer, initialState);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadForm = async () => {
+      setLoading(true);
       const result = await axios(`/api/v1/forms/${id}`);
-
       dispatch({ type: 'RECEIVE_FORM', payload: result.data });
+      setLoading(false);
     };
 
     loadForm();
   }, [id]);
 
-  useEffect(() => {
-
-  }, [sidebarDomNode]);
-
-  const { loading, form } = state;
+  const handleSave = async (payload) => {
+    const token = document.getElementsByName('csrf-token')[0].content;
+    const result =  await axios.put(
+      `/api/v1/forms/${id}`,
+      { form: { payload }},
+      { headers: { 'X-CSRF-TOKEN': token }},
+    );
+    dispatch({ type: 'RECEIVE_FORM', payload: result.data });
+    return result;
+  }
 
   if (loading) {
     return (
@@ -55,7 +61,7 @@ const FormEditor = ({ enabled, sidebarDomNode }) => {
   return (
     <div id="editor">
       <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
-        <Header form={form} />
+        <Header form={form} handleSave={handleSave} />
         <Frame>
           <Canvas is="div" className="drag-area">
             {/*

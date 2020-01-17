@@ -23,7 +23,7 @@ const Sidebar = () => {
           <span className="icon">
             <i className="fas fa-info-circle" />
           </span>
-          Toggle edit mode to start making changes.
+          Enable Edit Mode to start making changes.
         </p>
       )}
     </div>

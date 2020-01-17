@@ -1,43 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useEditor } from '@craftjs/core';
 import lz from 'lzutf8';
 import axios from 'axios';
 
+import TimeAgo from 'react-timeago'
+
 const compress = json => lz.encodeBase64(lz.compress(json));
 const decompress = base64 => lz.decompress(lz.decodeBase64(base64));
 
-const Header = ({ form, dispatch }) => {
-  const { id, name, payload } = form;
+const Header = ({ form, handleSave }) => {
+  const { id, name, payload, updated_at: updatedAt } = form;
   const { actions, query, enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
 
-  const saveEditor = () => {
-    const save = async (payload) => {
-      const token = document.getElementsByName('csrf-token')[0].content;
-      const result = await axios.put(
-        `/api/v1/forms/${id}`,
-        { form: { payload }},
-        { headers: { 'X-CSRF-TOKEN': token }},
-      );
+  const [currentPayload, setCurrentPayload] = useState(payload);
+  const [syncing, setSyncing] = useState(false);
+  const [isCurrentlySynced, setIsCurrentlySynced] = useState(true);
 
-      actions.deserialize(decompress(result.data.payload));
-    };
-
-    save(compress(query.serialize()));
-  };
-
+  // Load the initial payload on mount
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!payload) return;
-      actions.deserialize(decompress(payload));
+      if (currentPayload) {
+        actions.deserialize(decompress(currentPayload));
+      }
     }, 0);
     return () => clearTimeout(timer);
-  }, [payload]);
+  }, []);
+
+  // This hook sets up a poller to check for when things are out of sync.
+  useLayoutEffect(() => {
+    const timer = setInterval(async () => {
+      const editorPayload = compress(query.serialize());
+      const isCurrentlySynced = (editorPayload === currentPayload);
+
+      if (!syncing && !isCurrentlySynced) {
+        setIsCurrentlySynced(false);
+        setCurrentPayload(editorPayload);
+        setSyncing(true);
+      }
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [syncing, currentPayload]);
+
+  // This hook performs the save when syncing is toggled on.
+  useEffect(() => {
+    const save = async (payload) => {
+      const result = await handleSave(payload);
+
+      // only rebuild the nodes if the config changed
+      if (payload !== result.data.payload) {
+        actions.deserialize(decompress(result.data.payload));
+      }
+
+      setCurrentPayload(result.data.payload);
+      setIsCurrentlySynced(true);
+      setSyncing(false);
+    };
+
+    const timer = setTimeout(async () => {
+      if (syncing) {
+        await save(currentPayload);
+      }
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [syncing, currentPayload]);
 
   return (
     <header>
+      <p className="has-text-right">Last saved: <TimeAgo date={updatedAt}>{updatedAt}</TimeAgo></p>
       <div className="level">
         <div className="level-left">
           <div className="level-item">
@@ -45,14 +77,7 @@ const Header = ({ form, dispatch }) => {
           </div>
         </div>
         <div className="level-right">
-
           <div className="level-item">
-          <button
-              className="button"
-              onClick={saveEditor}
-            >
-              Save
-            </button>
             <div className="field">
               <input
                 id="editor-switch"
