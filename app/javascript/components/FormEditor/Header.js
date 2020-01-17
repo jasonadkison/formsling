@@ -69,7 +69,6 @@ const Header = ({ form, handleSave }) => {
 
   return (
     <header>
-      <p className="has-text-right">Last saved: <TimeAgo date={updatedAt}>{updatedAt}</TimeAgo></p>
       <div className="level">
         <div className="level-left">
           <div className="level-item">
@@ -86,11 +85,12 @@ const Header = ({ form, handleSave }) => {
                 checked={enabled}
                 onChange={(e) => actions.setOptions(options => options.enabled = e.target.checked)}
               />
-              <label htmlFor="editor-switch">Edit Mode</label>
+              <label htmlFor="editor-switch">Toggle Edit Mode</label>
             </div>
           </div>
         </div>
       </div>
+      <p className="subtitle">Last saved: <TimeAgo date={updatedAt}>{updatedAt}</TimeAgo></p>
     </header>
   );
 };

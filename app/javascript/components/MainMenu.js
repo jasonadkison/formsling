@@ -2,30 +2,16 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 const MainMenu = () => (
-  <aside className="menu">
-    <p className="menu-label">
-      Menu
-    </p>
-    <ul className="menu-list">
-      <li>
-        <Link to="/app">Forms</Link>
-      </li>
-      <li>
-        <Link to="/usage">Usage</Link>
-      </li>
-      <li>
-        <Link to="/subscription">Subscription</Link>
-      </li>
-      <li>
-        <Link to="/account">Account</Link>
-      </li>
-      <li>
-        <a href="/users/sign_out" data-method="delete">
-          Logout
-        </a>
-      </li>
-    </ul>
-  </aside>
+  <nav className="navbar is-light" role="navigation" aria-label="main navigation">
+    <div className="navbar-menu is-active">
+      <div className="navbar-start">
+        <Link className="navbar-item" to="/app">Forms</Link>
+        <Link className="navbar-item" to="/usage">Usage</Link>
+        <Link className="navbar-item" to="/subscription">Subscription</Link>
+        <Link className="navbar-item" to="/account">Account</Link>
+      </div>
+    </div>
+  </nav>
 );
 
 export default MainMenu;

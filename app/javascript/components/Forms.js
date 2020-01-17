@@ -14,22 +14,20 @@ const Forms = () => {
   const { path, url } = useRouteMatch();
 
   return (
-    <div id="dashboard">
-      <Switch>
-        <Route exact path="/app">
-          <FormList />
-        </Route>
-        <Route path="/forms/:id/results">
-          <FormResults />
-        </Route>
-        <Route path="/forms/:id/edit">
-          <FormEditor enabled={true} />
-        </Route>
-        <Route path="/forms/:id/example">
-          <FormExample />
-        </Route>
-      </Switch>
-    </div>
+    <Switch>
+      <Route exact path="/app">
+        <FormList />
+      </Route>
+      <Route path="/forms/:id/results">
+        <FormResults />
+      </Route>
+      <Route path="/forms/:id/edit">
+        <FormEditor enabled={true} />
+      </Route>
+      <Route path="/forms/:id/example">
+        <FormExample />
+      </Route>
+    </Switch>
   );
 };
 

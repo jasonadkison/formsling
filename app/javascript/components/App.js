@@ -15,36 +15,34 @@ import Account from './Account';
 import FormList from './FormList';
 
 const App = () => {
-  let sidebarDomNode = useRef(null);
+  const sidebarDomNode = useRef(null);
   const breadcrumbDomNode = useRef(null);
 
   return (
     <PortalContext.Provider value={{sidebarDomNode, breadcrumbDomNode}}>
       <Router>
-        <div className="columns is-marginless">
-          <div className="column is-full" ref={breadcrumbDomNode} />
-        </div>
-        <div id="app" className="columns is-marginless">
-          <div className="column">
-            <Switch>
-              <Route path="/usage">
-                <Usage />
-              </Route>
-              <Route path="/subscription">
-                <Subscription />
-              </Route>
-              <Route path="/account">
-                <Account />
-              </Route>
-              <Route path="/">
-                <Forms />
-              </Route>
-            </Switch>
-          </div>
-          <div className="is-divider-vertical" />
-          <div className="column is-one-third">
-            <div id="sidebar-portal" ref={sidebarDomNode} />
-            <MainMenu />
+        <MainMenu />
+        <div id="breadcrumb-portal" ref={breadcrumbDomNode} />
+        <div className="box">
+          <div id="app" className="columns is-marginless">
+            <div className="column is-three-fifths">
+              <Switch>
+                <Route path="/usage">
+                  <Usage />
+                </Route>
+                <Route path="/subscription">
+                  <Subscription />
+                </Route>
+                <Route path="/account">
+                  <Account />
+                </Route>
+                <Route path="/">
+                  <Forms />
+                </Route>
+              </Switch>
+            </div>
+            <div className="is-divider-vertical" />
+            <div id="sidebar-portal" className="column" ref={sidebarDomNode} />
           </div>
         </div>
       </Router>

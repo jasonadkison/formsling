@@ -1,9 +1,15 @@
 #sidebar-portal {
-  margin-bottom: 2rem;
+  margin: 1.5rem 0;
 }
+#breadcrumb-portal {
+  margin: 1.5rem 0;
+}
+
 #editor {
+  margin: 1.5rem 0;
+
   .drag-area {
-    padding-top: 1.5rem;
+    margin: 3rem 0;
   }
 
   .drag-box {
@@ -15,18 +21,23 @@
 
     &.enabled {
       padding: 1rem;
-      border-color: #eee;
+      border: 1px solid lighten($primary, 40);
 
       &:hover {
-        border-color: lighten($primary, 35);
+        border-color: lighten($primary, 30);
       }
+
       &.selected {
         border-color: $primary;
+
+        .column.is-crafted {
+          border: 2px dashed $primary;
+        }
       }
 
       .column.is-crafted {
         background: $background;
-        border: 0.25rem solid $white;
+        margin: 0.25rem;
       }
     }
   }
