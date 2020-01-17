@@ -1,9 +1,7 @@
+#sidebar-portal {
+  margin-bottom: 2rem;
+}
 #editor {
-  [draggable="true"] {
-    cursor: pointer;
-    * { cursor: initial; }
-  }
-
   .drag-area {
     padding-top: 1.5rem;
   }

@@ -20,7 +20,7 @@ const Tools = () => {
             data-tooltip="Text"
           >
             <span className="icon">
-              <i className="fas fa-align-left" aria-hidden="true" />
+              <i className="fas fa-font" aria-hidden="true" />
             </span>
           </button>
           <button
@@ -30,7 +30,7 @@ const Tools = () => {
             data-tooltip="Dropdown"
           >
             <span className="icon">
-              <i className="fas fa-chevron-circle-down" aria-hidden="true" />
+              <i className="fas fa-list-alt" aria-hidden="true" />
             </span>
           </button>
           <button
@@ -40,7 +40,7 @@ const Tools = () => {
             data-tooltip="Columns"
           >
             <span className="icon">
-              <i className="fas fa-th-large" aria-hidden="true" />
+              <i className="fas fa-columns" aria-hidden="true" />
             </span>
           </button>
         </p>

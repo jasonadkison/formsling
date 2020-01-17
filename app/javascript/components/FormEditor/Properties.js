@@ -48,13 +48,19 @@ const Properties = () => {
             <div className="panel-block">
               <Property label="Danger Zone">
                 <div className="content">
-                  <button
-                    className="button is-danger"
-                    onClick={() => actions.delete(selected.id)}
-                  >
-                    Delete Element
-                  </button>
-                  <p className="help is-danger">* Also deletes any child elements.</p>
+                  <div className="level">
+                    <div className="level-left">
+                      <button
+                        className="button is-danger"
+                        onClick={() => actions.delete(selected.id)}
+                      >
+                        Delete Element
+                      </button>
+                    </div>
+                    <div className="level-left">
+                      <p className="help is-danger">* Also deletes any child elements</p>
+                    </div>
+                  </div>
                 </div>
               </Property>
             </div>

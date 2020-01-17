@@ -9,7 +9,7 @@ import FormResults from './FormResults';
 import FormEditor from './FormEditor';
 import FormExample from './FormExample';
 
-const Forms = () => {
+const Forms = ({ sidebarDomNode }) => {
 
   const { path, url } = useRouteMatch();
 
@@ -23,7 +23,7 @@ const Forms = () => {
           <FormResults />
         </Route>
         <Route path="/forms/:id/edit">
-          <FormEditor enabled={true} />
+          <FormEditor enabled={true} sidebarDomNode={sidebarDomNode} />
         </Route>
         <Route path="/forms/:id/example">
           <FormExample />

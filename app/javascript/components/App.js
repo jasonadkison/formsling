@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,12 +13,11 @@ import Account from './Account';
 import FormList from './FormList';
 
 const App = () => {
+  let sidebarDomNode = useRef(null);
+
   return (
     <Router>
       <div id="app" className="columns">
-        <div className="column is-2">
-          <MainMenu />
-        </div>
         <div className="column">
           <Switch>
             <Route path="/usage">
@@ -31,9 +30,14 @@ const App = () => {
               <Account />
             </Route>
             <Route path="/">
-              <Forms />
+              <Forms sidebarDomNode={sidebarDomNode} />
             </Route>
           </Switch>
+        </div>
+        <div className="is-divider-vertical" />
+        <div className="column is-one-third">
+          <div id="sidebar-portal" ref={sidebarDomNode} />
+          <MainMenu />
         </div>
       </div>
     </Router>

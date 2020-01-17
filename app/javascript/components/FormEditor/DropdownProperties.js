@@ -19,10 +19,6 @@ const DropdownProperties = () => {
   const [choices, setChoices] = useState(options.map(choice => ({ value: choice, label: choice })));
 
   useEffect(() => {
-    bulmaTagsinput.attach('[type="choices"]');
-  }, []);
-
-  useEffect(() => {
     const options = choices.map(choice => choice.value);
     setProp(props => props.options = options);
   }, [choices]);

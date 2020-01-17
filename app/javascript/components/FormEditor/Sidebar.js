@@ -10,7 +10,7 @@ const Sidebar = () => {
   }));
 
   return (
-    <div className="column is-two-fifths">
+    <div>
       {enabled && (
         <>
           <Tools />
