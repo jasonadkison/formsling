@@ -16,6 +16,7 @@ import Dropdown from './Dropdown';
 import Columns from './Columns';
 
 const initialState = {
+  payload: null,
   updated_at: undefined,
 };
 
@@ -32,6 +33,7 @@ const FormEditor = ({ enabled }) => {
   const { id } = useParams();
   const [form, dispatch] = useReducer(reducer, initialState);
   const [loading, setLoading] = useState(true);
+  const { payload } = form;
 
   useEffect(() => {
     const loadForm = async () => {
@@ -70,7 +72,11 @@ const FormEditor = ({ enabled }) => {
             <div className="columns">
               <div className="column is-two-thirds">
                 <Frame>
-                  <Canvas is="div" className="drag-area" />
+                  <Canvas is="div" className="drag-area">
+                    {!payload && <Text />}
+                    {!payload && <Dropdown />}
+                    {!payload && <Columns />}
+                  </Canvas>
                 </Frame>
               </div>
               <div className="column">
