@@ -15,13 +15,16 @@
   .drag-box {
     //padding: 0 1rem;
     margin-bottom: 0.75rem;
-    border: 1px solid $white;
+    border: 2px solid $white;
     border-radius: 6px;
     background: $white;
+    cursor: pointer;
+
+    .drag-box * { cursor: pointer };
 
     &.enabled {
       padding: 1rem;
-      border: 1px solid lighten($primary, 40);
+      border: 2px solid #eee;
 
       &:hover {
         border-color: lighten($primary, 30);
@@ -29,16 +32,20 @@
 
       &.selected {
         border-color: $primary;
-
-        .column.is-crafted {
-          border: 2px dashed $primary;
-        }
       }
 
       .column.is-crafted {
         background: $background;
         margin: 0.25rem;
+        border: 2px solid $white;
+        cursor: initial;
+      }
+
+      &.selected .column.is-crafted,
+      .column.is-crafted:hover {
+        border: 2px dashed $primary;
       }
     }
+
   }
 }
