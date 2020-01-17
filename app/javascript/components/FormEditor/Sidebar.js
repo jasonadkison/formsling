@@ -11,20 +11,12 @@ const Sidebar = () => {
 
   return (
     <div>
+      <Tools />
       {enabled && (
         <>
-          <Tools />
           <br />
           <Properties />
         </>
-      )}
-      {!enabled && (
-        <p className="content">
-          <span className="icon">
-            <i className="fas fa-info-circle" />
-          </span>
-          Enable Edit Mode to start making changes.
-        </p>
       )}
     </div>
   );
