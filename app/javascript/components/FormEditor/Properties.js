@@ -28,7 +28,7 @@ const Properties = () => {
           </span>
         </div>
         <div className="media-content">
-          Click on an element to view its properties.
+          Click on any element to view its properties.
         </div>
       </div>
     </div>
@@ -72,18 +72,6 @@ const Properties = () => {
           </div>
         ) : null}
       </nav>
-      <div className="box">
-        <div className="media">
-          <div className="media-left">
-            <span className="icon">
-              <i className="fas fa-arrows-alt-v" />
-            </span>
-          </div>
-          <div className="media-content">
-            Drag and drop elements into the desired placement.
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
