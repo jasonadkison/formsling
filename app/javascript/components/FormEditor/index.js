@@ -56,9 +56,8 @@ const FormEditor = ({ enabled, sidebarDomNode }) => {
     <div id="editor">
       <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
         <Header form={form} />
-        <div className="is-divider" />
         <Frame>
-          <Canvas is="div" className="box drag-area">
+          <Canvas is="div" className="drag-area">
             {/*
             <Text
               label="Hello world!"
@@ -84,8 +83,8 @@ const FormEditor = ({ enabled, sidebarDomNode }) => {
             <Text
               label="The Itsy Bitsy Spider"
             />
-            */}
             <Columns totalColumns={2} />
+            */}
           </Canvas>
         </Frame>
         {sidebarDomNode && sidebarDomNode.current && createPortal(<Sidebar />, sidebarDomNode.current)}

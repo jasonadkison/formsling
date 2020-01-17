@@ -19,6 +19,7 @@ services:
     ports:
       - 3000:3000
       - 3035:3035
+      - 5432:5432
     environment:
       - DATABASE_URL=postgres://postgres@db
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
