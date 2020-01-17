@@ -5,8 +5,10 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Editor, Frame, Canvas } from "@craftjs/core";
 
+import PortalContext from '../PortalContext';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import Breadcrumbs from './Breadcrumbs';
 
 import Text from './Text';
 import Dropdown from './Dropdown';
@@ -25,7 +27,7 @@ const reducer = (state, action) => {
   }
 };
 
-const FormEditor = ({ enabled, sidebarDomNode }) => {
+const FormEditor = ({ enabled }) => {
   const { id } = useParams();
   const [form, dispatch] = useReducer(reducer, initialState);
   const [loading, setLoading] = useState(true);
@@ -59,43 +61,48 @@ const FormEditor = ({ enabled, sidebarDomNode }) => {
   }
 
   return (
-    <div id="editor">
-      <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
-        <Header form={form} handleSave={handleSave} />
-        <Frame>
-          <Canvas is="div" className="drag-area">
-            {/*
-            <Text
-              label="Hello world!"
-              helpText="This is some sample help text."
-            />
-            <Text
-              label="Sample Textarea"
-              initialValue="This is the initial value"
-              placeholder="Enter some text here..."
-              helpText="This is just a sample!"
-              rows={4}
-            />
-            <Dropdown
-              label="Choose a number"
-              placeholder="Choose option"
-              options={['One', 'Two', 'Three']}
-              initialValue="Three"
-            />
-            <Text
-              label="Curious George"
-              initialValue="I have an initial value!"
-            />
-            <Text
-              label="The Itsy Bitsy Spider"
-            />
-            <Columns totalColumns={2} />
-            */}
-          </Canvas>
-        </Frame>
-        {sidebarDomNode && sidebarDomNode.current && createPortal(<Sidebar />, sidebarDomNode.current)}
-      </Editor>
-    </div>
+    <PortalContext.Consumer>
+      {context => (
+        <div id="editor">
+          <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
+            <Header form={form} handleSave={handleSave} />
+            <Frame>
+              <Canvas is="div" className="drag-area">
+                {/*
+                <Text
+                  label="Hello world!"
+                  helpText="This is some sample help text."
+                />
+                <Text
+                  label="Sample Textarea"
+                  initialValue="This is the initial value"
+                  placeholder="Enter some text here..."
+                  helpText="This is just a sample!"
+                  rows={4}
+                />
+                <Dropdown
+                  label="Choose a number"
+                  placeholder="Choose option"
+                  options={['One', 'Two', 'Three']}
+                  initialValue="Three"
+                />
+                <Text
+                  label="Curious George"
+                  initialValue="I have an initial value!"
+                />
+                <Text
+                  label="The Itsy Bitsy Spider"
+                />
+                <Columns totalColumns={2} />
+                */}
+              </Canvas>
+            </Frame>
+            {createPortal(<Sidebar />, context.sidebarDomNode.current)}
+            {createPortal(<Breadcrumbs {...form} />, context.breadcrumbDomNode.current)}
+          </Editor>
+        </div>
+      )}
+    </PortalContext.Consumer>
   );
 };
 

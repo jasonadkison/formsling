@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   useRouteMatch,
   Switch,
@@ -9,7 +9,7 @@ import FormResults from './FormResults';
 import FormEditor from './FormEditor';
 import FormExample from './FormExample';
 
-const Forms = ({ sidebarDomNode }) => {
+const Forms = () => {
 
   const { path, url } = useRouteMatch();
 
@@ -23,7 +23,7 @@ const Forms = ({ sidebarDomNode }) => {
           <FormResults />
         </Route>
         <Route path="/forms/:id/edit">
-          <FormEditor enabled={true} sidebarDomNode={sidebarDomNode} />
+          <FormEditor enabled={true} />
         </Route>
         <Route path="/forms/:id/example">
           <FormExample />

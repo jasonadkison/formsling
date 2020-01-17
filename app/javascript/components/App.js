@@ -5,6 +5,8 @@ import {
   Route,
   Link
 } from "react-router-dom";
+
+import PortalContext from './PortalContext';
 import MainMenu from './MainMenu';
 import Forms from './Forms';
 import Usage from './Usage';
@@ -14,33 +16,39 @@ import FormList from './FormList';
 
 const App = () => {
   let sidebarDomNode = useRef(null);
+  const breadcrumbDomNode = useRef(null);
 
   return (
-    <Router>
-      <div id="app" className="columns">
-        <div className="column">
-          <Switch>
-            <Route path="/usage">
-              <Usage />
-            </Route>
-            <Route path="/subscription">
-              <Subscription />
-            </Route>
-            <Route path="/account">
-              <Account />
-            </Route>
-            <Route path="/">
-              <Forms sidebarDomNode={sidebarDomNode} />
-            </Route>
-          </Switch>
+    <PortalContext.Provider value={{sidebarDomNode, breadcrumbDomNode}}>
+      <Router>
+        <div className="columns is-marginless">
+          <div className="column is-full" ref={breadcrumbDomNode} />
         </div>
-        <div className="is-divider-vertical" />
-        <div className="column is-one-third">
-          <div id="sidebar-portal" ref={sidebarDomNode} />
-          <MainMenu />
+        <div id="app" className="columns is-marginless">
+          <div className="column">
+            <Switch>
+              <Route path="/usage">
+                <Usage />
+              </Route>
+              <Route path="/subscription">
+                <Subscription />
+              </Route>
+              <Route path="/account">
+                <Account />
+              </Route>
+              <Route path="/">
+                <Forms />
+              </Route>
+            </Switch>
+          </div>
+          <div className="is-divider-vertical" />
+          <div className="column is-one-third">
+            <div id="sidebar-portal" ref={sidebarDomNode} />
+            <MainMenu />
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </PortalContext.Provider>
   );
 };
 
