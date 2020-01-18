@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
 import Select from 'react-select';
 
+import { Context } from '../PublicForm';
+
 const Dropdown = (props) => {
   const { id: nodeId } = useNode();
+  const { state, dispatch } = useContext(Context);
   const {
     label,
     initialValue,
@@ -18,6 +21,10 @@ const Dropdown = (props) => {
   const defaultValue = initialValue && options.indexOf(initialValue) !== -1 ?
     { value: initialValue, label: initialValue } :
     undefined;
+
+  const onChange = ({ value }) => (
+    dispatch({ type: 'UPDATE', payload: { nodeId, label, value }})
+  );
 
   return (
       <div className="field">
@@ -33,10 +40,12 @@ const Dropdown = (props) => {
         <div className="control">
           <Select
             inputId={nodeId}
+            inputRequired={required}
             options={options.map(option => ({ value: option, label: option }))}
             placeholder={placeholder}
             required={required}
             defaultValue={defaultValue}
+            onChange={onChange}
           />
         </div>
         {helpText && (

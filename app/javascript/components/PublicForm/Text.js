@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
 
+import { Context } from '../PublicForm';
+
 const Text = ({ label, rows, initialValue, placeholder, readOnly, required }) => {
   const { id: nodeId } = useNode();
+  const { state, dispatch } = useContext(Context);
 
   const inputProps = {
     id: nodeId,
@@ -12,6 +15,7 @@ const Text = ({ label, rows, initialValue, placeholder, readOnly, required }) =>
     placeholder: placeholder,
     readOnly: readOnly,
     required: required,
+    onChange: (e) => dispatch({ type: 'UPDATE', payload: { nodeId, label, value: e.target.value }}),
   };
 
   return (
