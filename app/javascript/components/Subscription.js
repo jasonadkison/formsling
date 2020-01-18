@@ -2,10 +2,8 @@ import React from 'react';
 
 const Subscription = () => (
   <div id="subscription">
-    <div className="content">
-      <h1>Subscription</h1>
-      <p>Welcome to your subscription.</p>
-    </div>
+    <h1 className="title">Subscription</h1>
+    <p className="subtitle">Welcome to your subscription.</p>
     <div className="pricing-table">
       <div className="pricing-plan">
         <div className="plan-header">Free</div>

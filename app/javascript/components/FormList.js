@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import NewForm from './modals/NewForm';
@@ -54,38 +55,36 @@ const FormList = () => {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Share Link</th>
               <th>Recipient</th>
-              <th>Public Link</th>
-              <th>Options</th>
+              <th />
             </tr>
           </thead>
           <tbody>
             {forms.map(form => (
               <tr key={form.id}>
                 <td>
-                  {form.name}
+                  <Link to={`/forms/${form.id}/edit`} title="Edit">
+                    {form.name}
+                  </Link>
+                </td>
+                <td>
+                  {form.public_url}
                 </td>
                 <td>
                   {form.email_recipient}
                 </td>
-                <td>
-                  {form.public_url}
+                <td className="has-text-right">
                   <a
-                    href={`/f/${form.id}`}
-                    className="button is-info is-inverted is-inline"
-                    title="Open"
-                    data-tooltip="Open"
-                    rel="noreferer noopener"
-                    target="_blank"
+                    className="button is-danger is-inverted is-inline"
+                    onClick={() => setDeletingForm(form)}
+                    title="Delete"
                   >
-                    <span className="icon">
-                      <i className="fas fa-external-link-alt" />
+                    <span className="icon is-small">
+                      <i className="fas fa-trash" />
                     </span>
                   </a>
                 </td>
-                <th>
-                  <FormButtons {...form} onDelete={() => setDeletingForm(form)} />
-                </th>
               </tr>
             ))}
           </tbody>

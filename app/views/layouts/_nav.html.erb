@@ -14,13 +14,15 @@
     <div class="navbar-menu">
       <div class="navbar-end">
         <div class="navbar-item">
-          <% if user_signed_in? %>
-            <%= link_to('Dashboard', app_path, class: 'navbar-item') unless controller_name == 'dashboard' %>
-            <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'navbar-item') %>
-          <% else %>
-            <%= link_to(content_tag(:strong, 'Sign Up'), new_user_registration_path, class: 'navbar-item') %>
-            <%= link_to('Login', new_user_session_path, class: 'navbar-item')  %>
-          <% end %>
+          <div className="buttons">
+            <% if user_signed_in? %>
+              <%= link_to('Dashboard', app_path, class: 'button') unless controller_name == 'dashboard' %>
+              <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'button') %>
+            <% else %>
+              <%= link_to(content_tag(:strong, 'Sign Up'), new_user_registration_path, class: 'button') %>
+              <%= link_to('Login', new_user_session_path, class: 'button is-primary')  %>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

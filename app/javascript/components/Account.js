@@ -2,10 +2,13 @@ import React from 'react';
 
 const Account = () => (
   <div id="account">
-    <div className="content">
-      <h1>Account</h1>
-      <p>Welcome to your account.</p>
-    </div>
+    <h1 className="title">
+      Account
+    </h1>
+    <p className="subtitle">Your account information.</p>
+    <p>
+      Coming soon.
+    </p>
   </div>
 );
 
