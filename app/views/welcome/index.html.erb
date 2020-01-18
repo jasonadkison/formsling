@@ -1,5 +1,1 @@
-<h1>Welcome</h1>
-
-<% if user_signed_in? %>
-  <p>Check out <%= link_to "the app", app_path %>!</p>
-<% end %>
+<%= react_component("App") if user_signed_in? %>

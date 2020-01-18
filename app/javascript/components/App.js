@@ -10,11 +10,11 @@ import { BreadcrumbProvider } from "./Breadcrumb";
 import { ModalProvider } from "./Modal";
 
 //import MainMenu from './MainMenu';
-import Forms from './Forms';
-import Usage from './Usage';
-import Subscription from './Subscription';
-import Account from './Account';
+//import Usage from './Usage';
+//import Subscription from './Subscription';
+//import Account from './Account';
 import FormList from './FormList';
+import FormEditor from './FormEditor';
 
 const App = () => {
   return (
@@ -24,17 +24,9 @@ const App = () => {
         <BreadcrumbProvider>
           <div className="box">
             <Switch>
-              <Route path="/usage">
-                <Usage />
-              </Route>
-              <Route path="/subscription">
-                <Subscription />
-              </Route>
-              <Route path="/account">
-                <Account />
-              </Route>
-              <Route path="/">
-                <Forms />
+              <Route exact path="/" component={FormList} />
+              <Route path="/forms/:id/edit">
+                <FormEditor />
               </Route>
             </Switch>
           </div>

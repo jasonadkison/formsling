@@ -12,7 +12,6 @@ Rails.application.routes.draw do
 
   # Forward all HTML (non-XHR) requests to DashboardController#index
   get '*page', to: 'dashboard#index', constraints: ->(req) { !req.xhr? && req.format.html? }
-  get '/app', to: 'dashboard#index', as: 'app'
 
   root 'welcome#index'
 end
