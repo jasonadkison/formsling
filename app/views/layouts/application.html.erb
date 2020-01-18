@@ -11,7 +11,7 @@
   </head>
 
   <body>
-    <%= render 'layouts/nav' %>
+    <%= render 'layouts/nav' unless controller_name == 'public_form' %>
 
     <section class="section">
       <div class="container">

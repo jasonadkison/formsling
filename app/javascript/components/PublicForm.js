@@ -51,38 +51,57 @@ const Form = ({ form }) => {
     dispatch({ type: loading ? 'LOADING_ON' : 'LOADING_OFF' });
   }, [loading]);
 
-  if (success) {
-    return (
+  const content = success ? (
+    <>
+      <h1 className="title">
+        Thank you!
+      </h1>
       <div className="notification is-success">
-        <p>Your data was successfully submitted. You can safely leave this page.</p>
+        <p>You've successfully completed the form. You may safely close this page at any time.</p>
       </div>
-    );
-  }
+    </>
+  ) : (
+    <>
+      <h1 className="title">
+        {form.name}
+      </h1>
+      <div className="content">
+        <form onSubmit={onSubmit}>
+          {error && (
+            <div className="notification is-danger">
+              <p>Oops, something went wrong. Please try again.</p>
+            </div>
+          )}
+          <Frame json={decompress(form.payload)}>
+            <Canvas />
+          </Frame>
+          <div className="field is-grouped is-grouped-centered" style={{ margin: '3rem auto'}}>
+            <div className="control">
+              <button
+                type="submit"
+                className={`button is-link ${loading ? 'is-loading' : ''}`}
+                disabled={loading}
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </>
+  );
 
   return (
-    <div className="content">
-      <h1>{form.name}</h1>
-      <form onSubmit={onSubmit}>
-        {error && (
-          <div className="notification is-danger">
-            <p>Oops, something went wrong. Please try again.</p>
-          </div>
-        )}
-        <Frame json={decompress(form.payload)}>
-          <Canvas />
-        </Frame>
-        <div className="field is-grouped is-grouped-centered" style={{ margin: '3rem auto'}}>
-          <div className="control">
-            <button
-              type="submit"
-              className={`button is-link ${loading ? 'is-loading' : ''}`}
-              disabled={loading}
-            >
-              Submit
-            </button>
+    <div className="columns">
+      <div className="column is-three-fifths is-offset-one-fifth">
+        <div className="hero">
+          <div className="hero-body">
+            <div className="container">
+              {content}
+            </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
