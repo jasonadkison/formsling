@@ -25,6 +25,14 @@ module Api
         render json: { message: 'Could not save the form.' }, status: 422
       end
 
+      def destroy
+        @form = current_user.forms.find(params[:id])
+
+        return render json: {}, status: 200 if @form.destroy
+
+        render json: { message: 'Could not delete the form.' }, status: 422
+      end
+
       private
 
       def form_params

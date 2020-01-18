@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const FormButtons = ({ id }) => (
+const FormButtons = ({ id, onDelete }) => (
   <p className="buttons">
     <Link
       to={`/forms/${id}/edit`}
@@ -31,11 +31,11 @@ const FormButtons = ({ id }) => (
         <i className="fas fa-code" />
       </span>
     </Link>
-    <a href="" className="button is-danger is-inverted">
+    <button className="button is-danger is-inverted" onClick={onDelete}>
       <span className="icon is-small">
         <i className="fas fa-trash" />
       </span>
-    </a>
+    </button>
   </p>
 );
 

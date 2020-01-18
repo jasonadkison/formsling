@@ -1,23 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { Modal } from './Modal';
-import NewForm from './NewForm';
+import NewForm from './modals/NewForm';
+import DeleteForm from './modals/DeleteForm';
 import FormButtons from './FormButtons';
 
 const FormList = () => {
   const [forms, setForms] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [deletingForm, setDeletingForm] = useState(false);
+
+  const fetchForms = async () => {
+    const response = await axios('/api/v1/forms');
+    return response.data;
+  };
+
+  const loadForms = async () => {
+    const forms = await fetchForms();
+    setForms(forms);
+  };
 
   useEffect(() => {
-    const loadForms = async () => {
-      const result = await axios('/api/v1/forms');
-
-      setForms(result.data);
-    };
-
     loadForms();
   }, []);
+
+  const handleDeleted = () => {
+    setDeletingForm(false);
+    loadForms();
+  }
 
   return (
     <div id="form-list">
@@ -28,7 +38,7 @@ const FormList = () => {
         <div className="level-right">
           <button
             className="button is-primary"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => setIsCreating(true)}
           >
             <span className="icon">
               <i className="fas fa-plus" />
@@ -58,17 +68,22 @@ const FormList = () => {
 
                 </td>
                 <th>
-                  <FormButtons {...form} />
+                  <FormButtons {...form} onDelete={() => setDeletingForm(form)} />
                 </th>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <NewForm onClose={() => setIsModalOpen(false)} />
-        </Modal>
+      {isCreating && (
+        <NewForm onClose={() => setIsCreating(false)} />
+      )}
+      {deletingForm && (
+        <DeleteForm
+          {...deletingForm}
+          onClose={() => setDeletingForm(false)}
+          onDeleted={() => handleDeleted()}
+        />
       )}
     </div>
   );
