@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useEditor } from '@craftjs/core';
-import lz from 'lzutf8';
+import { compress, decompress } from '../utils';
 import axios from 'axios';
 
 import TimeAgo from 'react-timeago'
-
-export const compress = json => lz.encodeBase64(lz.compress(json));
-export const decompress = base64 => lz.decompress(lz.decodeBase64(base64));
 
 const Header = ({ form, handleSave }) => {
   const { id, name, payload, updated_at: updatedAt } = form;

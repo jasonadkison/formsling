@@ -2,7 +2,7 @@ import React, { useReducer, createContext, useEffect, useContext, useState } fro
 import {Editor, Frame, Canvas, useEditor} from "@craftjs/core";
 import axios from 'axios';
 
-import { compress, decompress } from './FormEditor/Header';
+import { compress, decompress } from './utils';
 import Text from './PublicForm/Text';
 import Dropdown from './PublicForm/Dropdown';
 import Columns from './PublicForm/Columns';
