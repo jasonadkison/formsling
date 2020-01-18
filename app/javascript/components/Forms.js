@@ -1,9 +1,11 @@
 import React, { useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import {
   useRouteMatch,
   Switch,
   Route,
 } from "react-router-dom";
+
 import FormList from './FormList';
 import FormResults from './FormResults';
 import FormEditor from './FormEditor';
@@ -22,7 +24,7 @@ const Forms = () => {
         <FormResults />
       </Route>
       <Route path="/forms/:id/edit">
-        <FormEditor enabled={true} />
+        <FormEditor />
       </Route>
       <Route path="/forms/:id/example">
         <FormExample />

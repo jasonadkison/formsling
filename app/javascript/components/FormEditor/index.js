@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Editor, Frame, Canvas } from "@craftjs/core";
 import StickyBox from "react-sticky-box";
 
-import PortalContext from '../PortalContext';
+import Breadcrumb from '../Breadcrumb';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import Breadcrumbs from './Breadcrumbs';
@@ -64,32 +64,30 @@ const FormEditor = ({ enabled }) => {
   }
 
   return (
-    <PortalContext.Consumer>
-      {context => (
-        <div id="editor">
-          <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
-            <Header form={form} handleSave={handleSave} />
-            <div className="columns">
-              <div className="column is-two-thirds">
-                <Frame>
-                  <Canvas is="div" className="drag-area">
-                    {!payload && <Text />}
-                    {!payload && <Dropdown />}
-                    {!payload && <Columns />}
-                  </Canvas>
-                </Frame>
-              </div>
-              <div className="column">
-                <StickyBox offsetTop={50} offsetBottom={20}>
-                  <Sidebar />
-                </StickyBox>
-              </div>
-            </div>
-            {context.breadcrumbDomNode.current && createPortal(<Breadcrumbs {...form} />, context.breadcrumbDomNode.current)}
-          </Editor>
+    <div id="editor">
+      <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
+        <Header form={form} handleSave={handleSave} />
+        <div className="columns">
+          <div className="column is-two-thirds">
+            <Frame>
+              <Canvas is="div" className="drag-area">
+                {!payload && <Text />}
+                {!payload && <Dropdown />}
+                {!payload && <Columns />}
+              </Canvas>
+            </Frame>
+          </div>
+          <div className="column">
+            <StickyBox offsetTop={50} offsetBottom={20}>
+              <Sidebar />
+            </StickyBox>
+          </div>
         </div>
-      )}
-    </PortalContext.Consumer>
+        <Breadcrumb>
+          <Breadcrumbs {...form} />
+        </Breadcrumb>
+      </Editor>
+    </div>
   );
 };
 

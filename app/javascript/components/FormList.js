@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+
+import { Modal } from './Modal';
+import NewForm from './NewForm';
 import FormButtons from './FormButtons';
 
 const FormList = () => {
   const [forms, setForms] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const loadForms = async () => {
@@ -17,7 +21,24 @@ const FormList = () => {
 
   return (
     <div id="form-list">
-      <h3 className="title">Your Forms</h3>
+      <div className="level">
+        <div className="level-left">
+          <h3 className="title">Your Forms</h3>
+        </div>
+        <div className="level-right">
+          <button
+            className="button is-primary"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <span className="icon">
+              <i className="fas fa-plus" />
+            </span>
+            <span>
+              New Form
+            </span>
+          </button>
+        </div>
+      </div>
       <div className="table-container">
         <table className="table is-striped is-fullwidth">
           <thead>
@@ -44,6 +65,11 @@ const FormList = () => {
           </tbody>
         </table>
       </div>
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <NewForm onClose={() => setIsModalOpen(false)} />
+        </Modal>
+      )}
     </div>
   );
 };

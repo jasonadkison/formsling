@@ -6,7 +6,9 @@ import {
   Link
 } from "react-router-dom";
 
-import PortalContext from './PortalContext';
+import { BreadcrumbProvider } from "./Breadcrumb";
+import { ModalProvider } from "./Modal";
+
 import MainMenu from './MainMenu';
 import Forms from './Forms';
 import Usage from './Usage';
@@ -15,30 +17,28 @@ import Account from './Account';
 import FormList from './FormList';
 
 const App = () => {
-  const sidebarDomNode = useRef(null);
-  const breadcrumbDomNode = useRef(null);
-
   return (
-    <PortalContext.Provider value={{sidebarDomNode, breadcrumbDomNode}}>
+    <ModalProvider>
       <Router>
         <MainMenu />
-        <div id="breadcrumb-portal" ref={breadcrumbDomNode} />
-        <Switch>
-          <Route path="/usage">
-            <Usage />
-          </Route>
-          <Route path="/subscription">
-            <Subscription />
-          </Route>
-          <Route path="/account">
-            <Account />
-          </Route>
-          <Route path="/">
-            <Forms />
-          </Route>
-        </Switch>
+        <BreadcrumbProvider>
+          <Switch>
+            <Route path="/usage">
+              <Usage />
+            </Route>
+            <Route path="/subscription">
+              <Subscription />
+            </Route>
+            <Route path="/account">
+              <Account />
+            </Route>
+            <Route path="/">
+              <Forms />
+            </Route>
+          </Switch>
+        </BreadcrumbProvider>
       </Router>
-    </PortalContext.Provider>
+    </ModalProvider>
   );
 };
 
