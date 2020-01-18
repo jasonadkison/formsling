@@ -6,8 +6,8 @@ import axios from 'axios';
 
 import TimeAgo from 'react-timeago'
 
-const compress = json => lz.encodeBase64(lz.compress(json));
-const decompress = base64 => lz.decompress(lz.decodeBase64(base64));
+export const compress = json => lz.encodeBase64(lz.compress(json));
+export const decompress = base64 => lz.decompress(lz.decodeBase64(base64));
 
 const Header = ({ form, handleSave }) => {
   const { id, name, payload, updated_at: updatedAt } = form;

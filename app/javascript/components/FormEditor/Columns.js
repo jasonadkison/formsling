@@ -4,7 +4,6 @@ import { useNode, Canvas } from '@craftjs/core';
 
 import ColumnsProperties from './ColumnsProperties';
 import DragBox from './DragBox';
-import Text from './Text';
 
 const Columns = ({ totalColumns }) => {
   let columns = [];

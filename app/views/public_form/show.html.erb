@@ -1,0 +1,7 @@
+<div class="content">
+  <h1><%= @form.name %></h1>
+
+  <%= react_component("PublicForm", form: @form) do %>
+    <p>Loading form...</p>
+  <% end %>
+</div>
