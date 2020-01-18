@@ -6,8 +6,10 @@ import Select from 'react-select';
 import { Context } from '../PublicForm';
 
 const Dropdown = (props) => {
-  const { id: nodeId } = useNode();
+  const { id: nodeId, setProp } = useNode();
   const { state, dispatch } = useContext(Context);
+  const { [nodeId]: node } = state;
+
   const {
     label,
     initialValue,
@@ -18,13 +20,16 @@ const Dropdown = (props) => {
     options,
   } = props;
 
-  const defaultValue = initialValue && options.indexOf(initialValue) !== -1 ?
-    { value: initialValue, label: initialValue } :
-    undefined;
+  const defaultValue = initialValue && options.indexOf(initialValue) !== -1
+    ? initialValue
+    : undefined;
 
-  const onChange = ({ value }) => (
-    dispatch({ type: 'UPDATE', payload: { nodeId, label, value }})
-  );
+  const onChange = ({ value }) => {
+    dispatch({ type: 'UPDATE', payload: { nodeId, label, value }});
+    setProp(props => props.value = value);
+  };
+
+  const value = node ? node.value : defaultValue;
 
   return (
       <div className="field">
@@ -44,7 +49,7 @@ const Dropdown = (props) => {
             options={options.map(option => ({ value: option, label: option }))}
             placeholder={placeholder}
             required={required}
-            defaultValue={defaultValue}
+            value={{ value, label: value }}
             onChange={onChange}
           />
         </div>
