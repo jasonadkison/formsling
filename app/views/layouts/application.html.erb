@@ -1,33 +1,18 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>FormSling</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<%= render layout: "/layouts/body" do %>
+  <%= render 'layouts/nav' unless controller_name == 'public_form' %>
 
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+  <section class="section">
+    <div class="container">
+      <%= render 'layouts/notifications' unless controller_name == 'dashboard' %>
+      <%= yield %>
+    </div>
+  </section>
 
-    <%= stylesheet_pack_tag 'application', media: 'all' %>
-  </head>
-
-  <body>
-    <%= render 'layouts/nav' unless controller_name == 'public_form' %>
-
-    <section class="section">
-      <div class="container">
-        <%= render 'layouts/notifications' unless controller_name == 'dashboard' %>
-        <%= yield %>
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        Copyright &copy; 2020 FormSling. All rights reserved.
       </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="content has-text-centered">
-          Copyright &copy; 2020 FormSling. All rights reserved.
-        </div>
-      </div>
-    </footer>
-
-    <%= javascript_pack_tag 'application' %>
-  </body>
-</html>
+    </div>
+  </footer>
+<% end %>
