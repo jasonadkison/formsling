@@ -1,12 +1,12 @@
 import React from 'react';
-import { Canvas, useEditor } from '@craftjs/core';
+import { useEditor } from '@craftjs/core';
 
 import Text from './Text';
 import Dropdown from './Dropdown';
 import Columns from './Columns';
 
 const Tools = () => {
-  const { connectors, query, enabled } = useEditor((state) => ({
+  const { connectors, enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
 
