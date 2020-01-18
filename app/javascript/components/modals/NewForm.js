@@ -7,6 +7,7 @@ import { Modal } from '../Modal';
 const NewForm = ({ onClose }) => {
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
@@ -18,13 +19,6 @@ const NewForm = ({ onClose }) => {
   };
 
   const handleSave = async (form) => {
-    setLoading(true);
-    const token = document.getElementsByName('csrf-token')[0].content;
-    const result =  await axios.post(
-      `/api/v1/forms`,
-      { form },
-      { headers: { 'X-CSRF-TOKEN': token }},
-    );
 
     setLoading(false);
 
@@ -36,14 +30,26 @@ const NewForm = ({ onClose }) => {
 
     if (loading) return;
 
+    setLoading(true);
+    const token = document.getElementsByName('csrf-token')[0].content;
     const form = { name, email_recipient: email };
-    const { data } = await handleSave(form);
-    history.push(`/forms/${data.id}/edit`);
+
+    await axios.post(`/api/v1/forms`, { form }, { headers: { 'X-CSRF-TOKEN': token }})
+      .then(({ data }) => history.push(`/forms/${data.id}/edit`))
+      .catch(() => {
+        setError(true);
+        setLoading(false);
+      });
   };
 
   return (
     <Modal>
       <div className="new-form">
+        {error && (
+          <div className="notification is-danger">
+            <p>An issue prevented this form from being created. Please try again.</p>
+          </div>
+        )}
         <button className="delete is-pulled-right" onClick={onClickClose}>
           Close
         </button>
