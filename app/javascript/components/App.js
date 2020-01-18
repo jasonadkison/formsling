@@ -9,7 +9,7 @@ import {
 import { BreadcrumbProvider } from "./Breadcrumb";
 import { ModalProvider } from "./Modal";
 
-import MainMenu from './MainMenu';
+//import MainMenu from './MainMenu';
 import Forms from './Forms';
 import Usage from './Usage';
 import Subscription from './Subscription';
@@ -20,7 +20,7 @@ const App = () => {
   return (
     <ModalProvider>
       <Router>
-        <MainMenu />
+        {/*<MainMenu />*/}
         <BreadcrumbProvider>
           <div className="box">
             <Switch>
