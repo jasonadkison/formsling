@@ -7,31 +7,31 @@ const FormButtons = ({ id, onDelete }) => (
     <Link
       to={`/forms/${id}/edit`}
       className="button is-primary is-inverted"
-      title="Edit Form"
+      title="Edit"
+      data-tooltip="Edit"
     >
       <span className="icon is-small">
         <i className="fas fa-edit" />
       </span>
     </Link>
-    <Link
-      to={`/forms/${id}/results`}
+    <a
+      href={`/f/${id}`}
       className="button is-info is-inverted"
-      title="View Results"
+      title="Open"
+      data-tooltip="Open"
+      rel="noreferer noopener"
+      target="_blank"
     >
       <span className="icon">
-        <i className="fas fa-th-list" />
+        <i className="fas fa-external-link-alt" />
       </span>
-    </Link>
-    <Link
-      to={`/forms/${id}/example`}
-      className="button is-link is-inverted"
-      title="View Example"
+    </a>
+    <button
+      className="button is-danger is-inverted"
+      onClick={onDelete}
+      title="Delete"
+      data-tooltip="Delete"
     >
-      <span className="icon">
-        <i className="fas fa-code" />
-      </span>
-    </Link>
-    <button className="button is-danger is-inverted" onClick={onDelete}>
       <span className="icon is-small">
         <i className="fas fa-trash" />
       </span>
