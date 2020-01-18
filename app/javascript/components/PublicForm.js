@@ -1,7 +1,8 @@
 import React, { useReducer, createContext, useEffect, useContext, useState } from 'react';
 import {Editor, Frame, Canvas, useEditor} from "@craftjs/core";
+import axios from 'axios';
 
-import { decompress } from './FormEditor/Header';
+import { compress, decompress } from './FormEditor/Header';
 import Text from './PublicForm/Text';
 import Dropdown from './PublicForm/Dropdown';
 import Columns from './PublicForm/Columns';
@@ -27,40 +28,62 @@ const Form = ({ form }) => {
   const { dispatch } = useContext(Context);
   const { query } = useEditor();
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
+    if (loading) return;
 
-    setTimeout(() => {
-      setLoading(false);
-      dispatch({ type: 'LOADING_OFF' });
-    }, 2500);
-    console.log(query.serialize());
+    setLoading(true);
+    const token = document.getElementsByName('csrf-token')[0].content;
+    const result = { payload: compress(query.serialize()) };
+
+    await axios.post(`/f/${form.id}`, { result }, { headers: { 'X-CSRF-TOKEN': token }})
+      .then(() => setSuccess(true))
+      .catch(() => setError(true))
+      .then(() => setLoading(false));
   };
 
+  // this hook keeps the store in sync with component loading state
   useEffect(() => {
     dispatch({ type: loading ? 'LOADING_ON' : 'LOADING_OFF' });
   }, [loading]);
 
-  return (
-    <form onSubmit={onSubmit}>
-      <Frame json={decompress(form.payload)}>
-        <Canvas />
-      </Frame>
-      <div className="field is-grouped is-grouped-centered" style={{ margin: '3rem auto'}}>
-        <div className="control">
-          <button
-            type="submit"
-            className={`button is-link ${loading ? 'is-loading' : ''}`}
-            disabled={loading}
-          >
-            Submit
-          </button>
-        </div>
+  if (success) {
+    return (
+      <div className="notification is-success">
+        <p>Your data was successfully submitted. You can safely leave this page.</p>
       </div>
-    </form>
+    );
+  }
+
+  return (
+    <div className="content">
+      <h1>{form.name}</h1>
+      <form onSubmit={onSubmit}>
+        {error && (
+          <div className="notification is-danger">
+            <p>Oops, something went wrong. Please try again.</p>
+          </div>
+        )}
+        <Frame json={decompress(form.payload)}>
+          <Canvas />
+        </Frame>
+        <div className="field is-grouped is-grouped-centered" style={{ margin: '3rem auto'}}>
+          <div className="control">
+            <button
+              type="submit"
+              className={`button is-link ${loading ? 'is-loading' : ''}`}
+              disabled={loading}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   );
 };
 

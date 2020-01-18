@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   get '/f/:id', to: 'public_form#show'
+  post '/f/:id', to: 'public_form#submit', defaults: { format: :json }
 
   # Forward all HTML (non-XHR) requests to DashboardController#index
   get '*page', to: 'dashboard#index', constraints: ->(req) { !req.xhr? && req.format.html? }
