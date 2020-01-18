@@ -45,8 +45,12 @@ $navbar-item-hover-color: $navbar-item-color;
 $navbar-item-active-color: $navbar-item-color;
 $navbar-item-hover-background-color: rgba(#000, 0.2);
 $navbar-item-active-background-color: rgba(#000, 0.2);
+$navbar-dropdown-background-color: darken($primary, 5);
 $navbar-dropdown-item-active-color: $primary;
+$navbar-dropdown-item-hover-color: #fff;
+$navbar-dropdown-item-hover-background-color: darken($primary, 10);
 $navbar-dropdown-arrow: $navbar-item-color;
+$navbar-divider-background-color: $primary;
 
 $menu-item-active-background-color: $primary;
 $section-padding: 1.5rem;
