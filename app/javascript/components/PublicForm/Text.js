@@ -16,6 +16,7 @@ const Text = ({ label, rows, initialValue, placeholder, readOnly, required }) =>
     readOnly,
     required,
     value: node ? node.value : initialValue,
+    disabled: state.loading,
     onChange: (e) => {
       dispatch({ type: 'UPDATE_NODE', payload: { nodeId, label, value: e.target.value }});
       setProp(props => props.value = e.target.value);
