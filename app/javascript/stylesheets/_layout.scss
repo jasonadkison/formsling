@@ -1,18 +1,5 @@
-body {
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  height:100vh;
-}
-.header {
-  background-color:$white-bis;
-  padding:2rem 1.5rem;
-}
-.section {
-  display:flex;
-  flex:1 0 auto;
-}
-.main-menu,
+
+//.main-menu,
 .breadcrumb {
-  margin: 1.5rem 0;
+  margin: 1rem 0;
 }

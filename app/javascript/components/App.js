@@ -22,20 +22,22 @@ const App = () => {
       <Router>
         <MainMenu />
         <BreadcrumbProvider>
-          <Switch>
-            <Route path="/usage">
-              <Usage />
-            </Route>
-            <Route path="/subscription">
-              <Subscription />
-            </Route>
-            <Route path="/account">
-              <Account />
-            </Route>
-            <Route path="/">
-              <Forms />
-            </Route>
-          </Switch>
+          <div className="box">
+            <Switch>
+              <Route path="/usage">
+                <Usage />
+              </Route>
+              <Route path="/subscription">
+                <Subscription />
+              </Route>
+              <Route path="/account">
+                <Account />
+              </Route>
+              <Route path="/">
+                <Forms />
+              </Route>
+            </Switch>
+          </div>
         </BreadcrumbProvider>
       </Router>
     </ModalProvider>
