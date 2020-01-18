@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const FormButtons = ({ id, onDelete }) => (
-  <p className="buttons">
+  <>
     <Link
       to={`/forms/${id}/edit`}
-      className="button is-primary is-inverted"
+      className="button is-primary is-inverted is-inline"
       title="Edit"
       data-tooltip="Edit"
     >
@@ -15,19 +15,7 @@ const FormButtons = ({ id, onDelete }) => (
       </span>
     </Link>
     <a
-      href={`/f/${id}`}
-      className="button is-info is-inverted"
-      title="Open"
-      data-tooltip="Open"
-      rel="noreferer noopener"
-      target="_blank"
-    >
-      <span className="icon">
-        <i className="fas fa-external-link-alt" />
-      </span>
-    </a>
-    <button
-      className="button is-danger is-inverted"
+      className="button is-danger is-inverted is-inline"
       onClick={onDelete}
       title="Delete"
       data-tooltip="Delete"
@@ -35,8 +23,8 @@ const FormButtons = ({ id, onDelete }) => (
       <span className="icon is-small">
         <i className="fas fa-trash" />
       </span>
-    </button>
-  </p>
+    </a>
+  </>
 );
 
 FormButtons.propTypes = {

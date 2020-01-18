@@ -15,6 +15,14 @@ import Text from './Text';
 import Dropdown from './Dropdown';
 import Columns from './Columns';
 
+// It's important to blow up when the server doesn't send a valid response.
+// This will throw and exception on non 200 status responses.
+const customAxios = axios.create({
+  validateStatus: (status) => {
+    return status === 200;
+  },
+});
+
 const initialState = {
   payload: null,
   updated_at: undefined,
@@ -33,14 +41,19 @@ const FormEditor = ({ enabled }) => {
   const { id } = useParams();
   const [form, dispatch] = useReducer(reducer, initialState);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const { payload } = form;
 
   useEffect(() => {
     const loadForm = async () => {
       setLoading(true);
-      const result = await axios(`/api/v1/forms/${id}`);
-      dispatch({ type: 'RECEIVE_FORM', payload: result.data });
-      setLoading(false);
+      await customAxios(`/api/v1/forms/${id}`)
+        .then(({ data }) => dispatch({ type: 'RECEIVE_FORM', payload: data }))
+        .catch(() => {
+          setError(true);
+          console.error('Could not sync with the server.');
+        })
+        .then(() => setLoading(false));
     };
 
     loadForm();
@@ -48,13 +61,27 @@ const FormEditor = ({ enabled }) => {
 
   const handleSave = async (payload) => {
     const token = document.getElementsByName('csrf-token')[0].content;
-    const result =  await axios.put(
+    return await customAxios.put(
       `/api/v1/forms/${id}`,
       { form: { payload }},
       { headers: { 'X-CSRF-TOKEN': token }},
+    )
+      .then(({ data }) => {
+        dispatch({ type: 'RECEIVE_FORM', payload: data });
+        return data;
+      })
+      .catch(() => {
+        setError(true);
+        console.error('Could not sync with the server.');
+      });
+  }
+
+  if (error) {
+    return (
+      <div className="notification is-danger">
+        <p>Oops, something went communicating with the server. You can try refreshing the page.</p>
+      </div>
     );
-    dispatch({ type: 'RECEIVE_FORM', payload: result.data });
-    return result;
   }
 
   if (loading) {

@@ -50,11 +50,11 @@ const Header = ({ form, handleSave }) => {
       const result = await handleSave(payload);
 
       // only rebuild the nodes if the config changed
-      if (payload !== result.data.payload) {
-        actions.deserialize(decompress(result.data.payload));
+      if (payload !== result.payload) {
+        actions.deserialize(decompress(result.payload));
       }
 
-      setCurrentPayload(result.data.payload);
+      setCurrentPayload(result.payload);
       setIsCurrentlySynced(true);
       setSyncing(false);
     };

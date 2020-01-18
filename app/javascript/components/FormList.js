@@ -55,6 +55,7 @@ const FormList = () => {
             <tr>
               <th>Name</th>
               <th>Recipient</th>
+              <th>Public Link</th>
               <th>Options</th>
             </tr>
           </thead>
@@ -65,7 +66,22 @@ const FormList = () => {
                   {form.name}
                 </td>
                 <td>
-
+                  {form.email_recipient}
+                </td>
+                <td>
+                  {form.public_url}
+                  <a
+                    href={`/f/${form.id}`}
+                    className="button is-info is-inverted is-inline"
+                    title="Open"
+                    data-tooltip="Open"
+                    rel="noreferer noopener"
+                    target="_blank"
+                  >
+                    <span className="icon">
+                      <i className="fas fa-external-link-alt" />
+                    </span>
+                  </a>
                 </td>
                 <th>
                   <FormButtons {...form} onDelete={() => setDeletingForm(form)} />
