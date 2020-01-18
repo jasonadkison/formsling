@@ -1,14 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
-import Select from 'react-select';
 
 import { Context } from '../PublicForm';
 
 const Dropdown = (props) => {
   const { id: nodeId, setProp } = useNode();
   const { state, dispatch } = useContext(Context);
-  const { [nodeId]: node } = state;
+  const { nodes: { [nodeId]: node } } = state;
 
   const {
     label,
@@ -24,8 +23,9 @@ const Dropdown = (props) => {
     ? initialValue
     : undefined;
 
-  const onChange = ({ value }) => {
-    dispatch({ type: 'UPDATE', payload: { nodeId, label, value }});
+  const onChange = (e) => {
+    const { value } = e.target;
+    dispatch({ type: 'UPDATE_NODE', payload: { nodeId, label, value }});
     setProp(props => props.value = value);
   };
 
@@ -42,16 +42,26 @@ const Dropdown = (props) => {
             </>
           )}
         </label>
-        <div className="control">
-          <Select
-            inputId={nodeId}
-            inputRequired={required}
-            options={options.map(option => ({ value: option, label: option }))}
+        <div className="select">
+          {/* Use a normal <select /> element because react-select's Select is unable to use
+            * the "required" attribute in a practical manner.
+            * See: https://github.com/JedWatson/react-select/issues/3140#issuecomment-514754657
+          */}
+          <select
+            className="input"
+            id={nodeId}
+            required={required}
             placeholder={placeholder}
             required={required}
-            value={{ value, label: value }}
+            value={value}
             onChange={onChange}
-          />
+            disabled={state.loading}
+          >
+            {placeholder && (
+              <option value="">{placeholder}</option>
+            )}
+            {options.map(option => <option key={option} value={option}>{option}</option>)}
+          </select>
         </div>
         {helpText && (
           <p className="help">{helpText}</p>

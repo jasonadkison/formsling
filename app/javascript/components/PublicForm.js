@@ -1,4 +1,4 @@
-import React, { useReducer, createContext, useEffect, useContext } from 'react';
+import React, { useReducer, createContext, useEffect, useContext, useState } from 'react';
 import {Editor, Frame, Canvas, useEditor} from "@craftjs/core";
 
 import { decompress } from './FormEditor/Header';
@@ -7,27 +7,42 @@ import Dropdown from './PublicForm/Dropdown';
 import Columns from './PublicForm/Columns';
 
 export const Context = createContext();
-const initialState = {};
+const initialState = { loading: false, nodes: {}};
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'UPDATE':
+    case 'UPDATE_NODE':
       const { nodeId, label, value } = action.payload;
-      return { ...state, [nodeId]: { label, value } };
-    default:
-      throw new Error();
+      return { ...state, nodes: { ...state.nodes, [nodeId]: { label, value } } };
+    case 'LOADING_ON':
+      return { ...state, loading: true };
+    case 'LOADING_OFF':
+      return { ...state, loading: false };
   }
+
+  return state;
 }
 
 const Form = ({ form }) => {
-  const { state, dispatch } = useContext(Context);
+  const { dispatch } = useContext(Context);
   const { query } = useEditor();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
+
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      dispatch({ type: 'LOADING_OFF' });
+    }, 2500);
     console.log(query.serialize());
-    console.log('submit', state);
   };
+
+  useEffect(() => {
+    dispatch({ type: loading ? 'LOADING_ON' : 'LOADING_OFF' });
+  }, [loading]);
 
   return (
     <form onSubmit={onSubmit}>
@@ -38,7 +53,8 @@ const Form = ({ form }) => {
         <div className="control">
           <button
             type="submit"
-            className="button is-link"
+            className={`button is-link ${loading ? 'is-loading' : ''}`}
+            disabled={loading}
           >
             Submit
           </button>

@@ -71,8 +71,10 @@ const FormEditor = ({ enabled }) => {
           <div className="column is-two-thirds">
             <Frame>
               <Canvas is="div" className="drag-area">
-                {!payload && <Text />}
-                {!payload && <Dropdown />}
+                {!payload && <Text label="Example Text Element" />}
+                {!payload && (
+                  <Dropdown label="Example Dropdown Element" options={['One', 'Two', 'Three']} />
+                )}
                 {!payload && <Columns />}
               </Canvas>
             </Frame>

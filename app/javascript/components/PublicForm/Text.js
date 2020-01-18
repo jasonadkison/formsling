@@ -8,17 +8,16 @@ const Text = ({ label, rows, initialValue, placeholder, readOnly, required }) =>
   const { id: nodeId, setProp } = useNode();
   const { state, dispatch } = useContext(Context);
 
-  const { [nodeId]: node } = state;
+  const { nodes: { [nodeId]: node } } = state;
 
   const inputProps = {
     id: nodeId,
-    className: "input",
     placeholder,
     readOnly,
     required,
     value: node ? node.value : initialValue,
     onChange: (e) => {
-      dispatch({ type: 'UPDATE', payload: { nodeId, label, value: e.target.value }});
+      dispatch({ type: 'UPDATE_NODE', payload: { nodeId, label, value: e.target.value }});
       setProp(props => props.value = e.target.value);
     },
   };
@@ -36,9 +35,9 @@ const Text = ({ label, rows, initialValue, placeholder, readOnly, required }) =>
       </label>
       <div className="control">
         {rows === '1' || rows === 1 ? (
-          <input {...inputProps} type="text" />
+          <input {...inputProps} className="input" type="text" />
         ) : (
-          <textarea {...inputProps} rows={rows} />
+          <textarea {...inputProps} className="textarea" rows={rows} />
         )}
       </div>
     </div>
