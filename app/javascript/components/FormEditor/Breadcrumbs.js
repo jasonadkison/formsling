@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Breadcrumbs = ({ id, name }) => (
   <ul>
     <li>
-      <Link to="/">Forms</Link>
+      <Link to="/forms">Forms</Link>
     </li>
     <li className="is-active">
       <Link to={`/forms/${id}`}>{name}</Link>
