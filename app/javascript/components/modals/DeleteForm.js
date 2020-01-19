@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-import { Modal } from '../Modal';
+import { Modal } from './Modal';
 
 const DeleteForm = ({ id, name, onClose, onDeleted }) => {
   const [loading, setLoading] = useState(false);

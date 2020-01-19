@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useEditor } from '@craftjs/core';
-import { compress, decompress } from '../utils';
 import axios from 'axios';
-
 import TimeAgo from 'react-timeago'
+import { compress, decompress } from '../utils';
+
+import PublishForm from '../modals/PublishForm';
 
 const Header = ({ form, handleSave }) => {
   const { id, name, payload, updated_at: updatedAt } = form;
@@ -15,6 +16,8 @@ const Header = ({ form, handleSave }) => {
   const [currentPayload, setCurrentPayload] = useState(payload);
   const [syncing, setSyncing] = useState(false);
   const [isCurrentlySynced, setIsCurrentlySynced] = useState(true);
+  const [showSyncingIndicator, setShowSyncingIndicator] = useState(false);
+  const [publishModalOpened, setPublishModalOpened] = useState(false);
 
   // Load the initial payload on mount
   useEffect(() => {
@@ -27,6 +30,7 @@ const Header = ({ form, handleSave }) => {
   }, []);
 
   // This hook sets up a poller to check for when things are out of sync.
+  // Only allows a sync every 3 seconds
   useLayoutEffect(() => {
     const timer = setInterval(async () => {
       const editorPayload = compress(query.serialize());
@@ -64,6 +68,15 @@ const Header = ({ form, handleSave }) => {
     return () => clearTimeout(timer);
   }, [syncing, currentPayload]);
 
+  // this hook triggers display of the loading indicator if syncing takes more than a second
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSyncingIndicator(syncing);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [syncing]);
+
   return (
     <header>
       <div className="field is-pulled-right">
@@ -78,8 +91,13 @@ const Header = ({ form, handleSave }) => {
       </div>
       <h2 className="title">{name}</h2>
       <p className="is-small has-text-right">
-        Last saved: <TimeAgo date={updatedAt}>{updatedAt}</TimeAgo>
+        {showSyncingIndicator ? (
+          <>Saving...</>
+        ) : (
+          <>Saved <TimeAgo date={updatedAt}>{updatedAt}</TimeAgo></>
+        )}
       </p>
+      <PublishForm form={form} />
     </header>
   );
 };

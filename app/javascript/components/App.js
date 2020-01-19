@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import { BreadcrumbProvider } from "./Breadcrumb";
-import { ModalProvider } from "./Modal";
+import { ModalProvider } from "./modals/Modal";
 
 //import MainMenu from './MainMenu';
 //import Usage from './Usage';
