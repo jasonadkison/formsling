@@ -3,17 +3,12 @@
   <head>
     <%= csrf_meta_tags %>
     <title>FormSling PDF</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       button { display: none !important }
     </style>
     <%= wicked_pdf_stylesheet_pack_tag 'pdf', media: 'all' %>
   </head>
   <body>
-    <div class="section">
-      <div class="container">
-        <%= yield %>
-      </div>
-    </div>
+    <%= yield %>
   </body>
 </html>

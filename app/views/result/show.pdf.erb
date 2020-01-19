@@ -1,2 +1,18 @@
 <!-- the content of the report pdf -->
-<%= @payload.html_safe %>
+<div class="level">
+  <div class="level-left">
+    <div class="level-item">
+      <p><%= @result.created_at.strftime('Completed on %m/%d/%Y at %I:%M%p %Z') %></p>
+    </div>
+  </div>
+  <div class="level-right">
+    <div class="level-item">
+      <p class="has-text-primary"><em>Create documents like this at <strong>FormSling.com</strong></em></p>
+    </div>
+  </div>
+</div>
+<section class="section">
+  <div class="container is-snapshot">
+    <%= @payload.html_safe %>
+  </div>
+</section>

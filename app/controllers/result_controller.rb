@@ -3,13 +3,17 @@ class ResultController < ApplicationController
     respond_to do |format|
       format.pdf do
         result = Result.find(params[:id])
+        filename = [result.form.name, result.form.id, result.id, "formsling", Time.zone.now.to_i].join(' ').parameterize
+
         @payload = Base64.decode64(result.payload);
+        @result = result
+        @form = result.form
 
         render(
-          pdf: result.form.name.parameterize,
+          pdf: filename,
           disable_javascript: true,
           show_as_html: params.key?('debug'),
-          #footer: { right: '[date] [time] - page [page] of [topage]', font_size: '6' },
+          header: { center: 'Powered by FormSling.com', line: true },
           #layout: 'pdf',
           #template: 'result/show.pdf.erb',
           #save_to_file: Rails.root.join('tmp', 'test.pdf'),
