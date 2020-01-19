@@ -64,7 +64,7 @@ const FormList = () => {
             {forms.map(form => (
               <tr key={form.id}>
                 <td>
-                  <Link to={`/forms/${form.id}/edit`} title="Edit">
+                  <Link to={`/forms/${form.id}`} title="Edit">
                     {form.name}
                   </Link>
                 </td>

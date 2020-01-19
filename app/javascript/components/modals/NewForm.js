@@ -35,7 +35,7 @@ const NewForm = ({ onClose }) => {
     const form = { name, email_recipient: email };
 
     await axios.post(`/api/v1/forms`, { form }, { headers: { 'X-CSRF-TOKEN': token }})
-      .then(({ data }) => history.push(`/forms/${data.id}/edit`))
+      .then(({ data }) => history.push(`/forms/${data.id}`))
       .catch(() => {
         setError(true);
         setLoading(false);

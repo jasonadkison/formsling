@@ -25,7 +25,7 @@ const App = () => {
           <div className="box">
             <Switch>
               <Route exact path="/" component={FormList} />
-              <Route path="/forms/:id/edit">
+              <Route path="/forms/:id">
                 <FormEditor />
               </Route>
             </Switch>

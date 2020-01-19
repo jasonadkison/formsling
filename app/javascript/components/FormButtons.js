@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const FormButtons = ({ id, onDelete }) => (
   <>
     <Link
-      to={`/forms/${id}/edit`}
+      to={`/forms/${id}`}
       className="button is-primary is-inverted is-inline"
       title="Edit"
       data-tooltip="Edit"

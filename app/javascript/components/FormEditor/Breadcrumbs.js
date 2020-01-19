@@ -8,7 +8,7 @@ const Breadcrumbs = ({ id, name }) => (
       <Link to="/">Forms</Link>
     </li>
     <li className="is-active">
-      <Link to={`/forms/${id}/edit`}>{name}</Link>
+      <Link to={`/forms/${id}`}>{name}</Link>
     </li>
   </ul>
 );
