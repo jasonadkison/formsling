@@ -22,15 +22,13 @@ const App = () => {
       <Router>
         {/*<MainMenu />*/}
         <BreadcrumbProvider>
-          <div className="box">
-            <Switch>
-              <Route exact path="/" component={FormList} />
-              <Route exact path="/forms" component={FormList} />
-              <Route path="/forms/:id">
-                <FormEditor />
-              </Route>
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/" component={FormList} />
+            <Route exact path="/forms" component={FormList} />
+            <Route path="/forms/:id">
+              <FormEditor />
+            </Route>
+          </Switch>
         </BreadcrumbProvider>
       </Router>
     </ModalProvider>
