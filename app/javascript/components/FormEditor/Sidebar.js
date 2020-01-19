@@ -1,10 +1,8 @@
 import React from 'react';
 import { useEditor } from '@craftjs/core';
+import StickyBox from "react-sticky-box";
 
-import Tools from './Tools';
-import Properties from './Properties';
-
-const Sidebar = () => {
+const Sidebar = ({ children }) => {
   const { enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
@@ -12,11 +10,13 @@ const Sidebar = () => {
   if (!enabled) return null;
 
   return (
-    <aside className="sidebar">
-      <Tools />
-      <br />
-      <Properties />
-    </aside>
+    <div className="column is-one-third">
+      <StickyBox offsetTop={20} offsetBottom={20}>
+        <aside className="sidebar">
+          {children}
+        </aside>
+      </StickyBox>
+    </div>
   );
 };
 

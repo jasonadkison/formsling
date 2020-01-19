@@ -79,25 +79,42 @@ const Header = ({ form, handleSave }) => {
 
   return (
     <header>
-      <div className="field is-pulled-right">
-        <input
-          id="editor-switch"
-          type="checkbox"
-          className="switch"
-          checked={enabled}
-          onChange={(e) => actions.setOptions(options => options.enabled = e.target.checked)}
-        />
-        <label htmlFor="editor-switch">Toggle Edit Mode</label>
+      <div className="level">
+        <div className="level-left">
+          <h2 className="title">{name}</h2>
+        </div>
+        <div className="level-right">
+          <div className="control">
+            <input
+              id="editor-switch"
+              type="checkbox"
+              className="switch"
+              checked={enabled}
+              onChange={(e) => actions.setOptions(options => options.enabled = e.target.checked)}
+            />
+            <label htmlFor="editor-switch">Toggle Edit Mode</label>
+          </div>
+        </div>
       </div>
-      <h2 className="title">{name}</h2>
-      <p className="is-small has-text-right">
-        {showSyncingIndicator ? (
-          <>Saving...</>
-        ) : (
-          <>Saved <TimeAgo date={updatedAt}>{updatedAt}</TimeAgo></>
-        )}
-      </p>
-      <PublishForm form={form} />
+      <div className="level">
+        <div className="level-left">
+
+        </div>
+        <div className="level-right">
+          <div className="level-item">
+            <p className="is-small has-text-right">
+              {showSyncingIndicator ? (
+                <>Saving...</>
+              ) : (
+                <>Saved <TimeAgo date={updatedAt}>{updatedAt}</TimeAgo></>
+              )}
+            </p>
+          </div>
+          <div className="level-item">
+            <PublishForm form={form} />
+          </div>
+        </div>
+      </div>
     </header>
   );
 };

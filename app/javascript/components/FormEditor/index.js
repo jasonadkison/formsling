@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Editor, Frame, Canvas } from "@craftjs/core";
-import StickyBox from "react-sticky-box";
 
 import Breadcrumb from '../Breadcrumb';
 import Header from './Header';
 import Sidebar from './Sidebar';
+import Properties from './Properties';
 import Breadcrumbs from './Breadcrumbs';
 
 import Text from './Text';
@@ -94,8 +94,9 @@ const FormEditor = ({ enabled }) => {
     <div id="editor">
       <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
         <Header form={form} handleSave={handleSave} />
+        <div className="is-divider" />
         <div className="columns">
-          <div className="column is-two-thirds">
+          <div className="column">
             <Frame>
               <Canvas is="div" className="drag-area">
                 {!payload && <Text label="Example Text Element" />}
@@ -106,11 +107,9 @@ const FormEditor = ({ enabled }) => {
               </Canvas>
             </Frame>
           </div>
-          <div className="column">
-            <StickyBox offsetTop={50} offsetBottom={20}>
-              <Sidebar />
-            </StickyBox>
-          </div>
+          <Sidebar>
+            <Properties />
+          </Sidebar>
         </div>
         <Breadcrumb>
           <Breadcrumbs {...form} />
