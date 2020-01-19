@@ -1,41 +1,36 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
-
 import { Context } from '../PublicForm';
 
 const Text = ({ label, rows, initialValue, placeholder, readOnly, required }) => {
-  const { id: nodeId, setProp } = useNode();
-  const { state, dispatch } = useContext(Context);
-
-  const { nodes: { [nodeId]: node } } = state;
+  const [value, setValue] = useState(initialValue);
+  const { id } = useNode();
+  const { state } = useContext(Context);
 
   const inputProps = {
-    id: nodeId,
+    id,
     placeholder,
     readOnly,
     required,
-    value: node ? node.value : initialValue,
     disabled: state.loading,
-    onChange: (e) => {
-      dispatch({ type: 'UPDATE_NODE', payload: { nodeId, label, value: e.target.value }});
-      setProp(props => props.value = e.target.value);
-    },
+    onChange: e => setValue(e.target.value),
+    'data-value': value,
+    name: `text-${id}`,
   };
+
+  const singleLine = (rows === '1' || rows === 1);
 
   return (
     <div className="field">
-      <label className="label" htmlFor={nodeId}>
-        {label}
+      <label className="label" htmlFor={id}>
+        {label}&nbsp;
         {required && (
-          <>
-            &nbsp;
-            <span className="help is-danger is-inline">* required</span>
-          </>
+          <span className="help is-danger is-inline">* required</span>
         )}
       </label>
       <div className="control">
-        {rows === '1' || rows === 1 ? (
+        {singleLine ? (
           <input {...inputProps} className="input" type="text" />
         ) : (
           <textarea {...inputProps} className="textarea" rows={rows} />
