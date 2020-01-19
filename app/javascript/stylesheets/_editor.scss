@@ -1,4 +1,8 @@
 #editor {
+  .toolbar {
+    margin: 2rem 0;
+  }
+
   .drag-area,
   .sidebar {
     margin: 1rem 0;
@@ -20,10 +24,13 @@
     // Styles here only apply when the editor is toggled on.
     &.enabled {
       padding: 1rem;
-      margin-bottom: 1.5rem;
       padding-top: 1rem;
       border: 2px solid #eee;
       position: relative;
+
+      :not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
 
       // Default hover styling
       &:hover {
@@ -40,6 +47,7 @@
         background: $background;
         margin: 0.25rem;
         border: 2px solid $white;
+        min-height: 5rem;
         cursor: initial;
       }
 
@@ -51,10 +59,14 @@
 
       // The badge that displays the name of the Element
       &::before {
+
+      }
+
+      &:hover::before {
         content: attr(data-label);
         align-items: stretch;
         display: flex;
-        background: $yellow;
+        background: lighten($primary, 30);
         border-radius: 2px 2px 0 0;
         bottom: 100%;
         color: rgba(0,0,0,.7);
@@ -67,10 +79,6 @@
         position: absolute;
         text-transform: uppercase;
         vertical-align: top;
-      }
-
-      &:hover::before {
-        background: lighten($primary, 30);
       }
 
       &.selected::before {

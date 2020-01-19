@@ -7,6 +7,7 @@ import { Editor, Frame, Canvas } from "@craftjs/core";
 
 import Breadcrumb from '../Breadcrumb';
 import Header from './Header';
+import Toolbar from './Toolbar';
 import Sidebar from './Sidebar';
 import Properties from './Properties';
 import Breadcrumbs from './Breadcrumbs';
@@ -94,7 +95,8 @@ const FormEditor = ({ enabled }) => {
     <div id="editor">
       <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
         <Header form={form} handleSave={handleSave} />
-        <div className="is-divider" />
+        <Toolbar form={form} />
+
         <div className="columns">
           <div className="column">
             <Frame>
