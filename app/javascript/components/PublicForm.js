@@ -86,16 +86,20 @@ const Form = ({ form }) => {
     dispatch({ type: loading ? 'LOADING_ON' : 'LOADING_OFF' });
   }, [loading]);
 
-  const content = success ? (
-    <>
-      <h1 className="title">
-        Thank you!
-      </h1>
-      <div className="notification is-success">
-        <p>You've successfully completed the form. You may safely close this page at any time.</p>
-      </div>
-    </>
-  ) : (
+  if (success) {
+    return (
+      <>
+        <h1 className="title">
+          Thank you!
+        </h1>
+        <div className="notification is-success">
+          <p>You've successfully completed the form. You may safely close this page at any time.</p>
+        </div>
+      </>
+    );
+  }
+
+  return (
     <div ref={ref}>
       <h1 className="title">
         {form.name}
@@ -110,11 +114,11 @@ const Form = ({ form }) => {
           <Frame json={decompress(form.payload)}>
             <Canvas />
           </Frame>
-          <div className="field is-grouped is-grouped-centered" style={{ margin: '3rem auto'}}>
+          <div className="field is-grouped is-grouped-right" style={{ margin: '3rem auto'}}>
             <div className="control">
               <button
                 type="submit"
-                className={`button is-link ${loading ? 'is-loading' : ''}`}
+                className={`button is-primary ${loading ? 'is-loading' : ''}`}
                 disabled={loading}
               >
                 Submit
@@ -126,19 +130,6 @@ const Form = ({ form }) => {
     </div>
   );
 
-  return (
-    <div className="columns">
-      <div className="column is-three-fifths is-offset-one-fifth">
-        <div className="hero">
-          <div className="hero-body">
-            <div className="container">
-              {content}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 };
 
 const PublicForm = props => (

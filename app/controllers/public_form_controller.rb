@@ -1,4 +1,6 @@
 class PublicFormController < ApplicationController
+  layout 'public_form'
+
   def show
     @form = Form.find(params[:id])
   end
