@@ -6,13 +6,13 @@ RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
 RUN apt-get install -y nodejs
 RUN npm install -g yarn
 RUN gem install bundler -v 1.17.2
-RUN gem install foreman -v 0.85.0
 
-RUN mkdir /app
 WORKDIR /app
 
-COPY Gemfile Gemfile.lock package.json yarn.lock ./
-RUN bundle install --verbose --jobs 20 --retry 5
+COPY Gemfile Gemfile.lock ./
+RUN bundle check || bundle install
+
+COPY package.json yarn.lock ./
 RUN yarn install --check-files
 
 RUN npm rebuild node-sass
@@ -20,5 +20,4 @@ RUN npm rebuild node-sass
 COPY . ./
 
 EXPOSE 3000
-
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
