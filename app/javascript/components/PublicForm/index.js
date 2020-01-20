@@ -4,7 +4,8 @@
 // All user components must set the final field value using a data-value attribute on the input
 // in order for the values to be correctly preserved. We'll improve data collection techniques
 // very soon with some type of matching technique.
-import React, { useRef, useReducer, createContext, useEffect, useLayoutEffect, useContext, useState } from 'react';
+import React, {
+  useRef, useReducer, createContext, useEffect, useContext, useState } from 'react';
 import {Editor, Frame, Canvas, useEditor} from "@craftjs/core";
 import axios from 'axios';
 import $ from 'jquery'; // used to transform the final snapshot values
@@ -19,28 +20,34 @@ import Columns, { Column } from './Columns';
 // List all resolvers that will be used by the Editor component here
 export const allResolvers = { Text, Dropdown, Columns, Column };
 
+// base64 encodes a string
 const compress = payload => lz.encodeBase64(lz.encodeUTF8(payload));
 
-// Snapshot won't be usable outside of the editor unless we make the values backend friendly.
-// Better to handle this here rather than every time we want to view the snapshot.
+// This is the current technique of preserving values within the DOM before exporting the
+// DOM tree as the final payload. The tree is used later on the server to render in a PDF view
+// without javascript.
 const prepareResultPayload = (outerHTML) => {
   const node = $(outerHTML).clone();
 
+  // set all the selected dropdown options
   $('select[data-value]', node).each((i, input) => {
     const value = $(input).attr('data-value');
     $(`option[value="${value}"]`, input).attr('selected', true);
   });
 
+  // set all textarea values
   $('textarea[data-value]', node).each((i, input) => {
     const value = $(input).attr('data-value');
     $(input).text(value);
   });
 
+  // set all text input values
   $('input[type="text"][data-value]', node).each((i, input) => {
     const value = $(input).attr('data-value');
     $(input).attr('value', value);
   });
 
+  // return the compressed DOM tree payload as base64 string
   return compress(node.get(0).outerHTML);
 };
 
