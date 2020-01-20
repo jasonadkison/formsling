@@ -2,7 +2,8 @@
 // created as the final payload which will be used later to generate the PDF copy of the form.
 //
 // All user components must set the final field value using a data-value attribute on the input
-// in order for the values to be correctly preserved during PDF generation.
+// in order for the values to be correctly preserved. We'll improve data collection techniques
+// very soon with some type of matching technique.
 import React, { useRef, useReducer, createContext, useEffect, useLayoutEffect, useContext, useState } from 'react';
 import {Editor, Frame, Canvas, useEditor} from "@craftjs/core";
 import axios from 'axios';
