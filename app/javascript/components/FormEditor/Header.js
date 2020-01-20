@@ -35,7 +35,7 @@ const Header = ({ form, handleSave, isSaving }) => {
               onChange={(e) => actions.setOptions(options => options.enabled = e.target.checked)}
             />
             <label htmlFor="editor-switch">
-              Toggle Edit Mode
+              Edit Mode
             </label>
           </div>
         </div>
