@@ -18,6 +18,10 @@ const PublishForm = ({ form, onClose }) => {
       </button>
     )
   }
+
+  const embedCode = `<script type="text/javascript" src="${form.embed_url}"></script>
+<a class="formsling-form-widget" href="${form.public_url}">Here is the link</a>`;
+
   return (
     <Modal>
       <button className="delete is-pulled-right" onClick={onClickClose}>
@@ -53,10 +57,9 @@ const PublishForm = ({ form, onClose }) => {
               Embed Code
             </label>
             <div className="control">
-              <input
-                type="text"
-                className="input"
-                value={`<iframe src="${form.public_url}"></iframe>`}
+              <textarea
+                className="textarea"
+                value={embedCode}
                 readOnly
                 id="embed-code"
               />

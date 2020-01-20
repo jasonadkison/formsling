@@ -17,7 +17,6 @@ const Text = ({ label, rows, initialValue, placeholder, readOnly, required, help
     onChange: e => setValue(e.target.value),
     'data-value': value,
     name: `text-${id}`,
-    helpText,
   };
 
   const singleLine = (rows === '1' || rows === 1);
