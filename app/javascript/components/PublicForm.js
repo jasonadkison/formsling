@@ -10,9 +10,7 @@ import $ from 'jquery'; // used to transform the final snapshot values
 import lz from 'lzutf8';
 
 import { decompress } from './utils';
-import Text from './PublicForm/Text';
-import Dropdown from './PublicForm/Dropdown';
-import Columns from './PublicForm/Columns';
+import { allResolvers } from './FormEditor';
 
 const compress = payload => lz.encodeBase64(lz.encodeUTF8(payload));
 
@@ -143,7 +141,7 @@ const Provider = ({ children }) => {
 
   return (
     <Context.Provider value={{ state, dispatch }}>
-      <Editor resolver={{ Text, Dropdown, Columns }} enabled={false}>
+      <Editor resolver={allResolvers} enabled={false}>
         {children}
       </Editor>
     </Context.Provider>

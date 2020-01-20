@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { Editor, Frame, Canvas } from "@craftjs/core";
+import { compress, decompress } from '../utils';
 
 import Breadcrumb from '../Breadcrumb';
 import Header from './Header';
@@ -14,10 +15,11 @@ import Breadcrumbs from './Breadcrumbs';
 
 import Text from './Text';
 import Dropdown from './Dropdown';
-import Columns from './Columns';
+import Columns, { Column } from './Columns';
 
-// It's important to blow up when the server doesn't send a valid response.
-// This will throw and exception on non 200 status responses.
+export const allResolvers = { Text, Dropdown, Columns, Column };
+
+// Bomb if the server returns and unexpected status
 const customAxios = axios.create({
   validateStatus: (status) => {
     return status === 200;
@@ -25,14 +27,23 @@ const customAxios = axios.create({
 });
 
 const initialState = {
-  payload: null,
-  updated_at: undefined,
+  isFetching: true,
+  isSaving: false,
+  form: undefined,
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'FETCH_FORM_START':
+      return { ...state, isFetching: true };
+    case 'FETCH_FORM_END':
+      return { ...state, isFetching: false };
+    case 'SAVE_FORM_START':
+      return { ...state, isSaving: true };
+    case 'SAVE_FORM_END':
+      return { ...state, isSaving: false };
     case 'RECEIVE_FORM':
-      return { ...state, ...action.payload };
+      return { ...state, form: {...action.payload } };
     default:
       throw new Error();
   }
@@ -40,52 +51,44 @@ const reducer = (state, action) => {
 
 const FormEditor = ({ enabled }) => {
   const { id } = useParams();
-  const [form, dispatch] = useReducer(reducer, initialState);
-  const [loading, setLoading] = useState(true);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [error, setError] = useState(false);
-  const { payload } = form;
+  const { isFetching, isSaving, form } = state;
 
-  useEffect(() => {
-    const loadForm = async () => {
-      setLoading(true);
-      await customAxios(`/api/v1/forms/${id}`)
-        .then(({ data }) => dispatch({ type: 'RECEIVE_FORM', payload: data }))
-        .catch(() => {
-          setError(true);
-          console.error('Could not sync with the server.');
-        })
-        .then(() => setLoading(false));
-    };
+  const fetchForm = async () => {
+    dispatch({ type: 'FETCH_FORM_START' });
+    await customAxios(`/api/v1/forms/${id}`)
+      .then(({ data }) => dispatch({ type: 'RECEIVE_FORM', payload: data }))
+      .catch(() => setError(true))
+      .then(() => dispatch({ type: 'FETCH_FORM_END' }));
+  };
 
-    loadForm();
-  }, [id]);
-
-  const handleSave = async (payload) => {
+  const saveForm = async (form = {}) => {
+    dispatch({ type: 'SAVE_FORM_START' });
     const token = document.getElementsByName('csrf-token')[0].content;
-    return await customAxios.put(
-      `/api/v1/forms/${id}`,
-      { form: { payload }},
-      { headers: { 'X-CSRF-TOKEN': token }},
-    )
-      .then(({ data }) => {
-        dispatch({ type: 'RECEIVE_FORM', payload: data });
-        return data;
-      })
-      .catch(() => {
-        setError(true);
-        console.error('Could not sync with the server.');
-      });
+
+    await customAxios.put(`/api/v1/forms/${id}`, { form }, { headers: { 'X-CSRF-TOKEN': token }})
+      .then(({ data }) => dispatch({ type: 'RECEIVE_FORM', payload: data }))
+      .catch(() => setError(true))
+      .then(() => dispatch({ type: 'SAVE_FORM_END' }));
   }
+
+  const handleSave = (editorPayload) => saveForm({ payload: compress(editorPayload) });
+
+  // Fetch the form when id changes
+  useEffect(() => {
+    fetchForm();
+  }, [id]);
 
   if (error) {
     return (
       <div className="notification is-danger">
-        <p>Oops, something went communicating with the server. You can try refreshing the page.</p>
+        <p>Oops, something went wrong. Try refreshing the page.</p>
       </div>
     );
   }
 
-  if (loading) {
+  if (state.isFetching || state.isSaving) {
     return (
       <div>Loading...</div>
     );
@@ -93,19 +96,19 @@ const FormEditor = ({ enabled }) => {
 
   return (
     <div id="editor">
-      <Editor resolver={{ Text, Dropdown, Columns }} enabled={enabled}>
+      <Breadcrumb>
+        <Breadcrumbs {...form} />
+      </Breadcrumb>
+      <Editor resolver={allResolvers} enabled={enabled}>
         <Header form={form} handleSave={handleSave} />
         <Toolbar form={form} />
 
         <div className="columns">
           <div className="column">
-            <Frame>
-              <Canvas is="div" className="drag-area">
-                {!payload && <Text label="Example Text Element" />}
-                {!payload && (
-                  <Dropdown label="Example Dropdown Element" options={['One', 'Two', 'Three']} />
-                )}
-                {!payload && <Columns />}
+            <Frame json={form.payload ? decompress(form.payload) : undefined}>
+              <Canvas id="root-canvas">
+                <Text label="First Name" />
+                <Text label="Last Name" />
               </Canvas>
             </Frame>
           </div>
@@ -113,9 +116,6 @@ const FormEditor = ({ enabled }) => {
             <Properties />
           </Sidebar>
         </div>
-        <Breadcrumb>
-          <Breadcrumbs {...form} />
-        </Breadcrumb>
       </Editor>
     </div>
   );

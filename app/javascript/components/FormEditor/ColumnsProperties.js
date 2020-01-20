@@ -10,18 +10,8 @@ const ColumnsProperties = () => {
 
   return (
     <div className="panel-block">
-      <Property label="Total Columns">
-        <input
-          className="slider is-fullwidth"
-          type="range"
-          step="1"
-          min="1"
-          max="12"
-          defaultValue={totalColumns}
-          onChange={(e) => {
-            setProp(props => props.totalColumns = e.target.value);
-          }}
-        />
+      <Property>
+        <p>Columns don't have any properties to manage.</p>
       </Property>
     </div>
   );

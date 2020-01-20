@@ -20,16 +20,14 @@ const Properties = () => {
   });
 
   if (!selected.properties) return (
-    <div className="box">
-      <div className="media">
-        <div className="media-left">
-          <span className="icon">
-            <i className="fas fa-mouse-pointer" />
-          </span>
-        </div>
-        <div className="media-content">
-          Click on any element to view its properties.
-        </div>
+    <div className="media">
+      <div className="media-left">
+        <span className="icon">
+          <i className="fas fa-mouse-pointer" />
+        </span>
+      </div>
+      <div className="media-content">
+        Click on any element to view its properties.
       </div>
     </div>
   );

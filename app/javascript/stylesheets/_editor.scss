@@ -1,91 +1,101 @@
 #editor {
+  $draggable-border-size: 2px;
+  $draggable-highlight-color: lighten($primary, 40);
+  $draggable-primary-color: $primary;
+
+  > header {
+    margin-bottom: 2.5rem;
+  }
+
   .toolbar {
-    margin: 2rem 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(201, 102, 102, 0.24);
+    margin-bottom: 2rem;
   }
 
   .drag-area,
   .sidebar {
-    margin: 1rem 0;
     min-height: 10rem;
   }
 
-  // Draggable boxes
-  .drag-box {
-    > .field {
-      margin-bottom: 1rem;
-    }
-    border: 2px solid $white;
+  #root-canvas {
+    min-height: 5rem;
     background: $white;
+    //border-radius: 2px;
+    //padding: 2rem;
+    //box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
-    // Fix pointers
-    cursor: pointer;
-    .drag-box * { cursor: pointer };
+    > .drag-box:not(.enabled) { margin-bottom: 0 }
+  }
 
-    // Styles here only apply when the editor is toggled on.
-    &.enabled {
-      padding: 1rem;
-      padding-top: 1rem;
-      border: 2px solid #eee;
-      position: relative;
+  .drag-box { margin-bottom: 1.5rem; }
 
-      :not(:last-child) {
-        margin-bottom: 1.5rem;
-      }
+  .drag-box.enabled {
+    padding: $draggable-border-size;
+    position: relative;
+    border-radius: 0px 2px 2px 2px;
+    background: $background;
 
-      // Default hover styling
-      &:hover {
-        border-color: lighten($primary, 30);
-      }
-
-      // Default active styling
-      &.selected {
-        border-color: $primary;
-      }
-
-      // Default Columns styling
-      .column.is-crafted {
-        background: $background;
-        margin: 0.25rem;
-        border: 2px solid $white;
-        min-height: 5rem;
-        cursor: initial;
-      }
-
-      // Show Columns boundary when hovering or active
-      &.selected .column.is-crafted,
-      .column.is-crafted:hover {
-        border: 2px dashed $primary;
-      }
-
-      // The badge that displays the name of the Element
-      &::before {
-
-      }
-
-      &:hover::before {
-        content: attr(data-label);
-        align-items: stretch;
-        display: flex;
-        background: lighten($primary, 30);
-        border-radius: 2px 2px 0 0;
-        bottom: 100%;
-        color: rgba(0,0,0,.7);
-        font-size: 7px;
-        font-weight: 700;
-        left: -1px;
-        letter-spacing: 1px;
-        margin-left: -1px;
-        padding: 3px 5px;
-        position: absolute;
-        text-transform: uppercase;
-        vertical-align: top;
-      }
-
-      &.selected::before {
-        background: $primary;
-        color: $white;
-      }
+    &:hover {
+      background: $draggable-highlight-color;
     }
 
+    &.selected {
+      background: $draggable-primary-color;
+    }
+
+    // The badges that display the type of the user component, hidden by default
+    &::before {
+      content: attr(data-label);
+      align-items: stretch;
+      display: flex;
+      background: $background;
+      border-radius: 2px 2px 0 0;
+      bottom: 100%;
+      color: $dark;
+      font-size: 7px;
+      font-weight: 700;
+      left: 0;
+      letter-spacing: 1px;
+      padding: 3px 5px;
+      position: absolute;
+      text-transform: uppercase;
+      vertical-align: top;
+    }
+
+    // color the badge on hover
+    &:hover::before {
+      background: $draggable-highlight-color;
+    }
+
+    // make the active badge stand out
+    &.selected::before {
+      background: $primary;
+      color: $white;
+    }
+
+    // Clear the badges
+    .drag-box { margin-top: 1rem; }
+
+    .user-component {
+      padding: 1rem;
+      background: $white;
+    }
+
+    &[data-label="Columns"] {
+      background: $background;
+      padding: 0.5rem;
+
+      &:hover { background: $draggable-highlight-color; }
+      &.selected { background: $draggable-primary-color; }
+
+      > .user-component { margin: 0; padding: 0.25rem; }
+      .columns, .column { margin: 0 !important; }
+
+      .columns > .column {
+        border: 0px solid $draggable-highlight-color;
+        &:last-of-type { border-left-width: $draggable-border-size; }
+        background: $white;
+      }
+    }
   }
 }

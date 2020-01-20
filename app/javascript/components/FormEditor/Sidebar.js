@@ -11,10 +11,10 @@ const Sidebar = ({ children }) => {
 
   return (
     <div className="column is-one-third">
-      <StickyBox offsetTop={20} offsetBottom={20}>
-        <aside className="sidebar">
+      <StickyBox>
+        <div className="sidebar">
           {children}
-        </aside>
+        </div>
       </StickyBox>
     </div>
   );
