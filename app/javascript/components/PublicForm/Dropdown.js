@@ -5,6 +5,7 @@ import { Context } from '../PublicForm';
 
 const Dropdown = (props) => {
   const {
+    name,
     label,
     initialValue,
     placeholder,
@@ -35,12 +36,12 @@ const Dropdown = (props) => {
         <select
           className="input"
           id={id}
-          name={`dropdown-${id}`}
           required={required}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
           disabled={state.loading}
+          data-name={name}
           data-value={value}
         >
           {placeholder && (

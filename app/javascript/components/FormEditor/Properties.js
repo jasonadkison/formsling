@@ -4,6 +4,26 @@ import CreatableSelect from 'react-select/creatable';
 
 import Property from './Property';
 
+export const Name = () => {
+  const { setProp, name } = useNode(node => node.data.props);
+
+  return (
+    <div className="panel-block">
+      <Property label="Field Name">
+        <input
+          className="input"
+          type="text"
+          defaultValue={name}
+          onChange={(e) => {
+            setProp(props => props.name = e.target.value);
+          }}
+        />
+        <p className="help">Hidden from the end user.</p>
+      </Property>
+    </div>
+  );
+};
+
 export const Label = () => {
   const { setProp, label } = useNode(node => node.data.props);
 
@@ -18,6 +38,7 @@ export const Label = () => {
             setProp(props => props.label = e.target.value);
           }}
         />
+        <p className="help">Visible to the end user.</p>
       </Property>
     </div>
   );
@@ -66,7 +87,7 @@ export const Rows = () => {
 
   return (
     <div className="panel-block">
-      <Property label="Number of Rows">
+      <Property label="Size">
         <input
           className="slider is-fullwidth"
           type="range"
@@ -78,6 +99,7 @@ export const Rows = () => {
             setProp(props => props.rows = e.target.value);
           }}
         />
+        <p className="help">The total number of rows.</p>
       </Property>
     </div>
   );

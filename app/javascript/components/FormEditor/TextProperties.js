@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  Name,
   Label,
   Placeholder,
   DefaultValue,
@@ -11,6 +12,7 @@ import {
 
 const TextareaProperties = () => (
   <>
+    <Name />
     <Label />
     <Placeholder />
     <DefaultValue />

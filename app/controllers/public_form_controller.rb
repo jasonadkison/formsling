@@ -27,7 +27,7 @@ class PublicFormController < ApplicationController
   private
 
   def result_params
-    params.require(:result).permit(:payload)
+    params.require(:result).permit(:payload, :values)
   end
 
   def allow_iframe

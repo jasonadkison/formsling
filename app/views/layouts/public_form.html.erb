@@ -11,6 +11,13 @@
     <section class="section">
       <div class="container">
         <%= yield %>
+        <p class="has-text-centered">
+          Powered by <%= link_to 'FormSling', root_url %>.
+        </p>
+        <p class="has-text-centered">
+          Create, share and embed your documents with ease at
+          <%= link_to 'www.FormSling.com', root_url %>.
+        </p>
       </div>
     </section>
     <%= javascript_pack_tag 'application' %>

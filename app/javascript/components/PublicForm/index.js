@@ -1,9 +1,6 @@
-// This component is used by end users to fill out and submit a configured form. An HTML snapshot is
-// created as the final payload which will be used later to generate the PDF copy of the form.
+// This component is used by end users to complete the shared or embedded form.
 //
-// All user components must set the final field value using a data-value attribute on the input
-// in order for the values to be correctly preserved. We'll improve data collection techniques
-// very soon with some type of matching technique.
+// On submit it builds a data mapping and snapshots the entire DOM tree and sends it to the server.
 import React, {
   useRef, useReducer, createContext, useEffect, useContext, useState } from 'react';
 import {Editor, Frame, Canvas, useEditor} from "@craftjs/core";
@@ -24,10 +21,17 @@ export const allResolvers = { Text, Dropdown, Columns, Column };
 const compress = payload => lz.encodeBase64(lz.encodeUTF8(payload));
 
 // This is the current technique of preserving values within the DOM before exporting the
-// DOM tree as the final payload. The tree is used later on the server to render in a PDF view
-// without javascript.
-const prepareResultPayload = (outerHTML) => {
+// DOM tree as the final payload. User components need to have name and value set as data
+// attributes. Non-named fields are skipped in the values object.
+const snapshotForm = (outerHTML) => {
   const node = $(outerHTML).clone();
+
+  const values = [];
+  $('[data-name]', node).each((i, input ) => {
+    const name = $(input).attr('data-name');
+    const value = $(input).attr('data-value');
+    values.push({ name, value });
+  });
 
   // set all the selected dropdown options
   $('select[data-value]', node).each((i, input) => {
@@ -48,7 +52,12 @@ const prepareResultPayload = (outerHTML) => {
   });
 
   // return the compressed DOM tree payload as base64 string
-  return compress(node.get(0).outerHTML);
+  const payload = node.get(0).outerHTML;
+
+  return {
+    payload: payload,
+    values: values,
+  };
 };
 
 export const Context = createContext();
@@ -77,15 +86,21 @@ const Form = ({ form }) => {
 
     if (loading) return;
 
-    // must take a snapshot before manipulating any state
-    const payload = prepareResultPayload(ref.current.outerHTML);
+    // must take a snapshot before manipulating any state causing a re-render
+    const { payload, values } = snapshotForm(ref.current.outerHTML);
+
+    // !TODO: make this prettier
+    if (values.filter((x) => x.value).length < 1) {
+      alert('Oops! This form was not configured properly by the owner.');
+      return;
+    }
 
     setLoading(true);
     const token = document.getElementsByName('csrf-token')[0].content;
 
     await axios.post(
       `/f/${form.id}`,
-      { result: { payload } },
+      { result: { payload: compress(payload), values: compress(JSON.stringify(values)) } },
       { headers: { 'X-CSRF-TOKEN': token }},
     )
       .then(() => setSuccess(true))

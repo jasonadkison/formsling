@@ -10,7 +10,7 @@ class Result < ApplicationRecord
       template: 'result/show',
       layout: 'pdf.html',
       assigns: {
-        payload: Base64.decode64(payload),
+        payload: decode_payload,
         result: self,
         form: form
       }
@@ -19,5 +19,17 @@ class Result < ApplicationRecord
 
   def pdf_filename
     [form.name, "FormSling.com", Time.zone.now.to_i].join(' ').parameterize
+  end
+
+  def decode_payload
+    Base64.decode64(payload)
+  end
+
+  def decode_values
+    Base64.decode64(values)
+  end
+
+  def values_object
+    JSON.parse(decode_values)
   end
 end
