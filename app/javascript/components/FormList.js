@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import TimeAgo from 'react-timeago'
 
 import NewForm from './modals/NewForm';
 import DeleteForm from './modals/DeleteForm';
 import FormButtons from './FormButtons';
+import PublishForm from './modals/PublishForm';
 
 const FormList = () => {
   const [forms, setForms] = useState([]);
@@ -55,8 +57,9 @@ const FormList = () => {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Share Link</th>
               <th>Recipient</th>
+              <th>Last Update</th>
+              <th />
               <th />
             </tr>
           </thead>
@@ -69,13 +72,18 @@ const FormList = () => {
                   </Link>
                 </td>
                 <td>
-                  {form.public_url}
-                </td>
-                <td>
                   {form.email_recipient}
                 </td>
+                <td>
+                  <TimeAgo date={form.updated_at}>
+                    {form.updated_at}
+                  </TimeAgo>
+                </td>
                 <td className="has-text-right">
-                  <a
+                  <PublishForm form={form} />&nbsp;
+                </td>
+                <td className="has-text-right">
+                  <button
                     className="button is-danger is-inverted is-inline"
                     onClick={() => setDeletingForm(form)}
                     title="Delete"
@@ -83,7 +91,7 @@ const FormList = () => {
                     <span className="icon is-small">
                       <i className="fas fa-trash" />
                     </span>
-                  </a>
+                  </button>
                 </td>
               </tr>
             ))}

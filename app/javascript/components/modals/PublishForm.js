@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Modal } from './Modal';
 
-const PublishForm = ({ form, onClose }) => {
+const PublishForm = ({ form }) => {
   const [isOpen, setIsOpen] = useState(false);
   const onClickClose = (e) => {
     e.preventDefault();
@@ -11,7 +11,7 @@ const PublishForm = ({ form, onClose }) => {
   if (!isOpen) {
     return (
       <button
-        className="button"
+        className="button is-inline"
         onClick={() => setIsOpen(true)}
       >
         Share / Embed
