@@ -9,8 +9,14 @@ import axios from 'axios';
 import $ from 'jquery'; // used to transform the final snapshot values
 import lz from 'lzutf8';
 
-import { decompress } from './utils';
-import { allResolvers } from './FormEditor';
+import { decompress } from '../utils';
+
+import Text from './Text';
+import Dropdown from './Dropdown';
+import Columns, { Column } from './Columns';
+
+// List all resolvers that will be used by the Editor component here
+export const allResolvers = { Text, Dropdown, Columns, Column };
 
 const compress = payload => lz.encodeBase64(lz.encodeUTF8(payload));
 

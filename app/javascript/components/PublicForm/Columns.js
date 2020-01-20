@@ -1,27 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Canvas } from '@craftjs/core';
+import { useNode, Canvas } from '@craftjs/core';
 
-const Columns = ({ totalColumns }) => {
-  let columns = [];
-
-  for (let i = 0; i < totalColumns; i++) {
-    columns.push(<Canvas key={i} id={`column-${i}`} className="column" />);
-  }
-
+export const Column = ({ children }) => {
+  const { connectors: { connect } } = useNode();
   return (
-    <div className="columns">
-      {columns}
-    </div>
+    <div ref={connect} className="column is-crafted">{children}</div>
   );
 };
 
-Columns.propTypes = {
-  totalColumns: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-};
-
-Columns.defaultProps = {
-  totalColumns: 2,
+const Columns = ({ children }) => {
+  return (
+    <div className="columns">
+      <Canvas is={Column} id="left" />
+      <Canvas is={Column} id="right" />
+    </div>
+  );
 };
 
 export default Columns;

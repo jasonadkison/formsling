@@ -17,6 +17,7 @@ import Text from './Text';
 import Dropdown from './Dropdown';
 import Columns, { Column } from './Columns';
 
+// List all resolvers that will be used by the Editor component here
 export const allResolvers = { Text, Dropdown, Columns, Column };
 
 // Bomb if the server returns and unexpected status
