@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
 import { Context } from '../PublicForm';
 
-const Text = ({ label, rows, initialValue, placeholder, readOnly, required }) => {
+const Text = ({ label, rows, initialValue, placeholder, readOnly, required, helpText }) => {
   const [value, setValue] = useState(initialValue);
   const { id } = useNode();
   const { state } = useContext(Context);
@@ -17,6 +17,7 @@ const Text = ({ label, rows, initialValue, placeholder, readOnly, required }) =>
     onChange: e => setValue(e.target.value),
     'data-value': value,
     name: `text-${id}`,
+    helpText,
   };
 
   const singleLine = (rows === '1' || rows === 1);
@@ -36,6 +37,9 @@ const Text = ({ label, rows, initialValue, placeholder, readOnly, required }) =>
           <textarea {...inputProps} className="textarea" rows={rows} />
         )}
       </div>
+      {helpText && (
+        <p className="help">{helpText}</p>
+      )}
     </div>
   );
 };

@@ -14,7 +14,7 @@ const Property = ({ label, children }) => (
 
 Property.propTypes = {
   label: PropTypes.string,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.any.isRequired,
 };
 
 Property.defaultProps = {

@@ -10,7 +10,6 @@ import Breadcrumb from '../Breadcrumb';
 import Header from './Header';
 import Toolbar from './Toolbar';
 import Sidebar from './Sidebar';
-import Properties from './Properties';
 import Breadcrumbs from './Breadcrumbs';
 
 import Text from './Text';
@@ -113,9 +112,7 @@ const FormEditor = ({ enabled }) => {
               </Canvas>
             </Frame>
           </div>
-          <Sidebar>
-            <Properties />
-          </Sidebar>
+          <Sidebar />
         </div>
       </Editor>
     </div>
