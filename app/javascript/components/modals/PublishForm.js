@@ -4,25 +4,17 @@ import { Modal } from './Modal';
 
 const PublishForm = ({ form }) => {
   const [isOpen, setIsOpen] = useState(false);
+
   const onClickClose = (e) => {
     e.preventDefault();
     setIsOpen(false);
-  }
-  if (!isOpen) {
-    return (
-      <button
-        className="button is-inline"
-        onClick={() => setIsOpen(true)}
-      >
-        Share / Embed
-      </button>
-    )
-  }
+  };
 
   const embedCode = `<script type="text/javascript" src="${form.embed_url}"></script>
 <a class="formsling-form-widget" href="${form.public_url}">Here is the link</a>`;
 
-  return (
+
+  const modal = isOpen ? (
     <Modal>
       <button className="delete is-pulled-right" onClick={onClickClose}>
         Close
@@ -82,6 +74,18 @@ const PublishForm = ({ form }) => {
         </div>
       </div>
     </Modal>
+  ) : null;
+
+  return (
+    <>
+      <a
+        className="button is-inline"
+        onClick={() => setIsOpen(true)}
+      >
+        Share / Embed
+      </a>
+      {modal}
+    </>
   );
 };
 
