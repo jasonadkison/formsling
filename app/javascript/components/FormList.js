@@ -58,8 +58,7 @@ const FormList = () => {
             <tr>
               <th>Name</th>
               <th>Recipient</th>
-              <th>Last Update</th>
-              <th />
+              <th>Last Updated</th>
               <th />
             </tr>
           </thead>
@@ -80,18 +79,25 @@ const FormList = () => {
                   </TimeAgo>
                 </td>
                 <td className="has-text-right">
-                  <PublishForm form={form} />&nbsp;
-                </td>
-                <td className="has-text-right">
-                  <button
-                    className="button is-danger is-inverted is-inline"
-                    onClick={() => setDeletingForm(form)}
-                    title="Delete"
-                  >
-                    <span className="icon is-small">
-                      <i className="fas fa-trash" />
-                    </span>
-                  </button>
+                  <div className="buttons">
+                    <Link
+                      to={`/forms/${form.id}/results`}
+                      title="Results"
+                      className="button is-inline is-outlined is-link"
+                    >
+                      View Results
+                    </Link>
+                    <PublishForm form={form} />
+                    <a
+                      className="button is-danger is-inverted is-inline"
+                      onClick={() => setDeletingForm(form)}
+                      title="Delete"
+                    >
+                      <span className="icon is-small">
+                        <i className="fas fa-trash" />
+                      </span>
+                    </a>
+                  </div>
                 </td>
               </tr>
             ))}

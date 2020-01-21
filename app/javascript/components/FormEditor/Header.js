@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useEditor } from '@craftjs/core';
 import axios from 'axios';
 import TimeAgo from 'react-timeago'
+import { Link } from 'react-router-dom';
 
 import PublishForm from '../modals/PublishForm';
 
@@ -42,6 +43,15 @@ const Header = ({ form, handleSave, isSaving }) => {
       </div>
       <div className="level">
         <div className="level-left">
+          <div className="level-item">
+            <Link
+              to={`/forms/${form.id}/results`}
+              title="Results"
+              className="button is-inline is-outlined is-link"
+            >
+              View Results
+            </Link>
+          </div>
           <div className="level-item">
             <PublishForm form={form} />
           </div>

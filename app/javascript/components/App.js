@@ -15,6 +15,7 @@ import { ModalProvider } from "./modals/Modal";
 //import Account from './Account';
 import FormList from './FormList';
 import FormEditor from './FormEditor';
+import ResultList from './ResultList';
 
 const App = () => {
   return (
@@ -25,9 +26,8 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={FormList} />
             <Route exact path="/forms" component={FormList} />
-            <Route path="/forms/:id">
-              <FormEditor />
-            </Route>
+            <Route exact path="/forms/:id" component={FormEditor} />
+            <Route exact path="/forms/:id/results" component={ResultList} />
           </Switch>
         </BreadcrumbProvider>
       </Router>
