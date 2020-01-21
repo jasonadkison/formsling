@@ -1,4 +1,8 @@
 Rails.application.configure do
+  # whitelist hostnames to prevent 'Blocked host' error from DNS rebinding protection
+  config.hosts << 'formsling.com'
+  config.hosts << 'www.formsling.com'
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
