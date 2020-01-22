@@ -15,5 +15,10 @@ module FormSling
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    # Whitelist hostnames to prevent 'Blocked host' error from DNS rebinding protection.
+    config.hosts << 'formsling.com'
+    config.hosts << 'www.formsling.com'
+    config.hosts << 'staging.formsling.com'
   end
 end
