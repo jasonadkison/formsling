@@ -1,13 +1,124 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
-version: 2.1
-# Use a package of configuration called an orb.
-orbs:
-  # Declare a dependency on the welcome-orb
-  welcome: circleci/welcome-orb@0.4.1
-# Orchestrate or schedule a set of jobs
+version: 2
+
+dockerauth: &dockerauth
+  username: $DOCKERHUB_USERNAME
+  password: $DOCKERHUB_PASSWORD
+
+jobs:
+  build:
+    machine:
+      image: ubuntu-1604:201903-01
+    environment:
+      DOCKERHUB_REPO: &dockerhub_repo jadkison/formsling-ci
+    steps:
+      - checkout
+      - run:
+          name: Login to Docker Hub
+          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - run:
+          name: Pull base image from Docker Hub
+          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" || true
+      - run:
+          name: Prepare volume for storing build artifacts
+          command: |
+            docker pull busybox
+            docker volume create artifacts
+      - run:
+          name: Precompile assets into volume
+          command: |
+            docker run --rm \
+            -v artifacts:/app \
+            --env RAILS_MASTER_KEY=$RAILS_MASTER_KEY \
+            --env RAILS_ENV=production \
+            --env NODE_ENV=production \
+            "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" bundle exec rake assets:precompile \
+            /
+      - run:
+          name: Copy artifacts from volume to project
+          command: |
+            CID=$(docker run -d -v artifacts:/app busybox true)
+            docker cp $CID:/app/public /home/circleci/project/
+      - run:
+          name: Create the build image
+          command: |
+            docker build --cache-from "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" --tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" .
+      - run:
+          name: Push the build image to Docker Hub
+          command: docker push "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
+  test:
+    docker:
+      - image: docker:stable-git
+        auth:
+          <<: *dockerauth
+    environment:
+      DOCKERHUB_REPO: *dockerhub_repo
+    steps:
+      - setup_remote_docker
+      - run:
+          name: Login to Docker Hub
+          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - run:
+          name: Pull build image from Docker Hub
+          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" || true
+      - run:
+          name: Run some tests
+          command: echo "Nothing to do yet..."
+  deploy-staging:
+    docker:
+      - image: docker:stable-git
+        auth:
+          <<: *dockerauth
+    environment:
+      DOCKERHUB_REPO: *dockerhub_repo
+    steps:
+      - setup_remote_docker
+      - add_ssh_keys:
+          fingerprints:
+            - "14:0d:31:61:06:2f:7d:6a:f1:cc:bd:58:86:f8:c0:fe"
+      - run:
+          name: Disable StrictHostKeyChecking
+          command: |
+            tee -a ~/.ssh/config > /dev/null <<EOT
+            Host formsling.com staging.formsling.com
+              StrictHostKeyChecking=no
+              UserKnownHostsFile=/dev/null
+            EOT
+      - run:
+          name: Login to Docker Hub
+          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - run:
+          name: Pull build image from Docker Hub
+          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" || true
+      - run:
+          name: Create dokku tag from build image
+          command: docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "dokku/formsling-staging:latest"
+      - run:
+          name: Deploy build image to dokku
+          command: |
+            echo "Sending image dokku/formsling-staging:latest to dokku server"
+            docker save "dokku/formsling-staging:latest" | bzip2 | ssh formsling.com "bunzip2 | docker load"
+
+            echo "Deploying dokku tag dokku/formsling-staging:latest"
+            ssh formsling.com "dokku tags:create formsling-staging previous; dokku tags:deploy formsling-staging latest"
+          no_output_timeout: 10m
+      - run:
+          name: Cache the build image as the new base image with Docker Hub
+          command: |
+            docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}"
+            docker push "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}"
+
 workflows:
-  # Name the workflow "welcome"
-  welcome:
-    # Run the welcome/run job in its own container
+  version: 2
+  build-test-deploy:
     jobs:
-      - welcome/run
+      - build
+      - test:
+          requires:
+            - build
+      - deploy-staging:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only: develop

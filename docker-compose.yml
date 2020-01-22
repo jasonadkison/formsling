@@ -22,6 +22,8 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres@db
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+      - RAILS_ENV=development
+      - NODE_ENV=development
     depends_on:
       - db
 
