@@ -19,6 +19,9 @@ jobs:
           name: Pull base image from Docker Hub
           command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" || true
       - run:
+          name: Rebuild the build image with the checked out source code
+          command: docker build --cache-from "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" --tag "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" .
+      - run:
           name: Prepare volume for storing build artifacts
           command: |
             docker pull busybox
