@@ -1,7 +1,8 @@
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
-/public/packs/*
+# we want to keep /public/packs/* since we are building the deployment image in CI
+# /public/packs/*
 !/log/.keep
 !/tmp/.keep
 .DS_Store
