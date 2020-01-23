@@ -11,44 +11,40 @@ const Tools = () => {
   }));
 
   return (
-    <nav className="navbar is-light" role="navigation" aria-label="main navigation">
-      <div className="navbar-menu is-active">
-        <div className="navbar-start">
-          <a
-            className="navbar-item"
-            ref={ref => connectors.create(ref, <Text />)}
-            title="Text"
-            data-tooltip="Text"
-            disabled={!enabled}
-          >
-            <span className="icon">
-              <i className="fas fa-font" aria-hidden="true" />
-            </span>
-          </a>
-          <a
-            className="navbar-item"
-            ref={ref => connectors.create(ref, <Dropdown />)}
-            title="Dropdown"
-            data-tooltip="Dropdown"
-            disabled={!enabled}
-          >
-            <span className="icon">
-              <i className="fas fa-list-alt" aria-hidden="true" />
-            </span>
-          </a>
-          <a
-            className="navbar-item"
-            ref={ref => connectors.create(ref, <Columns />)}
-            title="Columns"
-            data-tooltip="Columns"
-            disabled={!enabled}
-          >
-            <span className="icon">
-              <i className="fas fa-columns" aria-hidden="true" />
-            </span>
-          </a>
-        </div>
-      </div>
+    <nav className="buttons are-medium">
+      <a
+        className="button"
+        ref={ref => connectors.create(ref, <Text />)}
+        title="Text"
+        data-tooltip="Text"
+        disabled={!enabled}
+      >
+        <span className="icon">
+          <i className="fas fa-font" aria-hidden="true" />
+        </span>
+      </a>
+      <a
+        className="button"
+        ref={ref => connectors.create(ref, <Dropdown />)}
+        title="Dropdown"
+        data-tooltip="Dropdown"
+        disabled={!enabled}
+      >
+        <span className="icon">
+          <i className="fas fa-list-alt" aria-hidden="true" />
+        </span>
+      </a>
+      <a
+        className="button"
+        ref={ref => connectors.create(ref, <Columns />)}
+        title="Columns"
+        data-tooltip="Columns"
+        disabled={!enabled}
+      >
+        <span className="icon">
+          <i className="fas fa-columns" aria-hidden="true" />
+        </span>
+      </a>
     </nav>
   );
 };

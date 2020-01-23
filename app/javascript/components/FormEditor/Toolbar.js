@@ -12,6 +12,9 @@ const Toolbar = ({ form }) => {
 
   return (
     <div className="toolbar">
+      <p className="menu-label">
+        Drag and Drop Elements
+      </p>
       <Tools form={form} />
     </div>
   );
