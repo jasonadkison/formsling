@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Select from 'react-select';
 
 import DragBox from './DragBox';
-import DropdownProperties from './DropdownProperties';
+import DropdownProperties from './properties/Dropdown';
 
 const Dropdown = (props) => {
   const {

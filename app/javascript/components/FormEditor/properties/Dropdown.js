@@ -10,7 +10,7 @@ import {
   Rows,
   HelpText,
   InputAttributes,
-} from './Properties';
+} from './all';
 
 const DropdownProperties = () => (
   <>

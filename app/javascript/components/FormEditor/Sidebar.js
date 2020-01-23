@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEditor } from '@craftjs/core';
 import StickyBox from "react-sticky-box";
-import Property from './Property';
+import Panel from './properties/Panel';
 
 const Sidebar = () => {
   const { enabled } = useEditor((state) => ({
@@ -68,18 +68,16 @@ const Properties = () => {
         </div>
         {selected.properties && React.createElement(selected.properties)}
         {selected.isDeletable ? (
-          <div className="panel-block">
-            <Property label="Danger Zone">
-              <div className="content">
-                <button
-                  className="button is-danger is-small"
-                  onClick={() => actions.delete(selected.id)}
-                >
-                  Delete Element
-                </button>
-              </div>
-            </Property>
-          </div>
+          <Panel label="Danger Zone">
+            <div className="content">
+              <button
+                className="button is-danger is-small"
+                onClick={() => actions.delete(selected.id)}
+              >
+                Delete Element
+              </button>
+            </div>
+          </Panel>
         ) : null}
       </nav>
     </div>

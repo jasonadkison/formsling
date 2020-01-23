@@ -9,9 +9,9 @@ import {
   Rows,
   HelpText,
   InputAttributes,
-} from './Properties';
+} from './all';
 
-const TextareaProperties = () => (
+const TextProperties = () => (
   <>
     <Name />
     <TextType />
@@ -23,4 +23,4 @@ const TextareaProperties = () => (
   </>
 );
 
-export default TextareaProperties;
+export default TextProperties;

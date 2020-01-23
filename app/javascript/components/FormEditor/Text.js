@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import DragBox from './DragBox';
-import TextProperties from './TextProperties';
+import TextProperties from './properties/Text';
 
 const Text = (props) => {
   const {
