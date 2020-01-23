@@ -118,31 +118,29 @@ export const InputAttributes = () => {
 
   return (
     <Panel>
-      <>
-        <div className="field">
-          <input
-            className="is-checkradio is-small"
-            id="is-required"
-            type="checkbox"
-            defaultChecked={required}
-            onChange={(e) => {
-              setProp(props => props.required = e.target.checked)
-            }}
-          />
-          <label htmlFor="is-required">Required</label>
+      <div className="field is-marginless">
+        <input
+          className="is-checkradio is-small"
+          id="is-required"
+          type="checkbox"
+          defaultChecked={required}
+          onChange={(e) => {
+            setProp(props => props.required = e.target.checked)
+          }}
+        />
+        <label htmlFor="is-required">Required</label>
 
-          <input
-            className="is-checkradio is-small"
-            id="is-readonly"
-            type="checkbox"
-            defaultChecked={readOnly}
-            onChange={(e) => {
-              setProp(props => props.readOnly = e.target.checked)
-            }}
-          />
-          <label htmlFor="is-readonly">Read-Only</label>
-        </div>
-      </>
+        <input
+          className="is-checkradio is-small"
+          id="is-readonly"
+          type="checkbox"
+          defaultChecked={readOnly}
+          onChange={(e) => {
+            setProp(props => props.readOnly = e.target.checked)
+          }}
+        />
+        <label htmlFor="is-readonly">Read-Only</label>
+      </div>
     </Panel>
   );
 };
