@@ -61,6 +61,7 @@ const Text = (props) => {
 
 Text.propTypes = {
   name: PropTypes.string,
+  type: PropTypes.string,
   initialValue: PropTypes.string,
   placeholder: PropTypes.string,
   helpText: PropTypes.string,
@@ -71,6 +72,7 @@ Text.propTypes = {
 
 Text.defaultProps = {
   name: 'Field Name',
+  type: '',
   initialValue: '',
   placeholder: '',
   helpText: '',
