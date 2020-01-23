@@ -6,7 +6,6 @@ import { Context } from '../PublicForm';
 const Dropdown = (props) => {
   const {
     name,
-    label,
     initialValue,
     placeholder,
     helpText,
@@ -23,18 +22,17 @@ const Dropdown = (props) => {
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
-        {label}&nbsp;
+        {name}&nbsp;
         {required && (
           <span className="help is-danger is-inline">* required</span>
         )}
       </label>
-      <div className="select">
+      <div className="select is-fullwidth">
         {/* Use a normal <select /> element because react-select's Select is unable to use
           * the "required" attribute in a practical manner.
           * See: https://github.com/JedWatson/react-select/issues/3140#issuecomment-514754657
         */}
         <select
-          className="input"
           id={id}
           required={required}
           placeholder={placeholder}
