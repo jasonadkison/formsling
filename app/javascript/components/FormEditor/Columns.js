@@ -15,7 +15,7 @@ export const Column = ({ children }) => {
 
 const Columns = ({ children }) => {
   return (
-    <DragBox label="Columns">
+    <DragBox>
       <div className="columns">
         <Canvas is={Column} id="left" />
         <Canvas is={Column} id="right" />

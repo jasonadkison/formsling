@@ -19,7 +19,7 @@ const Text = (props) => {
   const useTextarea = (!type || type === 'text') && hasRows;
 
   return (
-    <DragBox label="Text">
+    <DragBox>
       <div className="field">
         <label className="label">
           {name}

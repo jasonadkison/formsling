@@ -27,7 +27,7 @@ const Dropdown = (props) => {
   }, [initialValue]);
 
   return (
-    <DragBox label="Dropdown">
+    <DragBox>
       <div className="field">
         <label className="label">
           {name}
