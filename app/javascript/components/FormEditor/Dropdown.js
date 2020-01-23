@@ -7,7 +7,7 @@ import DropdownProperties from './DropdownProperties';
 
 const Dropdown = (props) => {
   const {
-    label,
+    name,
     initialValue,
     placeholder,
     helpText,
@@ -30,7 +30,7 @@ const Dropdown = (props) => {
     <DragBox label="Dropdown">
       <div className="field">
         <label className="label">
-          {label}
+          {name}
           {required && (
             <>
               &nbsp;

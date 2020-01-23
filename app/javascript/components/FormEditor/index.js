@@ -107,8 +107,8 @@ const FormEditor = ({ enabled }) => {
           <div className="column">
             <Frame json={form.payload ? decompress(form.payload) : undefined}>
               <Canvas id="root-canvas">
-                <Text label="First Name" />
-                <Text label="Last Name" />
+                <Text name="First Name" />
+                <Text name="Last Name" />
               </Canvas>
             </Frame>
           </div>

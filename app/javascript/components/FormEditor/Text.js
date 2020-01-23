@@ -5,7 +5,7 @@ import TextProperties from './TextProperties';
 
 const Text = (props) => {
   const {
-    label,
+    name,
     initialValue,
     placeholder,
     helpText,
@@ -18,7 +18,7 @@ const Text = (props) => {
     <DragBox label="Text">
       <div className="field">
         <label className="label">
-          {label}
+          {name}
           {required && (
             <>
               &nbsp;
