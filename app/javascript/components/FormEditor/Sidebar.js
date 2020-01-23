@@ -29,7 +29,7 @@ const Properties = () => {
     if (currentNodeId) {
       selected = {
         id: currentNodeId,
-        name: state.nodes[currentNodeId].data.name,
+        name: state.nodes[currentNodeId].data.displayName,
         properties: state.nodes[currentNodeId].related && state.nodes[currentNodeId].related.properties,
         isDeletable: query.node(currentNodeId).isDeletable(),
       };
