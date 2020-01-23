@@ -8,3 +8,11 @@
     font-weight: 700;
   }
 }
+
+.select:not(.is-multiple):not(.is-loading)::after {
+  border-color: $dark;
+}
+
+.select:not(.is-multiple):not(.is-loading):hover::after {
+  border-color: $primary;
+}
