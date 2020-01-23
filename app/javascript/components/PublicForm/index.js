@@ -135,7 +135,7 @@ const Form = ({ form }) => {
           <Frame json={decompress(form.payload)}>
             <Canvas />
           </Frame>
-          <div className="field is-grouped is-grouped-right" style={{ margin: '3rem auto'}}>
+          <div className="field is-grouped is-grouped-right has-margin-top-40 has-margin-bottom-10">
             <div className="control">
               <button
                 type="submit"
