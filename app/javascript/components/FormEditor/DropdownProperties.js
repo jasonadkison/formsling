@@ -15,8 +15,8 @@ import {
 const DropdownProperties = () => (
   <>
     <Name />
-    <Placeholder />
     <DropdownAttributes />
+    <Placeholder />
     <DefaultValue />
     <HelpText />
     <InputAttributes />
