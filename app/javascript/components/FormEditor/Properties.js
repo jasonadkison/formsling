@@ -24,6 +24,28 @@ export const Name = ({children}) => {
   );
 };
 
+export const TextType = () => {
+  const { setProp, type } = useNode(node => node.data.props);
+
+  return (
+    <div className="panel-block">
+      <Property label="Type">
+        <div className="select is-small is-fullwidth">
+          <select
+            onChange={(e) => setProp(props => props.type = e.target.value)}
+            defaultValue={type}
+          >
+            <option value="text">Text</option>
+            <option value="numeric">Numeric</option>
+            <option value="email">Email</option>
+            <option value="url">URL</option>
+          </select>
+        </div>
+      </Property>
+    </div>
+  );
+};
+
 export const Placeholder = () => {
   const { setProp, placeholder } = useNode(node => node.data.props);
 
@@ -152,7 +174,7 @@ export const DropdownAttributes = () => {
     <div className="panel-block">
       <Property label="Dropdown Options">
         <CreatableSelect
-          placeholder="Enter new option..."
+          placeholder="Enter options..."
           isClearable
           isMulti
           options={choices}
@@ -162,8 +184,9 @@ export const DropdownAttributes = () => {
           components={{
             ClearIndicator: () => null,
             DropdownIndicator: () => null,
-            Menu: () => null,
+            //Menu: () => null,
             IndicatorSeparator: () => null,
+            Placeholder: () => <span className="is-size-7">Type options and press enter</span>,
           }}
           styles={{
             multiValue: (provided, state) => ({
@@ -181,7 +204,6 @@ export const DropdownAttributes = () => {
             }),
           }}
         />
-        <p className="help">Add new options by typing them in and pressing the enter key.</p>
       </Property>
     </div>
   );
