@@ -17,7 +17,6 @@ const Tools = () => {
         ref={ref => connectors.create(ref, <Text />)}
         title="Text"
         data-tooltip="Text"
-        disabled={!enabled}
       >
         <span className="icon">
           <i className="fas fa-keyboard" aria-hidden="true" />
@@ -28,7 +27,6 @@ const Tools = () => {
         ref={ref => connectors.create(ref, <Dropdown />)}
         title="Dropdown"
         data-tooltip="Dropdown"
-        disabled={!enabled}
       >
         <span className="icon">
           <i className="fas fa-list-alt" aria-hidden="true" />
@@ -39,7 +37,6 @@ const Tools = () => {
         ref={ref => connectors.create(ref, <Columns />)}
         title="Columns"
         data-tooltip="Columns"
-        disabled={!enabled}
       >
         <span className="icon">
           <i className="fas fa-columns" aria-hidden="true" />
