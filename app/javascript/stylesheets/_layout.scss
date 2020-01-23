@@ -1,9 +1,21 @@
-
-//.main-menu,
 .breadcrumb {
   margin: 1rem 0;
 }
 
 .navbar.main-menu {
   z-index: 29;
+}
+
+body > .app-container {
+  min-height: 100vh;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 168px;
+  footer.footer {
+    height: 168px;
+    position: absolute;
+    bottom: 0;
+    width: 100%
+  }
 }
