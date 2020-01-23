@@ -58,8 +58,8 @@ const FormList = () => {
             <tr>
               <th>Name</th>
               <th>Recipient</th>
-              <th>Last Updated</th>
-              <th />
+              <th style={{ minWidth: '180px' }}>Last Updated</th>
+              <th style={{ minWidth: '400px' }} />
             </tr>
           </thead>
           <tbody>

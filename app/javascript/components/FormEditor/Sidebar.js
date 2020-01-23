@@ -39,7 +39,7 @@ const Properties = () => {
   });
 
   if (!selected.properties) return (
-    <div className="media">
+    <div className="media is-hidden-mobile">
       <div className="media-left">
         <span className="icon">
           <i className="fas fa-mouse-pointer" />
