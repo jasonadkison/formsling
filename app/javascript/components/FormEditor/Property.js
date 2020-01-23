@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 const Property = ({ label, children }) => (
   <div className="control">
-    <label className="label">
+    <label className="label is-small">
       {label}
     </label>
-    <div className="control">
+    <div className="control is-small">
       {children}
     </div>
   </div>

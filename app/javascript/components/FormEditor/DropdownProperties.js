@@ -15,7 +15,6 @@ import {
 const DropdownProperties = () => (
   <>
     <Name />
-    <Label />
     <Placeholder />
     <DropdownAttributes />
     <DefaultValue />

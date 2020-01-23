@@ -11,7 +11,7 @@ const Sidebar = () => {
   if (!enabled) return null;
 
   return (
-    <div className="column is-one-third">
+    <div className="column is-one-quarter">
       <StickyBox>
         <div className="sidebar">
           <Properties />
@@ -54,7 +54,7 @@ const Properties = () => {
   return (
     <div className="properties">
       <nav className="panel is-primary">
-        <div className="panel-heading">
+        <div className="panel-heading is-size-6">
           <div className="level">
             <div className="level-left">
               Properties

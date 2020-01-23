@@ -4,41 +4,21 @@ import CreatableSelect from 'react-select/creatable';
 
 import Property from './Property';
 
-export const Name = () => {
+export const Name = ({children}) => {
   const { setProp, name } = useNode(node => node.data.props);
 
   return (
     <div className="panel-block">
       <Property label="Field Name">
         <input
-          className="input"
+          className="input is-small"
           type="text"
           defaultValue={name}
           onChange={(e) => {
             setProp(props => props.name = e.target.value);
           }}
         />
-        <p className="help">Hidden from the end user.</p>
-      </Property>
-    </div>
-  );
-};
-
-export const Label = () => {
-  const { setProp, label } = useNode(node => node.data.props);
-
-  return (
-    <div className="panel-block">
-      <Property label="Label Text">
-        <input
-          className="input"
-          type="text"
-          defaultValue={label}
-          onChange={(e) => {
-            setProp(props => props.label = e.target.value);
-          }}
-        />
-        <p className="help">Visible to the end user.</p>
+        {children}
       </Property>
     </div>
   );
@@ -51,7 +31,7 @@ export const Placeholder = () => {
     <div className="panel-block">
       <Property label="Placeholder Text">
         <input
-          className="input"
+          className="input is-small"
           type="text"
           defaultValue={placeholder}
           onChange={(e) => {
@@ -70,7 +50,7 @@ export const DefaultValue = () => {
     <div className="panel-block">
       <Property label="Initial Value">
         <input
-          className="input"
+          className="input is-small"
           type="text"
           defaultValue={initialValue}
           onChange={(e) => {
@@ -99,7 +79,6 @@ export const Rows = () => {
             setProp(props => props.rows = e.target.value);
           }}
         />
-        <p className="help">The total number of rows.</p>
       </Property>
     </div>
   );
@@ -112,7 +91,7 @@ export const HelpText = () => {
     <div className="panel-block">
       <Property label="Help Text">
         <input
-          className="input"
+          className="input is-small"
           type="text"
           defaultValue={helpText}
           onChange={(e) => {
@@ -129,11 +108,11 @@ export const InputAttributes = () => {
 
   return (
     <div className="panel-block">
-      <Property label="Input Attributes">
+      <Property>
         <>
           <div className="field">
             <input
-              className="is-checkradio"
+              className="is-checkradio is-small"
               id="is-required"
               type="checkbox"
               defaultChecked={required}
@@ -141,11 +120,10 @@ export const InputAttributes = () => {
                 setProp(props => props.required = e.target.checked)
               }}
             />
-            <label htmlFor="is-required">Required Field</label>
-          </div>
-          <div className="field">
+            <label htmlFor="is-required">Required</label>
+
             <input
-              className="is-checkradio"
+              className="is-checkradio is-small"
               id="is-readonly"
               type="checkbox"
               defaultChecked={readOnly}
@@ -153,7 +131,7 @@ export const InputAttributes = () => {
                 setProp(props => props.readOnly = e.target.checked)
               }}
             />
-            <label htmlFor="is-readonly">Read-Only Field</label>
+            <label htmlFor="is-readonly">Read-Only</label>
           </div>
         </>
       </Property>

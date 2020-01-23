@@ -13,12 +13,11 @@ import {
 const TextareaProperties = () => (
   <>
     <Name />
-    <Label />
-    <Placeholder />
-    <DefaultValue />
-    <Rows />
-    <HelpText />
     <InputAttributes />
+    <Rows />
+    <Placeholder />
+    <HelpText />
+    <DefaultValue />
   </>
 );
 
