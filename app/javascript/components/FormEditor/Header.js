@@ -44,16 +44,16 @@ const Header = ({ form, handleSave, isSaving }) => {
       <div className="level">
         <div className="level-left">
           <div className="level-item">
-            <Link
-              to={`/forms/${form.id}/results`}
-              title="Results"
-              className="button is-inline is-outlined is-link"
-            >
-              View Results
-            </Link>
-          </div>
-          <div className="level-item">
-            <PublishForm form={form} />
+            <div className="buttons">
+              <Link
+                to={`/forms/${form.id}/results`}
+                title="Results"
+                className="button is-inline is-outlined is-link"
+              >
+                View Results
+              </Link>
+              <PublishForm form={form} />
+            </div>
           </div>
         </div>
         <div className="level-right">
