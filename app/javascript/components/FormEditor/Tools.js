@@ -20,7 +20,7 @@ const Tools = () => {
         disabled={!enabled}
       >
         <span className="icon">
-          <i className="fas fa-font" aria-hidden="true" />
+          <i className="fas fa-keyboard" aria-hidden="true" />
         </span>
       </a>
       <a
