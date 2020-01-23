@@ -55,7 +55,7 @@ const Dropdown = (props) => {
 };
 
 Dropdown.propTypes = {
-  label: PropTypes.string,
+  name: PropTypes.string,
   initialValue: PropTypes.string,
   placeholder: PropTypes.string,
   helpText: PropTypes.string,
@@ -66,7 +66,7 @@ Dropdown.propTypes = {
 };
 
 Dropdown.defaultProps = {
-  label: 'Field Label',
+  name: 'Field Label',
   initialValue: '',
   placeholder: '',
   helpText: '',
