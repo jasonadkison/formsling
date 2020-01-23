@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
 import { Context } from '../PublicForm';
 
-const Text = ({ name, label, rows, initialValue, placeholder, readOnly, required, helpText }) => {
+const Text = ({ name, type, rows, initialValue, placeholder, readOnly, required, helpText }) => {
   const [value, setValue] = useState(initialValue);
   const { id } = useNode();
   const { state } = useContext(Context);
 
-  const inputProps = {
+  const commonProps = {
     name,
     id,
     placeholder,
@@ -20,21 +20,24 @@ const Text = ({ name, label, rows, initialValue, placeholder, readOnly, required
     'data-value': value,
   };
 
-  const singleLine = (rows === '1' || rows === 1);
+  if (type === 'number') commonProps.step = '0.01'
+
+  const hasRows = (rows && (['1', 1].indexOf(rows) === -1));
+  const useTextarea = (!type || type === 'text') && hasRows;
 
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
-        {label}&nbsp;
+        {name}&nbsp;
         {required && (
           <span className="help is-danger is-inline">* required</span>
         )}
       </label>
       <div className="control">
-        {singleLine ? (
-          <input {...inputProps} className="input" type="text" />
+        {useTextarea ? (
+          <textarea {...commonProps} className="textarea" rows={rows} />
         ) : (
-          <textarea {...inputProps} className="textarea" rows={rows} />
+          <input {...commonProps} className="input" type={type} />
         )}
       </div>
       {helpText && (
@@ -42,6 +45,26 @@ const Text = ({ name, label, rows, initialValue, placeholder, readOnly, required
       )}
     </div>
   );
+};
+
+Text.propTypes = {
+  name: PropTypes.string,
+  type: PropTypes.string,
+  initialValue: PropTypes.string,
+  placeholder: PropTypes.string,
+  helpText: PropTypes.string,
+  readOnly: PropTypes.bool,
+  required: PropTypes.bool,
+};
+
+Text.defaultProps = {
+  name: 'Field Name',
+  type: '',
+  initialValue: '',
+  placeholder: '',
+  helpText: '',
+  readOnly: false,
+  required: true,
 };
 
 export default Text;
