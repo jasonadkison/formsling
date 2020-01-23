@@ -6,7 +6,7 @@ const Property = ({ label, children }) => (
     <label className="label is-small">
       {label}
     </label>
-    <div className="control is-small">
+    <div className="control">
       {children}
     </div>
   </div>
