@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNode } from '@craftjs/core';
 
 import {
   Name,
@@ -11,16 +12,22 @@ import {
   InputAttributes,
 } from './all';
 
-const TextProperties = () => (
-  <>
-    <Name />
-    <TextType />
-    <InputAttributes />
-    <Rows />
-    <Placeholder />
-    <HelpText />
-    <DefaultValue />
-  </>
-);
+const TextProperties = () => {
+  const { type } = useNode(node => node.data.props);
+
+  return (
+    <>
+      <Name />
+      <InputAttributes />
+      <TextType />
+      {!type || type === 'text' && (
+        <Rows />
+      )}
+      <Placeholder />
+      <HelpText />
+      <DefaultValue />
+    </>
+  );
+};
 
 export default TextProperties;
