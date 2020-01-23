@@ -20,7 +20,7 @@ jobs:
           command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" || true
       - run:
           name: Rebuild the build image with the checked out source code
-          command: docker build --cache-from "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" --tag "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" .
+          command: docker build --cache-from "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" --tag "build:${CIRCLE_BRANCH}" .
       - run:
           name: Prepare volume for storing build artifacts
           command: |
@@ -34,7 +34,7 @@ jobs:
             --env RAILS_MASTER_KEY=$RAILS_MASTER_KEY \
             --env RAILS_ENV=production \
             --env NODE_ENV=production \
-            "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" bundle exec rake assets:precompile \
+            "build:${CIRCLE_BRANCH}" bundle exec rake assets:precompile \
             /
       - run:
           name: Copy artifacts from volume to project
@@ -42,9 +42,9 @@ jobs:
             CID=$(docker run -d -v artifacts:/app busybox true)
             docker cp $CID:/app/public /home/circleci/project/
       - run:
-          name: Create the build image
+          name: Create the final build image
           command: |
-            docker build --cache-from "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" --tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" .
+            docker build --cache-from "build:${CIRCLE_BRANCH}" --tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" .
       - run:
           name: Push the build image to Docker Hub
           command: docker push "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
@@ -66,7 +66,7 @@ jobs:
       - run:
           name: Run some tests
           command: echo "Nothing to do yet..."
-  deploy-staging:
+  deploy:
     docker:
       - image: docker:stable-git
         auth:
@@ -94,15 +94,15 @@ jobs:
           command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" || true
       - run:
           name: Create dokku tag from build image
-          command: docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "dokku/formsling-staging:latest"
+          command: docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "dokku/${DOKKU_APP}:latest"
       - run:
           name: Deploy build image to dokku
           command: |
-            echo "Sending image dokku/formsling-staging:latest to dokku server"
-            docker save "dokku/formsling-staging:latest" | bzip2 | ssh formsling.com "bunzip2 | docker load"
+            echo "Sending image dokku/${DOKKU_APP}:latest to dokku server"
+            docker save "dokku/${DOKKU_APP}:latest" | bzip2 | ssh formsling.com "bunzip2 | docker load"
 
-            echo "Deploying dokku tag dokku/formsling-staging:latest"
-            ssh formsling.com "dokku tags:create formsling-staging previous; dokku tags:deploy formsling-staging latest"
+            echo "Deploying dokku tag dokku/${DOKKU_APP}:latest"
+            ssh formsling.com "dokku tags:create ${DOKKU_APP} previous; dokku tags:deploy ${DOKKU_APP} latest"
           no_output_timeout: 10m
       - run:
           name: Cache the build image as the new base image with Docker Hub
@@ -112,16 +112,48 @@ jobs:
 
 workflows:
   version: 2
-  build-test-deploy:
+  staging-workflow:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only: develop
       - test:
           requires:
             - build
-      - deploy-staging:
+          filters:
+            branches:
+              only: develop
+      - deploy:
+          context: formsling-staging
           requires:
-            - build
             - test
           filters:
             branches:
               only: develop
+  production-workflow:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+      - hold:
+          type: approval
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+      - deploy:
+          context: formsling-production
+          requires:
+            - hold
+          filters:
+            branches:
+              only: master
