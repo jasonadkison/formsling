@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   Name,
+  TextType,
   Label,
   Placeholder,
   DefaultValue,
@@ -13,6 +14,7 @@ import {
 const TextareaProperties = () => (
   <>
     <Name />
+    <TextType />
     <InputAttributes />
     <Rows />
     <Placeholder />
