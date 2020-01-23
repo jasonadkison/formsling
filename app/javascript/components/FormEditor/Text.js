@@ -6,6 +6,7 @@ import TextProperties from './TextProperties';
 const Text = (props) => {
   const {
     name,
+    type,
     initialValue,
     placeholder,
     helpText,
@@ -13,6 +14,9 @@ const Text = (props) => {
     readOnly,
     required,
   } = props;
+
+  const hasRows = (rows && (['1', 1].indexOf(rows) === -1));
+  const useTextarea = (!type || type === 'text') && hasRows;
 
   return (
     <DragBox label="Text">
@@ -27,21 +31,21 @@ const Text = (props) => {
           )}
         </label>
         <div className="control">
-          {rows === '1' || rows === 1 ? (
-            <input
-              className="input"
-              type="text"
-              value={initialValue}
-              placeholder={placeholder}
-              readOnly
-              required={required}
-            />
-          ) : (
+          {useTextarea ? (
             <textarea
               className="textarea"
               value={initialValue}
               placeholder={placeholder}
               rows={rows}
+              readOnly
+              required={required}
+            />
+          ) : (
+            <input
+              type={type}
+              className="input"
+              value={initialValue}
+              placeholder={placeholder}
               readOnly
               required={required}
             />
@@ -56,7 +60,7 @@ const Text = (props) => {
 };
 
 Text.propTypes = {
-  label: PropTypes.string,
+  name: PropTypes.string,
   initialValue: PropTypes.string,
   placeholder: PropTypes.string,
   helpText: PropTypes.string,
@@ -66,7 +70,7 @@ Text.propTypes = {
 };
 
 Text.defaultProps = {
-  label: 'Field Label',
+  name: 'Field Name',
   initialValue: '',
   placeholder: '',
   helpText: '',
