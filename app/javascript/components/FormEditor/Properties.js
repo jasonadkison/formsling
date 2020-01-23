@@ -36,7 +36,7 @@ export const TextType = () => {
             defaultValue={type}
           >
             <option value="text">Text</option>
-            <option value="numeric">Numeric</option>
+            <option value="number">Numeric</option>
             <option value="email">Email</option>
             <option value="url">URL</option>
           </select>
