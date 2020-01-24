@@ -1,9 +1,7 @@
 import React from 'react';
 import { useEditor } from '@craftjs/core';
 
-import Text from './Text';
-import Dropdown from './Dropdown';
-import Columns from './Columns';
+import resolvers from './resolvers';
 
 const Tools = () => {
   const { connectors, enabled } = useEditor((state) => ({
@@ -14,7 +12,7 @@ const Tools = () => {
     <nav className="buttons are-medium">
       <a
         className="button"
-        ref={ref => connectors.create(ref, <Text />)}
+        ref={ref => connectors.create(ref, <resolvers.Text />)}
         title="Text"
         data-tooltip="Text"
       >
@@ -24,7 +22,7 @@ const Tools = () => {
       </a>
       <a
         className="button"
-        ref={ref => connectors.create(ref, <Dropdown />)}
+        ref={ref => connectors.create(ref, <resolvers.Dropdown />)}
         title="Dropdown"
         data-tooltip="Dropdown"
       >
@@ -34,7 +32,7 @@ const Tools = () => {
       </a>
       <a
         className="button"
-        ref={ref => connectors.create(ref, <Columns />)}
+        ref={ref => connectors.create(ref, <resolvers.Columns />)}
         title="Columns"
         data-tooltip="Columns"
       >

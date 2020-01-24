@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNode, Canvas } from '@craftjs/core';
 
-import Text from './Text';
-import ColumnsProperties from './properties/Columns';
-import DragBox from './DragBox';
+import ColumnsProperties from '../properties/Columns';
+import DragBox from '../DragBox';
 
 export const Column = ({ children }) => {
   const { connectors: { connect } } = useNode();

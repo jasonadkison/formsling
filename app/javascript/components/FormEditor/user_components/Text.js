@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select';
+import DragBox from '../DragBox';
+import TextProperties from '../properties/Text';
 
-import DragBox from './DragBox';
-import DropdownProperties from './properties/Dropdown';
-
-const Dropdown = (props) => {
+const Text = (props) => {
   const {
     name,
+    type,
     initialValue,
     placeholder,
     helpText,
+    rows,
     readOnly,
     required,
-    options,
   } = props;
 
-  const [selected,  setSelected] = useState(initialValue);
-
-  useEffect(() => {
-    setSelected('');
-  }, [placeholder]);
-
-  useEffect(() => {
-    setSelected(initialValue);
-  }, [initialValue]);
+  const hasRows = (rows && (['1', 1].indexOf(rows) === -1));
+  const useTextarea = (!type || type === 'text') && hasRows;
 
   return (
     <DragBox>
@@ -39,12 +31,25 @@ const Dropdown = (props) => {
           )}
         </label>
         <div className="control">
-          <Select
-            options={options.map(option => ({ value: option, label: option }))}
-            placeholder={placeholder}
-            required={required}
-            value={options.indexOf(selected) === -1 ? null : { value: selected, label: selected }}
-          />
+          {useTextarea ? (
+            <textarea
+              className="textarea"
+              value={initialValue}
+              placeholder={placeholder}
+              rows={rows}
+              readOnly
+              required={required}
+            />
+          ) : (
+            <input
+              type={type}
+              className="input"
+              value={initialValue}
+              placeholder={placeholder}
+              readOnly
+              required={required}
+            />
+          )}
         </div>
         {helpText && (
           <p className="help">{helpText}</p>
@@ -54,32 +59,32 @@ const Dropdown = (props) => {
   );
 };
 
-Dropdown.propTypes = {
+Text.propTypes = {
   name: PropTypes.string,
+  type: PropTypes.string,
   initialValue: PropTypes.string,
   placeholder: PropTypes.string,
   helpText: PropTypes.string,
   rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   readOnly: PropTypes.bool,
   required: PropTypes.bool,
-  options: PropTypes.arrayOf(PropTypes.string),
 };
 
-Dropdown.defaultProps = {
-  name: 'Field Label',
+Text.defaultProps = {
+  name: 'Field Name',
+  type: '',
   initialValue: '',
   placeholder: '',
   helpText: '',
   rows: 1,
   readOnly: false,
   required: true,
-  options: [],
 };
 
-Dropdown.craft = {
+Text.craft = {
   related: {
-    properties: DropdownProperties,
+    properties: TextProperties,
   },
 };
 
-export default Dropdown;
+export default Text;

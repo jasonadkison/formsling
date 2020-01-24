@@ -12,12 +12,8 @@ import Toolbar from './Toolbar';
 import Sidebar from './Sidebar';
 import Breadcrumbs from './Breadcrumbs';
 
-import Text from './Text';
-import Dropdown from './Dropdown';
-import Columns, { Column } from './Columns';
-
-// List all resolvers that will be used by the Editor component here
-export const allResolvers = { Text, Dropdown, Columns, Column };
+import Text from './user_components/Text';
+import resolvers from './resolvers';
 
 // Bomb if the server returns and unexpected status
 const customAxios = axios.create({
@@ -99,7 +95,7 @@ const FormEditor = ({ enabled }) => {
       <Breadcrumb>
         <Breadcrumbs {...form} />
       </Breadcrumb>
-      <Editor resolver={allResolvers} enabled={enabled}>
+      <Editor resolver={resolvers} enabled={enabled}>
         <Header form={form} handleSave={handleSave} />
         <Toolbar form={form} />
 
