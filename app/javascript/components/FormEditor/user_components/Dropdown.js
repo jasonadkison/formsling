@@ -77,6 +77,7 @@ Dropdown.defaultProps = {
 };
 
 Dropdown.craft = {
+  name: 'Dropdown',
   related: {
     properties: DropdownProperties,
   },

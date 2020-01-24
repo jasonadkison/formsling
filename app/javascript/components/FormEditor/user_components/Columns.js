@@ -24,6 +24,7 @@ const Columns = ({ children }) => {
 };
 
 Columns.craft = {
+  name: 'Columns',
   related: {
     properties: ColumnsProperties,
   },

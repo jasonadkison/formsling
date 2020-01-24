@@ -82,6 +82,7 @@ Text.defaultProps = {
 };
 
 Text.craft = {
+  name: 'Text',
   related: {
     properties: TextProperties,
   },
