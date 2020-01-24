@@ -11,7 +11,7 @@ const PublishForm = ({ form }) => {
   };
 
   const embedCode = `<script type="text/javascript" src="${form.embed_url}"></script>
-<a class="formsling-form-widget" href="${form.public_url}">Here is the link</a>`;
+<a class="formsling-form-widget" href="${form.public_url}">${form.name}</a>`;
 
 
   const modal = isOpen ? (
