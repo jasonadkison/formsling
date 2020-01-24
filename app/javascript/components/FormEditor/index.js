@@ -9,7 +9,6 @@ import { compress, decompress } from '../utils';
 import Breadcrumb from '../Breadcrumb';
 import Header from './Header';
 import Toolbar from './Toolbar';
-import Sidebar from './Sidebar';
 import Breadcrumbs from './Breadcrumbs';
 
 import Text from './user_components/Text';
@@ -108,7 +107,6 @@ const FormEditor = ({ enabled }) => {
               </Canvas>
             </Frame>
           </div>
-          <Sidebar />
         </div>
       </Editor>
     </div>

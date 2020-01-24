@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNode, Canvas } from '@craftjs/core';
 
-import ColumnsProperties from '../properties/Columns';
-import DragBox from '../DragBox';
+import DragBox from './DragBox';
 
 export const Column = ({ children }) => {
   const { connectors: { connect } } = useNode();
@@ -25,9 +24,6 @@ const Columns = ({ children }) => {
 
 Columns.craft = {
   name: 'Columns',
-  related: {
-    properties: ColumnsProperties,
-  },
 };
 
 export default Columns;
