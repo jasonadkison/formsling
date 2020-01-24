@@ -15,7 +15,7 @@ const PublishForm = ({ form }) => {
 
 
   const modal = isOpen ? (
-    <Modal>
+    <Modal onClickOutside={() => setIsOpen(false)}>
       <button className="delete is-pulled-right" onClick={onClickClose}>
         Close
       </button>

@@ -43,7 +43,7 @@ const NewForm = ({ onClose }) => {
   };
 
   return (
-    <Modal>
+    <Modal onClickOutside={onClose}>
       <div className="new-form">
         {error && (
           <div className="notification is-danger">

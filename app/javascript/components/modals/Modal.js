@@ -1,5 +1,6 @@
 import React, { useRef, useContext, useState, useEffect, createContext } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
 const Context = createContext();
 
@@ -22,12 +23,12 @@ export function ModalProvider({ children }) {
   );
 }
 
-export function Modal({ children }) {
+export const Modal = ({ children, onClickOutside }) => {
   const modalNode = useContext(Context);
 
   return modalNode ? createPortal(
     <div className="modal is-active">
-      <div className="modal-background" />
+      <div className="modal-background" onClick={onClickOutside} />
       <div className="modal-card">
         <section className="modal-card-body">
           {children}
@@ -36,6 +37,13 @@ export function Modal({ children }) {
     </div>,
     modalNode
   ) : null;
-}
+};
 
-export default Modal;
+Modal.propTypes = {
+  children: PropTypes.any.isRequired,
+  onClickOutside: PropTypes.func,
+};
+
+Modal.defaultProps = {
+  onClickOutside: () => {},
+};
