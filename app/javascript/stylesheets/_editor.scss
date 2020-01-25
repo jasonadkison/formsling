@@ -3,7 +3,7 @@ $editor-default-highlight-color: #eee;
 $editor-active-highlight-color: lighten($primary, 30);
 $editor-primary-highlight-color: $primary;
 
-// the dragged element is appended to the document body
+// the drag element is appended to document.body while it is being dragged
 body > [draggable="true"] {
   * {
     display: none !important;
@@ -41,13 +41,19 @@ body > [draggable="true"] {
     min-height: 10rem;
   }
 
+  &.is-enabled #root-canvas {
+    padding: 1.5rem;
+    background: $white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  }
+
   #root-canvas {
     min-height: 5rem;
 
     > .is-enabled-component {
-      padding: 1rem 0;
-      &:first-of-type { padding-top: 0; }
-      &:last-of-type { padding-bottom: 0; }
+      margin: 1rem 0;
+      &:first-of-type { margin-top: 0; }
+      &:last-of-type { margin-bottom: 0; }
     }
 
     // only applies when the editor is currently enabled

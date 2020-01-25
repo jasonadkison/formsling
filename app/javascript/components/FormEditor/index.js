@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { useParams, Link } from 'react-router-dom';
@@ -49,6 +49,7 @@ const FormEditor = ({ enabled }) => {
   const { id } = useParams();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [error, setError] = useState(false);
+  const [editorEnabled, setEditorEnabled] = useState(enabled);
   const { isFetching, isSaving, form } = state;
 
   const fetchForm = async () => {
@@ -71,6 +72,11 @@ const FormEditor = ({ enabled }) => {
 
   const handleSave = (editorPayload) => saveForm({ payload: compress(editorPayload) });
 
+  const onToggleEditor = useCallback((enabled) => {
+    console.log('onToggleEditor', enabled);
+    setEditorEnabled(enabled);
+  }, []);
+
   // Fetch the form when id changes
   useEffect(() => {
     fetchForm();
@@ -89,17 +95,17 @@ const FormEditor = ({ enabled }) => {
       <div>Loading...</div>
     );
   }
-
+console.log(editorEnabled);
   return (
-    <div id="editor">
+    <div id="editor" className={editorEnabled ? 'is-enabled' : 'is-disabled'}>
       <Breadcrumb>
         <Breadcrumbs {...form} />
       </Breadcrumb>
-      <Editor resolver={resolvers} enabled={enabled} onRender={RenderNode}>
-        <Header form={form} handleSave={handleSave} />
+      <Editor resolver={resolvers} enabled={editorEnabled} onRender={RenderNode}>
+        <Header form={form} handleSave={handleSave} onToggleEditor={onToggleEditor} />
         <Toolbar form={form} />
         <Frame json={form.payload ? decompress(form.payload) : undefined}>
-          <Canvas id="root-canvas" className="card">
+          <Canvas id="root-canvas">
             <Text name="First Name" />
             <Text name="Last Name" />
           </Canvas>

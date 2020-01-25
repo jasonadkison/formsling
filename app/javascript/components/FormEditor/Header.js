@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useEditor } from '@craftjs/core';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import PublishForm from '../modals/PublishForm';
 
-const Header = ({ form, handleSave, isSaving }) => {
+const Header = ({ form, handleSave, onToggleEditor }) => {
   const { actions, query, enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
@@ -17,6 +17,12 @@ const Header = ({ form, handleSave, isSaving }) => {
     const payload = query.serialize();
     handleSave(payload);
   };
+
+  const toggleEnabled = useCallback((enabled) => {
+    console.log('toggleEnabled', enabled);
+    actions.setOptions(options => options.enabled = enabled);
+    onToggleEditor(enabled);
+  }, [enabled]);
 
   return (
     <header>
@@ -33,7 +39,7 @@ const Header = ({ form, handleSave, isSaving }) => {
               type="checkbox"
               className="switch"
               checked={enabled}
-              onChange={(e) => actions.setOptions(options => options.enabled = e.target.checked)}
+              onChange={(e) => toggleEnabled(e.target.checked)}
             />
             <label htmlFor="editor-switch">
               Edit Mode
@@ -86,6 +92,7 @@ Header.propTypes = {
     updated_at: PropTypes.string,
   }).isRequired,
   handleSave: PropTypes.func.isRequired,
+  onToggleEditor: PropTypes.func.isRequired,
 };
 
 export default Header;
