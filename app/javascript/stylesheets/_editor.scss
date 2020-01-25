@@ -3,28 +3,6 @@ $editor-default-highlight-color: #eee;
 $editor-active-highlight-color: lighten($primary, 30);
 $editor-primary-highlight-color: $primary;
 
-// the drag element is appended to document.body while it is being dragged
-body > [draggable="true"] {
-  * {
-    display: none !important;
-  }
-
-  width: 3rem !important;
-  height: 3rem !important;
-
-  &::after {
-    display: block !important;
-    line-height: 3rem !important;
-    text-align: right !important;
-    background: transparent !important;
-    font-family: 'Font Awesome 5 Free' !important;
-    font-weight: 900 !important;
-    font-size: 2rem !important;
-    content: "\f022" !important;
-    color: $primary !important;
-  }
-}
-
 #editor {
   > header {
     margin-bottom: 2.5rem;
@@ -181,4 +159,54 @@ body > [draggable="true"] {
 
     } // .is-enabled-component
   } // #root-canvas
+}
+
+// This is sort of hacky to override default behavior of craftjs that appends the drag elements
+// to document.body while being actively dragged. By default, craftjs uses shows the drag element,
+// but we want to instead show a little box with the element's icon.
+body > [draggable="true"] {
+  $icon-smiley: "\f4da";
+  $icon-text: "\f11c";
+  $icon-dropdown: "\f022";
+  $icon-columns: "\f0db";
+
+  // The toolbar button (already has icon specified in the markup)
+  &.button {
+    &::before, &::after { display: none; } // hide the tooltip
+    .icon { color: $primary; font-size: 2rem; };
+  }
+
+  // The draggable element title bar
+  &.user-component-indicator {
+    * {
+      display: none !important;
+    }
+
+    width: 3rem !important;
+    height: 3rem !important;
+
+    &::after {
+      display: block;
+      line-height: 3rem;
+      text-align: center;
+      background: #fff;
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      font-size: 2rem;
+      content: $icon-smiley; // default is a smiley so we don't forget to specify an icon
+      color: $primary;
+    }
+
+    &[data-name="Text"]::after {
+      content: $icon-text;
+    }
+
+    &[data-name="Dropdown"]::after {
+      content: $icon-dropdown;
+    }
+
+    &[data-name="Columns"]::after {
+      content: $icon-columns;
+    }
+  }
 }
