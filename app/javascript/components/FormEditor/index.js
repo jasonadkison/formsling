@@ -119,7 +119,7 @@ const FormEditor = ({ enabled }) => {
           {editorEnabled && (
             <div className="has-text-centered">
               <div className="has-margin-top-20">
-                <SaveButton handleSave={handleSave} />
+                <SaveButton handleSave={handleSave} loading={loading} />
               </div>
 
               {form.updated_at && (

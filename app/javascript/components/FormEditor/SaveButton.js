@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useEditor } from '@craftjs/core';
+import cx from 'classnames';
 
-const SaveButton = ({ handleSave }) => {
+const SaveButton = ({ handleSave, loading }) => {
   const { query, enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
@@ -13,11 +14,13 @@ const SaveButton = ({ handleSave }) => {
     handleSave(payload);
   };
 
+  const classNames = cx('button is-primary is-medium', { 'is-loading': loading });
+
   if (!enabled) return null;
 
   return (
     <button
-      className="button is-primary is-medium"
+      className={classNames}
       onClick={onClickSave}
     >
       <span className="icon">
@@ -32,6 +35,7 @@ const SaveButton = ({ handleSave }) => {
 
 SaveButton.propTypes = {
   handleSave: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default SaveButton;
