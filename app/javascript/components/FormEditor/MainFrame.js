@@ -14,6 +14,9 @@ const MainFrame = ({ payload }) => {
     if (payload) {
       const nextPayload = decompress(payload);
       actions.deserialize(nextPayload);
+      if (process.env.NODE_ENV === 'development') {
+        console.log(JSON.parse(nextPayload));
+      }
     }
   }, [payload]);
 
