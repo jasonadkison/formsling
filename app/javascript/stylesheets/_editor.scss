@@ -40,6 +40,7 @@ $editor-primary-highlight-color: $primary;
         padding: 1rem;
         padding-top: 2.5rem;
         border: $editor-border-size solid $editor-default-highlight-color;
+        border-radius: 3px;
         position: relative;
 
         &.is-dragging {
@@ -131,7 +132,7 @@ $editor-primary-highlight-color: $primary;
       }
 
       &.is-hovered-component {
-        > [data-user-component] {
+        [data-user-component] {
           border-color: $editor-active-highlight-color;
         }
 
@@ -146,7 +147,7 @@ $editor-primary-highlight-color: $primary;
       }
 
       &.is-selected-component {
-        > [data-user-component], [data-user-component] {
+        [data-user-component] {
           border-color: $editor-primary-highlight-color;
         }
 
