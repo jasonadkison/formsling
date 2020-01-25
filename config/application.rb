@@ -33,5 +33,7 @@ module FormSling
     config.hosts << 'formsling.com'
     config.hosts << 'www.formsling.com'
     config.hosts << 'staging.formsling.com'
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end
