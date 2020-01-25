@@ -19,7 +19,6 @@ const Header = ({ form, handleSave, onToggleEditor }) => {
   };
 
   const toggleEnabled = useCallback((enabled) => {
-    console.log('toggleEnabled', enabled);
     actions.setOptions(options => options.enabled = enabled);
     onToggleEditor(enabled);
   }, [enabled]);

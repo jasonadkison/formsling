@@ -14,7 +14,7 @@ const Breadcrumbs = ({ id, name }) => (
 );
 
 Breadcrumbs.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default Breadcrumbs;

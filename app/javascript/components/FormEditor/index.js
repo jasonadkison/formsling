@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Editor, Frame, Canvas } from "@craftjs/core";
 import { compress, decompress } from '../utils';
 
+import Loader from '../Loader';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumbs from './Breadcrumbs';
 import Header from './Header';
@@ -23,9 +24,13 @@ const customAxios = axios.create({
 });
 
 const initialState = {
-  isFetching: true,
+  isFetching: false,
   isSaving: false,
-  form: undefined,
+  form: {
+    id: '',
+    name: '',
+    payload: undefined,
+  },
 };
 
 const reducer = (state, action) => {
@@ -73,7 +78,6 @@ const FormEditor = ({ enabled }) => {
   const handleSave = (editorPayload) => saveForm({ payload: compress(editorPayload) });
 
   const onToggleEditor = useCallback((enabled) => {
-    console.log('onToggleEditor', enabled);
     setEditorEnabled(enabled);
   }, []);
 
@@ -82,36 +86,32 @@ const FormEditor = ({ enabled }) => {
     fetchForm();
   }, [id]);
 
-  if (error) {
-    return (
-      <div className="notification is-danger">
-        <p>Oops, something went wrong. Try refreshing the page.</p>
-      </div>
-    );
-  }
+  const loading = state.isFetching || state.isSaving;
 
-  if (state.isFetching || state.isSaving) {
-    return (
-      <div>Loading...</div>
-    );
-  }
-console.log(editorEnabled);
   return (
-    <div id="editor" className={editorEnabled ? 'is-enabled' : 'is-disabled'}>
-      <Breadcrumb>
-        <Breadcrumbs {...form} />
-      </Breadcrumb>
-      <Editor resolver={resolvers} enabled={editorEnabled} onRender={RenderNode}>
-        <Header form={form} handleSave={handleSave} onToggleEditor={onToggleEditor} />
-        <Toolbar form={form} />
-        <Frame json={form.payload ? decompress(form.payload) : undefined}>
-          <Canvas id="root-canvas">
-            <Text name="First Name" />
-            <Text name="Last Name" />
-          </Canvas>
-        </Frame>
-      </Editor>
-    </div>
+    <>
+      {error && (
+        <div className="notification is-danger">
+          <p>Oops, something went wrong.</p>
+        </div>
+      )}
+      {<Loader loading={loading} />}
+      <div id="editor" className={editorEnabled ? 'is-enabled' : 'is-disabled'}>
+        <Breadcrumb>
+          <Breadcrumbs {...form} />
+        </Breadcrumb>
+        <Editor resolver={resolvers} enabled={editorEnabled} onRender={RenderNode}>
+          <Header form={form} handleSave={handleSave} onToggleEditor={onToggleEditor} />
+          <Toolbar form={form} />
+          <Frame json={form.payload ? decompress(form.payload) : undefined}>
+            <Canvas id="root-canvas">
+              <Text name="First Name" />
+              <Text name="Last Name" />
+            </Canvas>
+          </Frame>
+        </Editor>
+      </div>
+    </>
   );
 };
 
