@@ -79,7 +79,7 @@ const PublishForm = ({ form }) => {
   return (
     <>
       <a
-        className="button is-inline"
+        className="button is-inline is-info is-outlined"
         onClick={() => setIsOpen(true)}
       >
         Share / Embed

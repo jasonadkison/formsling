@@ -9,6 +9,7 @@ import { compress, decompress } from '../utils';
 import Loader from '../Loader';
 import Breadcrumb from '../Breadcrumb';
 import Breadcrumbs from './Breadcrumbs';
+import EditForm from '../modals/EditForm';
 import Header from './Header';
 import Toolbar from './Toolbar';
 import RenderNode from './RenderNode';
@@ -88,6 +89,12 @@ const FormEditor = ({ enabled }) => {
 
   const loading = state.isFetching || state.isSaving;
 
+  const onFormEditSuccess = () => fetchForm();
+
+  const editForm = (
+    <EditForm form={form} onSuccess={onFormEditSuccess} />
+  );
+
   return (
     <>
       {error && (
@@ -101,7 +108,12 @@ const FormEditor = ({ enabled }) => {
           <Breadcrumbs {...form} />
         </Breadcrumb>
         <Editor resolver={resolvers} enabled={editorEnabled} onRender={RenderNode}>
-          <Header form={form} handleSave={handleSave} onToggleEditor={onToggleEditor} />
+          <Header
+            form={form}
+            handleSave={handleSave}
+            onToggleEditor={onToggleEditor}
+            editForm={editForm}
+          />
           <Toolbar form={form} />
           <Frame json={form.payload ? decompress(form.payload) : undefined}>
             <Canvas id="root-canvas">

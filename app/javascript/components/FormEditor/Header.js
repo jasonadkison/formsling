@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import PublishForm from '../modals/PublishForm';
 
-const Header = ({ form, handleSave, onToggleEditor }) => {
+const Header = ({ form, handleSave, onToggleEditor, editForm }) => {
   const { actions, query, enabled } = useEditor((state) => ({
     enabled: state.options.enabled,
   }));
@@ -27,22 +27,29 @@ const Header = ({ form, handleSave, onToggleEditor }) => {
     <header>
       <div className="level">
         <div className="level-left">
-          <h2 className="title">
-            {form.name}
-          </h2>
+          <div className="level-item">
+            <h2 className="title">
+              {form.name}
+            </h2>
+          </div>
+          <div className="level-item">
+            {editForm}
+          </div>
         </div>
         <div className="level-right">
-          <div className="control">
-            <input
-              id="editor-switch"
-              type="checkbox"
-              className="switch"
-              checked={enabled}
-              onChange={(e) => toggleEnabled(e.target.checked)}
-            />
-            <label htmlFor="editor-switch">
-              Edit Mode
-            </label>
+          <div className="level-item">
+            <div className="control">
+              <input
+                id="editor-switch"
+                type="checkbox"
+                className="switch"
+                checked={enabled}
+                onChange={(e) => toggleEnabled(e.target.checked)}
+              />
+              <label htmlFor="editor-switch">
+                Edit Mode
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -50,6 +57,7 @@ const Header = ({ form, handleSave, onToggleEditor }) => {
         <div className="level-left">
           <div className="level-item">
             <div className="buttons">
+              <PublishForm form={form} />
               <Link
                 to={`/forms/${form.id}/results`}
                 title="Results"
@@ -57,18 +65,19 @@ const Header = ({ form, handleSave, onToggleEditor }) => {
               >
                 View Results
               </Link>
-              <PublishForm form={form} />
             </div>
           </div>
         </div>
         <div className="level-right">
           <div className="level-item">
-            <p className="is-small">
-              Last saved:&nbsp;
-              <TimeAgo date={form.updated_at}>
-                {form.updated_at}
-              </TimeAgo>
-            </p>
+            {form.updated_at && (
+              <p className="is-small">
+                Last saved:&nbsp;
+                <TimeAgo date={form.updated_at}>
+                  {form.updated_at}
+                </TimeAgo>
+              </p>
+            )}
           </div>
           <div className="level-item">
             <button
@@ -92,6 +101,7 @@ Header.propTypes = {
   }).isRequired,
   handleSave: PropTypes.func.isRequired,
   onToggleEditor: PropTypes.func.isRequired,
+  editForm: PropTypes.node.isRequired,
 };
 
 export default Header;

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 
 import Loader from '../Loader';
 import { Modal } from './Modal';
 
-const NewForm = ({ onClose }) => {
-  const history = useHistory();
+const EditForm = ({ form, onSuccess }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [name, setName] = useState('');
@@ -14,9 +13,13 @@ const NewForm = ({ onClose }) => {
 
   const onClickClose = (e) => {
     e.preventDefault();
-    if (loading) return;
+    handleClose();
+  };
 
-    onClose();
+  const handleClose = () => {
+    setName(form.name);
+    setEmail(form.email_recipient);
+    setIsOpen(false);
   };
 
   const onSubmit = async (e) => {
@@ -26,30 +29,40 @@ const NewForm = ({ onClose }) => {
 
     setLoading(true);
     const token = document.getElementsByName('csrf-token')[0].content;
-    const form = { name, email_recipient: email };
+    const nextForm = { name, email_recipient: email };
+    const headers = { 'X-CSRF-TOKEN': token };
 
-    await axios.post(`/api/v1/forms`, { form }, { headers: { 'X-CSRF-TOKEN': token }})
-      .then(({ data }) => history.push(`/forms/${data.id}`))
+    await axios.patch(`/api/v1/forms/${form.id}`, { form: nextForm }, { headers })
+      .then(({ data }) => {
+        handleClose();
+        onSuccess();
+      })
       .catch(() => {
         setError(true);
       })
       .then(() => setLoading(false));
   };
 
-  return (
+  useEffect(() => {
+    setName(form.name);
+    setEmail(form.email_recipient);
+  }, [form]);
+
+  const modal = isOpen ? (
     <>
       <Loader loading={loading} />
-      <Modal onClickOutside={onClose}>
-        <div className="new-form">
+      <Modal onClickOutside={handleClose}>
+        <div className="edit-form">
           {error && (
             <div className="notification is-danger">
-              <p>An issue prevented this form from being created. Please try again.</p>
+              <p>An issue prevented your settings from being saved. Please try again.</p>
             </div>
           )}
           <button className="delete is-pulled-right" onClick={onClickClose}>
             Close
           </button>
-          <h3 className="title">New Form</h3>
+          <h3 className="title">Edit Form</h3>
+          <h4 className="subtitle">{form.name}</h4>
           <form onSubmit={onSubmit}>
             <div className="field">
               <label htmlFor="name" className="label">
@@ -109,7 +122,22 @@ const NewForm = ({ onClose }) => {
         </div>
       </Modal>
     </>
+  ) : null;
+
+  return (
+    <>
+      <a
+        className="button is-outlined is-small"
+        onClick={() => setIsOpen(true)}
+      >
+        <span className="icon">
+          <i className="fas fa-cog" />
+        </span>
+        <span>Form Settings</span>
+      </a>
+      {modal}
+    </>
   );
 };
 
-export default NewForm;
+export default EditForm;

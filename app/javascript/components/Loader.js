@@ -9,10 +9,13 @@ const Loader = ({ loading }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShouldDisplay(loading);
+      if (loading) setShouldDisplay(true);
     }, delay);
 
-    return () => clearTimeout(timer);
+    return () => {
+      setShouldDisplay(false);
+      clearTimeout(timer);
+    }
   }, [loading]);
 
   if (!shouldDisplay) return null;
