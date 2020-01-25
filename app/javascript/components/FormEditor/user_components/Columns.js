@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNode, Canvas } from '@craftjs/core';
 
-import DragBox from './DragBox';
+import UserComponent from './UserComponent';
 
 export const Column = ({ children }) => {
   const { connectors: { connect } } = useNode();
@@ -13,12 +13,12 @@ export const Column = ({ children }) => {
 
 const Columns = ({ children }) => {
   return (
-    <DragBox>
+    <UserComponent>
       <div className="columns">
         <Canvas is={Column} id="left" />
         <Canvas is={Column} id="right" />
       </div>
-    </DragBox>
+    </UserComponent>
   );
 };
 

@@ -7,9 +7,10 @@ import { Editor, Frame, Canvas } from "@craftjs/core";
 import { compress, decompress } from '../utils';
 
 import Breadcrumb from '../Breadcrumb';
+import Breadcrumbs from './Breadcrumbs';
 import Header from './Header';
 import Toolbar from './Toolbar';
-import Breadcrumbs from './Breadcrumbs';
+import RenderNode from './RenderNode';
 
 import Text from './user_components/Text';
 import resolvers from './resolvers';
@@ -94,20 +95,15 @@ const FormEditor = ({ enabled }) => {
       <Breadcrumb>
         <Breadcrumbs {...form} />
       </Breadcrumb>
-      <Editor resolver={resolvers} enabled={enabled}>
+      <Editor resolver={resolvers} enabled={enabled} onRender={RenderNode}>
         <Header form={form} handleSave={handleSave} />
         <Toolbar form={form} />
-
-        <div className="columns">
-          <div className="column">
-            <Frame json={form.payload ? decompress(form.payload) : undefined}>
-              <Canvas id="root-canvas">
-                <Text name="First Name" />
-                <Text name="Last Name" />
-              </Canvas>
-            </Frame>
-          </div>
-        </div>
+        <Frame json={form.payload ? decompress(form.payload) : undefined}>
+          <Canvas id="root-canvas" className="card">
+            <Text name="First Name" />
+            <Text name="Last Name" />
+          </Canvas>
+        </Frame>
       </Editor>
     </div>
   );

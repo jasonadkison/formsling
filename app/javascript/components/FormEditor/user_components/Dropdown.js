@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
-import DragBox from './DragBox';
+import UserComponent from './UserComponent';
 import DropdownProperties from '../properties/Dropdown';
 
 const Dropdown = (props) => {
@@ -27,7 +27,7 @@ const Dropdown = (props) => {
   }, [initialValue]);
 
   return (
-    <DragBox>
+    <UserComponent>
       <div className="field">
         <label className="label">
           {name}
@@ -50,7 +50,7 @@ const Dropdown = (props) => {
           <p className="help">{helpText}</p>
         )}
       </div>
-    </DragBox>
+    </UserComponent>
   );
 };
 

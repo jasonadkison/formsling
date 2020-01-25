@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import DragBox from './DragBox';
+import UserComponent from './UserComponent';
 import TextProperties from '../properties/Text';
 
 const Text = (props) => {
@@ -19,7 +19,7 @@ const Text = (props) => {
   const useTextarea = (!type || type === 'text') && hasRows;
 
   return (
-    <DragBox>
+    <UserComponent>
       <div className="field">
         <label className="label">
           {name}
@@ -55,7 +55,7 @@ const Text = (props) => {
           <p className="help">{helpText}</p>
         )}
       </div>
-    </DragBox>
+    </UserComponent>
   );
 };
 

@@ -1,17 +1,40 @@
-#editor {
-  .field { margin-bottom: 0.75rem; }
-  $draggable-border-size: 2px;
-  $draggable-highlight-color: lighten($primary, 40);
-  $draggable-primary-color: $primary;
+$editor-border-size: 2px;
+$editor-default-highlight-color: #eee;
+$editor-active-highlight-color: lighten($primary, 30);
+$editor-primary-highlight-color: $primary;
 
+// the dragged element is appended to the document body
+body > [draggable="true"] {
+  * {
+    display: none !important;
+  }
+
+  width: 3rem !important;
+  height: 3rem !important;
+
+  &::after {
+    display: block !important;
+    line-height: 3rem !important;
+    text-align: right !important;
+    background: transparent !important;
+    font-family: 'Font Awesome 5 Free' !important;
+    font-weight: 900 !important;
+    font-size: 2rem !important;
+    content: "\f022" !important;
+    color: $primary !important;
+  }
+}
+
+#editor {
   > header {
     margin-bottom: 2.5rem;
   }
 
   .toolbar {
-    //box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(201, 102, 102, 0.24);
     margin-bottom: 2rem;
   }
+
+  .field { margin-bottom: 0.75rem; }
 
   .drag-area,
   .sidebar {
@@ -21,79 +44,135 @@
   #root-canvas {
     min-height: 5rem;
 
-    > .drag-box.enabled {
-      margin-bottom: 2rem;
-      &:last-of-type { margin-bottom: 0; }
-    }
-  }
-
-  .drag-box.enabled {
-    padding: $draggable-border-size;
-    position: relative;
-    background: $background;
-
-    &:hover {
-      background: $draggable-highlight-color;
+    > .is-enabled-component {
+      padding: 1rem 0;
+      &:first-of-type { padding-top: 0; }
+      &:last-of-type { padding-bottom: 0; }
     }
 
-    &.selected {
-      background: $draggable-primary-color;
-    }
+    // only applies when the editor is currently enabled
+    .is-enabled-component {
+      > [data-user-component] {
+        padding: 1rem;
+        padding-top: 2.5rem;
+        border: $editor-border-size solid $editor-default-highlight-color;
+        position: relative;
 
-    // The badges that display the type of the user component, hidden by default
-    &::before {
-      content: attr(data-label);
-      align-items: stretch;
-      display: flex;
-      background: $background;
-      border-radius: 2px 2px 0 0;
-      bottom: 100%;
-      color: $dark;
-      font-size: 7px;
-      font-weight: 700;
-      left: 50%;
-      transform: translateX(-50%);
-      letter-spacing: 1px;
-      padding: 3px 5px;
-      position: absolute;
-      text-transform: uppercase;
-      vertical-align: top;
-    }
+        &.is-dragging {
+          opacity: 0.25;
+          .component-action {
+            opacity: 0;
+          }
+        }
+      }
 
-    // color the badge on hover
-    &:hover::before {
-      background: $draggable-highlight-color;
-    }
-
-    // make the active badge stand out
-    &.selected::before {
-      background: $primary;
-      color: $white;
-    }
-
-    // Clear the badges
-    .drag-box { margin-top: 1rem; }
-
-    .user-component {
-      padding: 1rem;
-      background: $white;
-    }
-
-    &[data-label="Columns"] {
-      background: $background;
-      padding: 0.5rem;
-
-      &:hover { background: $draggable-highlight-color; }
-      &.selected { background: $draggable-primary-color; }
-
-      > .user-component { margin: 0; padding: 0.25rem; }
-      .columns, .column { margin: 0 !important; }
-
-      .columns > .column {
-        border: 0px solid $draggable-highlight-color;
-        &:last-of-type { border-left-width: $draggable-border-size; }
+      .user-component {
+        padding: 1rem;
+        padding-top: 2rem;
         background: $white;
       }
-    }
-  }
+
+      &[data-component-name="Columns"] {
+        > [data-user-component] {
+          margin: 0;
+          padding: 0.5rem;
+          padding-top: 2rem;
+
+          // adds dashed border for columns
+          .columns > .is-canvas {
+            position: relative;
+
+            &::after {
+              content: " ";
+              border: 1px dashed $editor-active-highlight-color;
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              left: 0;
+              top: 0;
+              pointer-events: none;
+              display: block;
+            }
+
+            //&:last-of-type::after { border-left-width: 0; }
+          }
+
+          // aid in the clickability of the columns wrapper
+          &:hover {
+            cursor: pointer;
+            .user-component {
+              cursor: initial;
+            }
+          }
+
+          .columns, .column { margin: 0 !important; }
+          .column {
+            padding: 0;
+            min-height: 2rem;
+            .user-component { padding: 0.5rem; }
+          }
+        }
+      }
+
+      // The indicator contains the move/delete buttons.
+      .user-component-indicator {
+        text-align: right;
+        padding: 0 0.5rem;
+        background: $editor-default-highlight-color;
+        height: 1.5rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        cursor: move;
+
+        .component-name {
+          text-transform: uppercase;
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: $dark;
+        }
+
+        .component-action {
+          color: lighten($dark, 40);
+        }
+
+        .delete-action {
+          cursor: pointer;
+        }
+
+        a {
+          margin-left: 0.5rem;
+        }
+      }
+
+      &.is-hovered-component {
+        > [data-user-component] {
+          border-color: $editor-active-highlight-color;
+        }
+
+        .user-component-indicator {
+          background: $editor-active-highlight-color;
+        }
+
+        .component-name,
+        .component-action {
+          color: $primary;
+        }
+      }
+
+      &.is-selected-component {
+        > [data-user-component], [data-user-component] {
+          border-color: $editor-primary-highlight-color;
+        }
+
+        .user-component-indicator {
+          background: $editor-primary-highlight-color;
+          .component-name,
+          .component-action { color: $white; }
+        }
+      }
+
+    } // .is-enabled-component
+  } // #root-canvas
 }
