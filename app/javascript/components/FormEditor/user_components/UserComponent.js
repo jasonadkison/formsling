@@ -58,6 +58,7 @@ const UserComponent = ({ children }) => {
     <div
       data-user-component ref={ref => connect(ref)}
       className={isBeingDragged ? 'is-dragging' : ''}
+      data-node-id={id}
     >
       {enabled && (
         <div className="user-component-indicator" ref={drag} data-name={name}>
