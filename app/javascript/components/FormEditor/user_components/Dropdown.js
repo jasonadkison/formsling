@@ -44,6 +44,7 @@ const Dropdown = (props) => {
             placeholder={placeholder}
             required={required}
             value={options.indexOf(selected) === -1 ? null : { value: selected, label: selected }}
+            styles={{ control: (provided) => ({ ...provided, borderRadius: 0 }) }}
           />
         </div>
         {helpText && (

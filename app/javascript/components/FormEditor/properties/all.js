@@ -185,6 +185,10 @@ export const DropdownAttributes = () => {
             color: '#ff3300',
             cursor: 'pointer',
           }),
+          control: (provided) => ({
+            ...provided,
+            borderRadius: 0,
+          })
         }}
       />
     </Panel>
