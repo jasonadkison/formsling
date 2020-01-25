@@ -7,6 +7,12 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
       - ./log:/root/log:cached
+  smtp:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025 # smtp
+      - 8025:8025 # web UI
+    restart: always
   app:
     build: .
     command: bash -c "rm -rf ./tmp/pids/server.pid && foreman start -f Procfile.dev-server"
