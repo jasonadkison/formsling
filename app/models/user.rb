@@ -6,4 +6,11 @@ class User < ApplicationRecord
          :confirmable, :async
 
   has_many :forms, dependent: :delete_all
+
+  enum role: [:member, :admin]
+
+  # Set the default role for new users
+  after_initialize do
+    self.role ||= :member if self.new_record?
+  end
 end
