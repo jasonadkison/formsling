@@ -1,10 +1,9 @@
 import React, { useEffect, useReducer, useState, useCallback } from 'react';
-import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Editor, Frame, Canvas } from "@craftjs/core";
-import { compress, decompress } from '../utils';
+import { Editor } from "@craftjs/core";
+import { compress } from '../utils';
 
 import Loader from '../Loader';
 import Breadcrumb from '../Breadcrumb';
@@ -12,9 +11,11 @@ import Breadcrumbs from './Breadcrumbs';
 import EditForm from '../modals/EditForm';
 import Header from './Header';
 import Toolbar from './Toolbar';
+import MainFrame from './MainFrame';
+import SaveButton from './SaveButton';
+import LastSaved from './LastSaved';
 import RenderNode from './RenderNode';
 
-import Text from './user_components/Text';
 import resolvers from './resolvers';
 
 // Bomb if the server returns and unexpected status
@@ -115,12 +116,20 @@ const FormEditor = ({ enabled }) => {
             editForm={editForm}
           />
           <Toolbar form={form} />
-          <Frame json={form.payload ? decompress(form.payload) : undefined}>
-            <Canvas id="root-canvas">
-              <Text name="First Name" />
-              <Text name="Last Name" />
-            </Canvas>
-          </Frame>
+          <MainFrame payload={form.payload} />
+          {editorEnabled && (
+            <div className="has-text-centered">
+              <div className="has-margin-top-20">
+                <SaveButton handleSave={handleSave} />
+              </div>
+
+              {form.updated_at && (
+                <div className="has-margin-top-10">
+                  <LastSaved timestamp={form.updated_at} />
+                </div>
+              )}
+            </div>
+          )}
         </Editor>
       </div>
     </>
