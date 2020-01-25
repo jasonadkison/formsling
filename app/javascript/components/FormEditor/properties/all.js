@@ -114,32 +114,32 @@ export const HelpText = () => {
 };
 
 export const InputAttributes = () => {
-  const { setProp, required, readOnly } = useNode(node => node.data.props);
+  const { id, setProp, required, readOnly } = useNode(node => node.data.props);
 
   return (
     <Panel>
       <div className="field is-marginless">
         <input
           className="is-checkradio is-small"
-          id="is-required"
+          id={`is-required-${id}`}
           type="checkbox"
           defaultChecked={required}
           onChange={(e) => {
             setProp(props => props.required = e.target.checked)
           }}
         />
-        <label htmlFor="is-required">Required</label>
+        <label htmlFor={`is-required-${id}`}>Required</label>
 
         <input
           className="is-checkradio is-small"
-          id="is-readonly"
+          id={`is-readonly-${id}`}
           type="checkbox"
           defaultChecked={readOnly}
           onChange={(e) => {
             setProp(props => props.readOnly = e.target.checked)
           }}
         />
-        <label htmlFor="is-readonly">Read-Only</label>
+        <label htmlFor={`is-readonly-${id}`}>Read-Only</label>
       </div>
     </Panel>
   );
