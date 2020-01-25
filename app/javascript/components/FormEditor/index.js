@@ -112,10 +112,9 @@ const FormEditor = ({ enabled }) => {
           <Header
             form={form}
             handleSave={handleSave}
-            onToggleEditor={onToggleEditor}
             editForm={editForm}
           />
-          <Toolbar form={form} />
+          <Toolbar form={form} onToggleEditor={onToggleEditor} />
           <MainFrame payload={form.payload} />
           {editorEnabled && (
             <div className="has-text-centered">

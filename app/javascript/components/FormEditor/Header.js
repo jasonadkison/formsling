@@ -5,70 +5,36 @@ import { Link } from 'react-router-dom';
 
 import PublishForm from '../modals/PublishForm';
 
-const Header = ({ form, onToggleEditor, editForm }) => {
-  const { actions, enabled } = useEditor((state) => ({
-    enabled: state.options.enabled,
-  }));
-
-  const toggleEnabled = useCallback((enabled) => {
-    actions.setOptions(options => options.enabled = enabled);
-    onToggleEditor(enabled);
-  }, [enabled]);
-
-  return (
-    <header>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-            <h2 className="title">
-              {form.name}
-            </h2>
-          </div>
-          <div className="level-item">
-            {editForm}
-          </div>
+const Header = ({ form, onToggleEditor, editForm }) => (
+  <header>
+    <div className="level">
+      <div className="level-left">
+        <div className="level-item">
+          <h2 className="title">
+            {form.name}
+          </h2>
         </div>
-        <div className="level-right">
-          <div className="level-item">
-            <div className="buttons">
-              <PublishForm form={form} />
-              <Link
-                to={`/forms/${form.id}/results`}
-                title="Results"
-                className="button is-inline is-outlined is-link"
-              >
-                View Results
-              </Link>
-            </div>
+        <div className="level-item">
+          {editForm}
+        </div>
+      </div>
+      <div className="level-right">
+        <div className="level-item">
+          <div className="buttons">
+            <PublishForm form={form} />
+            <Link
+              to={`/forms/${form.id}/results`}
+              title="Results"
+              className="button is-inline is-outlined is-link"
+            >
+              View Results
+            </Link>
           </div>
         </div>
       </div>
-      <div className="level">
-        <div className="level-left">
-          <div className="level-item">
-
-          </div>
-        </div>
-        <div className="level-right">
-          <div className="level-item">
-            <div className="control">
-              <input
-                id="editor-switch"
-                type="checkbox"
-                className="switch"
-                checked={enabled}
-                onChange={(e) => toggleEnabled(e.target.checked)}
-              />
-              <label htmlFor="editor-switch">
-                Edit Mode
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
-};
+    </div>
+  </header>
+);
 
 Header.propTypes = {
   form: PropTypes.shape({
@@ -76,8 +42,6 @@ Header.propTypes = {
     payload: PropTypes.string,
     updated_at: PropTypes.string,
   }).isRequired,
-  handleSave: PropTypes.func.isRequired,
-  onToggleEditor: PropTypes.func.isRequired,
   editForm: PropTypes.node.isRequired,
 };
 
