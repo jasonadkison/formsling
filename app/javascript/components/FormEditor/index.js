@@ -29,8 +29,8 @@ const initialState = {
   isFetching: false,
   isSaving: false,
   form: {
-    id: '',
-    name: '',
+    id: undefined,
+    name: undefined,
     payload: undefined,
   },
 };

@@ -38,7 +38,7 @@ const Header = ({ form, onToggleEditor, editForm }) => (
 
 Header.propTypes = {
   form: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     payload: PropTypes.string,
     updated_at: PropTypes.string,
   }).isRequired,
