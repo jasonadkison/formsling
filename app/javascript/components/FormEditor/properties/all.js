@@ -247,7 +247,9 @@ export const ToggleOptions = () => {
   useEffect(() => {
     if (type === 'radio') {
       const firstSelected = choices.find(choice => choice.selected);
-      setChoices(choices.map(c => c.id === firstSelected.id ? c : { ...c, selected: false }));
+      setChoices(choices.map((c) => {
+        return firstSelected && c.id === firstSelected.id ? c : { ...c, selected: false };
+      }));
     }
   }, [type]);
 
