@@ -3,16 +3,17 @@ class ResultController < ApplicationController
 
   # This endpoint is used for debugging pdfs only in development
   def show
+    @result = Result.find(params[:id])
     respond_to do |format|
+      format.html { render inline: @result.html }
       format.pdf do
-        result = Result.find(params[:id])
-        pdf = RenderPdf.for_result(result)
+        pdf = RenderPdf.for_result(@result)
         Tempfile.create do |t|
           t.binmode
           t.write(pdf)
           t.rewind
           t.close
-          send_data File.open(t.path, 'rb').read, type: 'application/pdf', filename: result.pdf_filename
+          send_data File.open(t.path, 'rb').read, type: 'application/pdf', filename: @result.pdf_filename
         end
       end
     end

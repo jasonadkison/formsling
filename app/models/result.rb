@@ -7,13 +7,17 @@ class Result < ApplicationRecord
   # Returns the full html content for the result
   def html
     ApplicationController.render(
-      template: 'result/show',
+      template: 'result/show.html',
+      layout: 'public_form.html',
+      assigns: { result: self }
+    )
+  end
+
+  def pdf_html
+    ApplicationController.render(
+      template: 'result/show.html',
       layout: 'pdf.html',
-      assigns: {
-        payload: decode_payload,
-        result: self,
-        form: form
-      }
+      assigns: { result: self }
     )
   end
 
@@ -21,15 +25,20 @@ class Result < ApplicationRecord
     [form.name, "FormSling.com", Time.zone.now.to_i].join(' ').parameterize
   end
 
-  def decode_payload
-    Base64.decode64(payload)
+  def payload
+    res = Base64.decode64(super)
+    ActionController::Base.helpers.sanitize(
+      res,
+      tags: %w(h1 h2 h3 h4 h5 span i div label input textarea select option button a br),
+      attributes: %w(&nbsp selected checked value id class name for type)
+    )
   end
 
-  def decode_values
-    Base64.decode64(values)
+  def values
+    Base64.decode64(super)
   end
 
   def values_object
-    JSON.parse(decode_values)
+    JSON.load(values)
   end
 end

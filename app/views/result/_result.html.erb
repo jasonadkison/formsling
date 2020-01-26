@@ -1,0 +1,32 @@
+<p class="has-text-centered is-size-7 has-margin-10">
+  <%= local_assigns[:result].created_at.strftime('Submitted to FormSling.com on %m/%d/%Y at %I:%M%p %Z') %>
+</p>
+<section class="section">
+  <div class="content">
+    <h2>Snapshot</h2>
+    <div class="is-snapshot">
+      <%= local_assigns[:result].payload.html_safe %>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="content">
+    <h2>Values Object</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% local_assigns[:result].values_object.each do |value_obj| %>
+          <tr>
+            <td><%= sanitize(value_obj['name']) %></td>
+            <td><%= sanitize(value_obj['value']) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
