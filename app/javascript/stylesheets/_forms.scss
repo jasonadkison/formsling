@@ -2,7 +2,6 @@
   .label, .input { color: $danger; }
   .input { border-color: $danger; }
 }
-.is-snapshot .field { margin: 1.5rem auto; }
 
 // bulma doesn't space checkboxes properly like it does for radios so it's defined here
 // see https://github.com/jgthms/bulma/issues/1049
