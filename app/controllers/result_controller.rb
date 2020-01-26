@@ -1,9 +1,9 @@
 class ResultController < ApplicationController
-  before_action :check_perms
+  before_action :authenticate_user!
 
-  # This endpoint is used for debugging pdfs only in development
   def show
-    @result = Result.find(params[:id])
+    relation = current_user.admin? ? Result.all : Result.where(form_id: current_user.forms.pluck(:id))
+    @result = relation.find(params[:id])
     respond_to do |format|
       format.html { render inline: @result.html }
       format.pdf do
@@ -19,10 +19,4 @@ class ResultController < ApplicationController
     end
   end
 
-  private
-
-  # !TODO: would be useful if this could use some sort of token for debugging in production
-  def check_perms
-    raise ActionController::RoutingError.new('Not Found') unless Rails.env.development?
-  end
 end
