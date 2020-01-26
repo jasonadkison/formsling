@@ -34,6 +34,8 @@ jobs:
             --env RAILS_MASTER_KEY=$RAILS_MASTER_KEY \
             --env RAILS_ENV=production \
             --env NODE_ENV=production \
+            --env DEFAULT_URL_HOST=localhost \
+            --env ACTION_MAILER_SMTP_SETTINGS={} \
             "build:${CIRCLE_BRANCH}" bundle exec rake assets:precompile \
             /
       - run:

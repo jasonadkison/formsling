@@ -1,18 +1,95 @@
-<div class="content">
-  <h1>Welcome</h1>
-  <h2>Steps</h2>
-  <ol>
-    <li>
-      Sign up for your free account
-    </li>
-    <li>
-      Design your forms using our easy form builder tool
-    </li>
-    <li>
-      Embed your form into any website or share it using a public link
-    </li>
-    <li>
-      Receive your completed forms via email
-    </li>
-  </ol>
-</div>
+<section class="hero">
+  <div class="hero-body has-padding-top-80 has-padding-bottom-40">
+    <div class="container">
+      <div class="columns is-vcentered">
+        <div class="column is-5 is-offset-1">
+          <h1 class="title is-1 is-spaced">
+            Sling, Forms.
+          </h1>
+          <h2 class="subtitle is-5">
+            Build and embed web forms with zero coding and no servers to maintain.
+          </h2>
+          <div class="buttons">
+            <%= link_to('Sign Up', new_user_registration_path, class: 'button is-primary') %>
+            <%= link_to('Login', new_user_session_path, class: 'button') %>
+          </div>
+        </div>
+        <div class="column is-5">
+          <figure class="image is-4by3">
+            <img src="https://via.placeholder.com/600x400/eeeeee?text=Some+Trendy+Screenshot+Goes+Here" alt="Description" />
+          </figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section is-medium">
+  <div class="container">
+    <div class="title-wrapper has-text-centered">
+      <h2 class="title is-2">Awesome Features</h2>
+      <h3 class="subtitle is-5 is-muted">Fully featured, without all the confusion.</h3>
+      <div class="divider is-centered"></div>
+    </div>
+
+    <div class="columns is-vcentered has-margin-top-60">
+      <div class="column is-4 is-offset-1">
+        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
+          Drag and Drop Editor
+        </h3>
+        <p class="subtitle is-5">
+          Drag and drop the fields you need, configure their properties, and even tweak your layout
+          using columns.
+        </p>
+      </div>
+      <div class="column is-5 is-offset-1">
+        <img src="https://via.placeholder.com/500x500/eeeeee?text=Feature+Image" alt="" />
+      </div>
+    </div>
+
+    <div class="columns is-vcentered has-margin-top-60">
+      <div class="column is-5 is-offset-1">
+        <img src="https://via.placeholder.com/500x500/eeeeee?text=Feature+Image" alt="" />
+      </div>
+      <div class="column is-4 is-offset-1">
+        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
+          Easily Embed Anywhere
+        </h3>
+        <p class="subtitle is-5">
+          Copy and paste our tiny embed code into any website. Or use share links to share your
+          forms with others.
+        </p>
+      </div>
+    </div>
+
+    <div class="columns is-vcentered has-margin-top-60">
+      <div class="column is-4 is-offset-1">
+        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
+          Real Life Documents
+        </h3>
+        <p class="subtitle is-5">
+          Not just a dump of your data. A snapshot is provided for you in PDF format each time
+          someone completes your forms.
+        </p>
+      </div>
+      <div class="column is-5 is-offset-1">
+        <img src="https://via.placeholder.com/500x500/eeeeee?text=Feature+Image" alt="" />
+      </div>
+    </div>
+
+    <div class="columns is-vcentered has-margin-top-60">
+      <div class="column is-5 is-offset-1">
+        <img src="https://via.placeholder.com/500x500/eeeeee?text=Feature+Image" alt="" />
+      </div>
+      <div class="column is-4 is-offset-1">
+        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
+          Organized Results
+        </h3>
+        <p class="subtitle is-5">
+          Sign in to view all your form submissions in one place. Add a recipient email to your
+          forms and get them sent directly to your inbox.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

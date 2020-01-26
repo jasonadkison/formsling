@@ -21,6 +21,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '~bulma-tooltip';
 
 // custom styles
+@import './helpers';
 @import './layout';
 @import './forms';
 @import './editor';

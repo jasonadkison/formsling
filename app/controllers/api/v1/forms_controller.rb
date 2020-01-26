@@ -20,7 +20,7 @@ module Api
       def update
         @form = current_user.forms.find(params[:id])
 
-        return render json: { message: 'Could not save the form.' }, status: 422 unless (@form.update_attributes(form_params))
+        return render json: { message: 'Could not save the form.' }, status: 422 unless (@form.update(form_params))
       end
 
       def destroy

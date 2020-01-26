@@ -1,15 +1,25 @@
 version: "3"
 services:
   db:
-    image: postgres:11
+    image: postgres:11.6
     ports:
       - "5432:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
       - ./log:/root/log:cached
+  redis:
+    image: redis:5.0.7
+    volumes:
+      - redis:/data
+  smtp:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025 # smtp
+      - 8025:8025 # web UI
+    restart: always
   app:
     build: .
-    command: bash -c "rm -rf ./tmp/pids/server.pid && foreman start -f Procfile.dev-server"
+    command: bash -c "rm -rf ./tmp/pids/*.pid && foreman start -f Procfile.dev-server"
     volumes:
       - .:/app:cached
       - rails_cache:/app/tmp/cache
@@ -26,9 +36,11 @@ services:
       - NODE_ENV=development
     depends_on:
       - db
+      - redis
 
 volumes:
   postgres:
+  redis:
   bundle:
   node_modules:
   rails_cache:

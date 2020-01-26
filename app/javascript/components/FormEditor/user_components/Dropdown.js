@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
-import DragBox from './DragBox';
-import DropdownProperties from './DropdownProperties';
+import UserComponent from './UserComponent';
+import DropdownProperties from '../properties/Dropdown';
 
 const Dropdown = (props) => {
   const {
-    label,
+    name,
     initialValue,
     placeholder,
     helpText,
@@ -27,10 +27,10 @@ const Dropdown = (props) => {
   }, [initialValue]);
 
   return (
-    <DragBox label="Dropdown">
+    <UserComponent>
       <div className="field">
         <label className="label">
-          {label}
+          {name}
           {required && (
             <>
               &nbsp;
@@ -44,18 +44,19 @@ const Dropdown = (props) => {
             placeholder={placeholder}
             required={required}
             value={options.indexOf(selected) === -1 ? null : { value: selected, label: selected }}
+            styles={{ control: (provided) => ({ ...provided, borderRadius: 0 }) }}
           />
         </div>
         {helpText && (
           <p className="help">{helpText}</p>
         )}
       </div>
-    </DragBox>
+    </UserComponent>
   );
 };
 
 Dropdown.propTypes = {
-  label: PropTypes.string,
+  name: PropTypes.string,
   initialValue: PropTypes.string,
   placeholder: PropTypes.string,
   helpText: PropTypes.string,
@@ -66,7 +67,7 @@ Dropdown.propTypes = {
 };
 
 Dropdown.defaultProps = {
-  label: 'Field Label',
+  name: 'Field Label',
   initialValue: '',
   placeholder: '',
   helpText: '',
@@ -77,6 +78,7 @@ Dropdown.defaultProps = {
 };
 
 Dropdown.craft = {
+  name: 'Dropdown',
   related: {
     properties: DropdownProperties,
   },

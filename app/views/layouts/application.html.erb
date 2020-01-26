@@ -8,23 +8,26 @@
     <%= stylesheet_pack_tag 'application', media: 'all' %>
   </head>
   <body>
+    <div class="app-container">
 
-    <%= render 'layouts/nav' unless controller_name == 'public_form' %>
+      <%= render 'layouts/nav' unless controller_name == 'public_form' %>
 
-    <section class="section">
-      <div class="container">
-        <%= render 'layouts/notifications' unless controller_name == 'dashboard' %>
-        <%= yield %>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="content has-text-centered">
-          Copyright &copy; 2020 FormSling. All rights reserved.
+      <section class="section">
+        <div class="container">
+          <%= render 'layouts/notifications' unless controller_name == 'dashboard' %>
+          <%= yield %>
         </div>
-      </div>
-    </footer>
+      </section>
+
+      <footer class="footer">
+        <div class="container">
+          <div class="content has-text-centered">
+            Copyright &copy; 2020 FormSling. All rights reserved.
+          </div>
+        </div>
+      </footer>
+
+    </div>
 
     <%= javascript_pack_tag 'application' %>
   </body>

@@ -11,11 +11,11 @@ const PublishForm = ({ form }) => {
   };
 
   const embedCode = `<script type="text/javascript" src="${form.embed_url}"></script>
-<a class="formsling-form-widget" href="${form.public_url}">Here is the link</a>`;
+<a class="formsling-form-widget" href="${form.public_url}">${form.name}</a>`;
 
 
   const modal = isOpen ? (
-    <Modal>
+    <Modal onClickOutside={() => setIsOpen(false)}>
       <button className="delete is-pulled-right" onClick={onClickClose}>
         Close
       </button>
@@ -79,7 +79,7 @@ const PublishForm = ({ form }) => {
   return (
     <>
       <a
-        className="button is-inline"
+        className="button is-inline is-info is-outlined"
         onClick={() => setIsOpen(true)}
       >
         Share / Embed

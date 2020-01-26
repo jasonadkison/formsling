@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   devise_for :users
 
   namespace :api, defaults: { format: :json } do
@@ -13,8 +19,18 @@ Rails.application.routes.draw do
 
   get '/r/:id', to: 'result#show', as: 'result'
 
-  # Forward all HTML (non-XHR) requests to DashboardController#index
-  get '*page', to: 'dashboard#index', constraints: ->(req) { !req.xhr? && req.format.html? }
+  # catch every other request and send it to our react app
+  get '*page', to: 'dashboard#index',
+    constraints: lambda { |req|
+      # exclude XHR requests
+      return false if req.xhr?
+
+      # exclude non-html requests
+      return false unless req.format.html?
+
+      # exclude any engine routes manually (e.g. sidekiq)
+      req.path.exclude?('/sidekiq')
+    }
 
   root 'welcome#index'
 end

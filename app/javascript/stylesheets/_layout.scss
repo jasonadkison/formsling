@@ -1,9 +1,45 @@
-
-//.main-menu,
 .breadcrumb {
   margin: 1rem 0;
 }
 
 .navbar.main-menu {
   z-index: 29;
+}
+
+body > .app-container {
+  min-height: 100vh;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 168px;
+  footer.footer {
+    height: 168px;
+    position: absolute;
+    bottom: 0;
+    width: 100%
+  }
+}
+
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 99;
+  opacity: 0.90;
+
+  #spinner {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background-image: url('../images/spinner.svg');
+    background-size: 80px 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: -100px 0 0 -100px;
+  }
 }

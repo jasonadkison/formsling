@@ -1,23 +1,22 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useEffect, useReducer, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Editor, Frame, Canvas } from "@craftjs/core";
-import { compress, decompress } from '../utils';
+import { Editor } from "@craftjs/core";
+import { compress } from '../utils';
 
+import Loader from '../Loader';
 import Breadcrumb from '../Breadcrumb';
+import Breadcrumbs from './Breadcrumbs';
+import EditForm from '../modals/EditForm';
 import Header from './Header';
 import Toolbar from './Toolbar';
-import Sidebar from './Sidebar';
-import Breadcrumbs from './Breadcrumbs';
+import MainFrame from './MainFrame';
+import SaveButton from './SaveButton';
+import LastSaved from './LastSaved';
+import RenderNode from './RenderNode';
 
-import Text from './Text';
-import Dropdown from './Dropdown';
-import Columns, { Column } from './Columns';
-
-// List all resolvers that will be used by the Editor component here
-export const allResolvers = { Text, Dropdown, Columns, Column };
+import resolvers from './resolvers';
 
 // Bomb if the server returns and unexpected status
 const customAxios = axios.create({
@@ -27,9 +26,13 @@ const customAxios = axios.create({
 });
 
 const initialState = {
-  isFetching: true,
+  isFetching: false,
   isSaving: false,
-  form: undefined,
+  form: {
+    id: '',
+    name: '',
+    payload: undefined,
+  },
 };
 
 const reducer = (state, action) => {
@@ -53,6 +56,7 @@ const FormEditor = ({ enabled }) => {
   const { id } = useParams();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [error, setError] = useState(false);
+  const [editorEnabled, setEditorEnabled] = useState(enabled);
   const { isFetching, isSaving, form } = state;
 
   const fetchForm = async () => {
@@ -75,47 +79,59 @@ const FormEditor = ({ enabled }) => {
 
   const handleSave = (editorPayload) => saveForm({ payload: compress(editorPayload) });
 
+  const onToggleEditor = useCallback((enabled) => {
+    setEditorEnabled(enabled);
+  }, []);
+
   // Fetch the form when id changes
   useEffect(() => {
     fetchForm();
   }, [id]);
 
-  if (error) {
-    return (
-      <div className="notification is-danger">
-        <p>Oops, something went wrong. Try refreshing the page.</p>
-      </div>
-    );
-  }
+  const loading = state.isFetching || state.isSaving;
 
-  if (state.isFetching || state.isSaving) {
-    return (
-      <div>Loading...</div>
-    );
-  }
+  const onFormEditSuccess = () => fetchForm();
+
+  const editForm = (
+    <EditForm form={form} onSuccess={onFormEditSuccess} />
+  );
 
   return (
-    <div id="editor">
-      <Breadcrumb>
-        <Breadcrumbs {...form} />
-      </Breadcrumb>
-      <Editor resolver={allResolvers} enabled={enabled}>
-        <Header form={form} handleSave={handleSave} />
-        <Toolbar form={form} />
-
-        <div className="columns">
-          <div className="column">
-            <Frame json={form.payload ? decompress(form.payload) : undefined}>
-              <Canvas id="root-canvas">
-                <Text label="First Name" />
-                <Text label="Last Name" />
-              </Canvas>
-            </Frame>
-          </div>
-          <Sidebar />
+    <>
+      {error && (
+        <div className="notification is-danger">
+          <p>Oops, something went wrong.</p>
         </div>
-      </Editor>
-    </div>
+      )}
+      {<Loader loading={loading} />}
+      <div id="editor" className={editorEnabled ? 'is-enabled' : 'is-disabled'}>
+        <Breadcrumb>
+          <Breadcrumbs {...form} />
+        </Breadcrumb>
+        <Editor resolver={resolvers} enabled={editorEnabled} onRender={RenderNode}>
+          <Header
+            form={form}
+            handleSave={handleSave}
+            editForm={editForm}
+          />
+          <Toolbar form={form} onToggleEditor={onToggleEditor} />
+          <MainFrame payload={form.payload} />
+          {editorEnabled && (
+            <div className="has-text-centered">
+              <div className="has-margin-top-20">
+                <SaveButton handleSave={handleSave} loading={loading} />
+              </div>
+
+              {form.updated_at && (
+                <div className="has-margin-top-10">
+                  <LastSaved timestamp={form.updated_at} />
+                </div>
+              )}
+            </div>
+          )}
+        </Editor>
+      </div>
+    </>
   );
 };
 

@@ -10,14 +10,13 @@ import {
   Rows,
   HelpText,
   InputAttributes,
-} from './Properties';
+} from './all';
 
 const DropdownProperties = () => (
   <>
     <Name />
-    <Label />
-    <Placeholder />
     <DropdownAttributes />
+    <Placeholder />
     <DefaultValue />
     <HelpText />
     <InputAttributes />
