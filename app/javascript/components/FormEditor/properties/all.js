@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNode } from '@craftjs/core';
+import nanoid from 'nanoid';
 import CreatableSelect from 'react-select/creatable';
 
 import Panel from './Panel';
@@ -191,6 +192,147 @@ export const DropdownAttributes = () => {
           })
         }}
       />
+    </Panel>
+  );
+};
+
+export const ToggleBehavior = () => {
+  const { id, setProp, options, type } = useNode(node => node.data.props);
+
+  return (
+    <Panel label="Toggle Behavior">
+      <div className="field">
+        <div className="control has-margin-bottom-10">
+          <label className="radio label is-small">
+            <input
+              type="radio"
+              name={`type-${id}`}
+              defaultChecked={type === 'checkbox'}
+              onChange={(e) => e.target.checked && setProp(props => props.type = 'checkbox')}
+            />
+            More than one option may be selected
+          </label>
+        </div>
+        <div className="control">
+          <label className="radio label is-small">
+            <input
+              type="radio"
+              name={`type-${id}`}
+              defaultChecked={type === 'radio'}
+              onChange={(e) => e.target.checked && setProp(props => props.type = 'radio')}
+            />
+            Only one option may be selected
+          </label>
+        </div>
+      </div>
+    </Panel>
+  );
+};
+
+export const ToggleOptions = () => {
+  const getDefaultOptions = () => [
+    { id: nanoid(), name: 'Option 1' },
+    { id: nanoid(), name: 'Option 2' },
+    { id: nanoid(), name: 'Option 3' },
+  ];
+
+  const { setProp, options, type } = useNode(node => node.data.props);
+  const [choices, setChoices] = useState(options.length ? options : getDefaultOptions());
+
+  // This updates the user component props each time state changes.
+  useEffect(() => setProp(props => props.options = choices), [choices]);
+
+  // Updates options state.
+  // When switching type to 'radio', this will uncheck all selected options except the first.
+  useEffect(() => {
+    if (type === 'radio') {
+      const firstSelected = choices.find(choice => choice.selected);
+      setChoices(choices.map(c => c.id === firstSelected.id ? c : { ...c, selected: false }));
+    }
+  }, [type]);
+
+  // Updates options state.
+  // When type is 'radio' this ensures only one option is selected.
+  const updateOptionSelected = (id, nextOption) => {
+    const nextChoices = type === 'radio' && nextOption.selected ? (
+      choices.map(c => c.id === id ? { ...c, ...nextOption } : { ...c, selected: false })
+    ) : (
+      choices.map(c => c.id === id ? { ...c, ...nextOption } : c)
+    );
+
+    setChoices(nextChoices);
+  };
+
+  // Updates option name in state.
+  const updateOptionName = (id, name) => {
+    setChoices(choices.map(choice => choice.id === id ? { ...choice, name } : choice));
+  };
+
+  // Removes option from state.
+  // Ensures there is always at least one option.
+  const removeOption = id => {
+    if (choices.length === 1) {
+      alert('You must have at least one toggle option.');
+    } else {
+      setChoices(choices.filter(choice => choice.id !== id));
+    }
+  };
+
+  // Adds a new option to state.
+  const onClickAdd = () => {
+    const name = 'New Option';
+    const id = nanoid();
+    setChoices([...choices, { id, name }]);
+  };
+
+  return (
+    <Panel label="Toggle Options">
+      {choices.map((choice) => (
+        <div className="field is-grouped" key={choice.id}>
+          <div className="control">
+            <label className={`type is-marginless`}>
+              <input
+                className="is-marginless"
+                type={type}
+                checked={choice.selected || false}
+                readOnly
+                onClick={(e) => updateOptionSelected(choice.id, { selected: !choice.selected })}
+              />
+            </label>
+          </div>
+          <div className="control">
+            <input
+              type="text"
+              className="input is-small"
+              defaultValue={choice.name}
+              onChange={(e) => updateOptionName(choice.id, e.target.value)}
+            />
+          </div>
+          <div className="control">
+            <button
+              className="button is-small"
+              onClick={() => removeOption(choice.id)}
+            >
+              <span className="icon">
+                <i className="fas fa-trash" />
+              </span>
+            </button>
+          </div>
+        </div>
+      ))}
+      <div className="control">
+        <button
+          className="button is-small"
+          onClick={onClickAdd}
+        >
+          <span className="icon">
+            <i className="fas fa-plus" />
+          </span>
+          <span>
+            Add New Option
+          </span>
+        </button>
+      </div>
     </Panel>
   );
 };
