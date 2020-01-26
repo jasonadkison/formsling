@@ -28,9 +28,9 @@ const Text = ({ name, type, rows, initialValue, placeholder, readOnly, required,
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
-        {name}&nbsp;
+        {name}
         {required && (
-          <span className="help is-danger is-inline">* required</span>
+          <span className="help is-danger is-inline"> * required</span>
         )}
       </label>
       <div className="control">
