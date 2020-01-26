@@ -1,8 +1,7 @@
 // This component is used by end users to complete the shared or embedded form.
 //
 // On submit it builds a data mapping and snapshots the entire DOM tree and sends it to the server.
-import React, {
-  useRef, useReducer, createContext, useEffect, useContext, useState } from 'react';
+import React, { useRef, useReducer, createContext, useEffect, useContext, useState } from 'react';
 import {Editor, Frame, Canvas, useEditor} from "@craftjs/core";
 import axios from 'axios';
 import $ from 'jquery'; // used to transform the final snapshot values
@@ -44,6 +43,12 @@ const snapshotForm = (outerHTML) => {
     const value = $(input).attr('data-value');
     $(input).attr('value', value);
   });
+
+  // set all checkbox/radio checked
+  /*$('input[type="checkbox"], input[type="radio"]', node).each((i, input) => {
+    const selected = $(input).data('selected');
+    if (selected) $(input).attr('checked', true);
+  });*/
 
   // return the compressed DOM tree payload as base64 string
   const payload = node.get(0).outerHTML;
@@ -121,7 +126,7 @@ const Form = ({ form }) => {
   }
 
   return (
-    <div ref={ref}>
+    <div>
       <h1 className="title">
         {form.name}
       </h1>
@@ -132,9 +137,11 @@ const Form = ({ form }) => {
               <p>Oops, something went wrong. Please try again.</p>
             </div>
           )}
-          <Frame json={decompress(form.payload)}>
-            <Canvas />
-          </Frame>
+          <div ref={ref}>
+            <Frame json={decompress(form.payload)}>
+              <Canvas />
+            </Frame>
+          </div>
           <div className="field is-grouped is-grouped-right has-margin-top-40 has-margin-bottom-10">
             <div className="control">
               <button
