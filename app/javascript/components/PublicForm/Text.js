@@ -37,7 +37,7 @@ const Text = ({ name, type, rows, initialValue, placeholder, readOnly, required,
         {useTextarea ? (
           <textarea {...commonProps} className="textarea" rows={rows} />
         ) : (
-          <input {...commonProps} className="input" type={type} />
+          <input {...commonProps} className="input" type="text" />
         )}
       </div>
       {helpText && (
