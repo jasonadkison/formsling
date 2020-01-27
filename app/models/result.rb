@@ -30,7 +30,7 @@ class Result < ApplicationRecord
     ActionController::Base.helpers.sanitize(
       res,
       tags: %w(h1 h2 h3 h4 h5 span i div label input textarea select option button a br),
-      attributes: %w(&nbsp selected checked value id class name for type)
+      attributes: %w(&nbsp selected checked value id class name for type data-name data-value)
     )
   end
 
