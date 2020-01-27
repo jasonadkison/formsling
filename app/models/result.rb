@@ -22,7 +22,7 @@ class Result < ApplicationRecord
   end
 
   def pdf_filename
-    [form.name, "FormSling.com", Time.zone.now.to_i].join(' ').parameterize
+    [form.name, 'formsling-result', Time.zone.now.to_i].join(' ').parameterize
   end
 
   def payload
