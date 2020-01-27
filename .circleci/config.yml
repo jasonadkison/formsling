@@ -105,6 +105,9 @@ jobs:
 
             echo "Deploying dokku tag dokku/${DOKKU_APP}:${CIRCLE_SHA1}"
             ssh formsling.com "dokku tags:create ${DOKKU_APP} previous; dokku tags:deploy ${DOKKU_APP} ${CIRCLE_SHA1}"
+
+            echo "Cleaning up old tags..."
+            ssh formsling.com "./cleanup-old-tags.sh ${DOKKU_APP}"
           no_output_timeout: 10m
       - run:
           name: Cache the build image as the new base image with Docker Hub
