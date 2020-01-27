@@ -13,9 +13,12 @@ class PublicFormController < ApplicationController
   def submit
     @form = Form.find(params[:id])
 
-    return render json: { message: 'Success' }, status: 200 if @form.results.create(result_params)
+    unless @result = @form.results.create(result_params)
+      return render json: { message: 'Something went wrong.' }, status: 422
+    end
 
-    render json: { message: 'Something went wrong.' }, status: 422
+    ProcessResultJob.perform_async(@result.id)
+    return render json: { message: 'Success' }, status: 200
   end
 
   def embed
