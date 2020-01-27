@@ -26,23 +26,21 @@ const Toggle = (props) => {
             </>
           )}
         </label>
-        <div className="control">
-          {options.map((option) => (
-            <React.Fragment key={option.id}>
-              <input
-                className="is-checkradio"
-                type={type}
-                readOnly
-                onClick={(e) => e.preventDefault()}
-                checked={option.selected || false}
-                id={`checkradio-${option.id}`}
-              />
-              <label htmlFor={`checkradio-${option.id}`}>
-                {option.name}
-              </label>
-            </React.Fragment>
-          ))}
-        </div>
+        {options.map((option) => (
+          <div className="field" key={option.id}>
+            <input
+              className="is-checkradio"
+              type={type}
+              readOnly
+              onClick={(e) => e.preventDefault()}
+              checked={option.selected || false}
+              id={`checkradio-${option.id}`}
+            />
+            <label htmlFor={`checkradio-${option.id}`}>
+              {option.name}
+            </label>
+          </div>
+        ))}
         {helpText && (
           <p className="help">{helpText}</p>
         )}

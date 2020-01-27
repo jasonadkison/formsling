@@ -34,9 +34,10 @@ const Toggle = ({ name, type, helpText, options, required, readOnly }) => {
           <span className="help is-danger is-inline"> * required</span>
         )}
       </label>
-      <div className="control" style={{ position: 'relative' }}>
+
+      <div className="control">
         {optionsState.map((option, index) => (
-          <React.Fragment key={option.id}>
+          <div className="field" key={option.id}>
             <input
               className="is-checkradio"
               type={type}
@@ -50,7 +51,7 @@ const Toggle = ({ name, type, helpText, options, required, readOnly }) => {
             <label htmlFor={option.id}>
               {option.name}
             </label>
-          </React.Fragment>
+          </div>
         ))}
       </div>
     </div>
