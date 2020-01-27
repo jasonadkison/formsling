@@ -17,13 +17,22 @@ const Toolbar = ({ form, onToggleEditor }) => {
   return (
     <div className="toolbar">
       <div className="columns">
-        <div className={`${enabled ? 'column' : 'is-hidden'}`}>
-          <p className="menu-label">
-            Drag and Drop Elements
-          </p>
-          <Tools form={form} />
-        </div>
         <div className="column">
+          <h4 className="subtitle is-size-5 is-marginless">
+            {enabled ? 'Editing' : 'Previewing'}
+          </h4>
+          <p className="menu-label">
+            {enabled ? (
+              <span>Drag and drop elements to build your form</span>
+            ) : (
+              <span>How the form appears when you share it</span>
+            )}
+          </p>
+          {enabled && (
+            <Tools form={form} />
+          )}
+        </div>
+        <div className="column is-4">
           <div className="control is-pulled-right">
             <input
               id="editor-switch"
