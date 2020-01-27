@@ -73,49 +73,50 @@ const ResultList = () => {
         <table className="table is-striped">
           <thead>
             <tr>
+              <th>Result ID</th>
               <th>Created</th>
-              <th />
               <th />
             </tr>
           </thead>
           <tbody>
             {results.map(result => (
               <tr key={result.id}>
+                <td>{result.id}</td>
                 <td>
                   <TimeAgo date={result.created_at}>
                     {result.created_at}
                   </TimeAgo>
                 </td>
                 <td>
-                  <a
-                    className="button is-small"
-                    href={`/r/${result.id}`}
-                    rel="noopener noreferrer"
-                    title="View Result"
-                    target="_blank"
-                  >
-                    <span className="icon">
-                      <i className="fas fa-eye" />
-                    </span>
-                    <span>
-                      View Result
-                    </span>
-                  </a>
-                </td>
-                <td>
-                <a
-                    className="button is-small"
-                    href={`/r/${result.id}.pdf`}
-                    rel="noopener noreferrer"
-                    title="Download Result"
-                  >
-                    <span className="icon">
-                      <i className="fas fa-file-pdf" />
-                    </span>
-                    <span>
-                      Download Result
-                    </span>
-                  </a>
+                  <div className="buttons">
+                    <a
+                      className="button is-small"
+                      href={`/r/${result.id}`}
+                      rel="noopener noreferrer"
+                      title="View Result"
+                      target="_blank"
+                    >
+                      <span className="icon">
+                        <i className="fas fa-eye" />
+                      </span>
+                      <span>
+                        View
+                      </span>
+                    </a>
+                    <a
+                      className="button is-small"
+                      href={`/r/${result.id}.pdf`}
+                      rel="noopener noreferrer"
+                      title="Download Result"
+                    >
+                      <span className="icon">
+                        <i className="fas fa-file-pdf" />
+                      </span>
+                      <span>
+                        Download
+                      </span>
+                    </a>
+                  </div>
                 </td>
               </tr>
             ))}
