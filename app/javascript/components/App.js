@@ -28,7 +28,7 @@ const App = () => {
             <Route exact path="/" component={FormList} />
             <Route exact path="/forms" component={FormList} />
             <Route exact path="/forms/:id" component={FormEditor} />
-            <Route exact path="/forms/:id/results" component={ResultList} />
+            <Route exact path="/forms/:formId/results" component={ResultList} />
             <Route path="*" component={NotFound} />
           </Switch>
         </BreadcrumbProvider>
