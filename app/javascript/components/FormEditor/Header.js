@@ -21,7 +21,6 @@ const Header = ({ form, onToggleEditor, editForm }) => (
       <div className="level-right">
         <div className="level-item">
           <div className="buttons">
-            <PublishForm form={form} />
             <Link
               to={`/forms/${form.id}/results`}
               title="Results"
@@ -29,6 +28,7 @@ const Header = ({ form, onToggleEditor, editForm }) => (
             >
               View Results
             </Link>
+            <PublishForm form={form} />
           </div>
         </div>
       </div>
