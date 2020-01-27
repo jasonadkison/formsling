@@ -61,8 +61,9 @@ const FormList = () => {
               <tr>
                 <th>Name</th>
                 <th>Recipient</th>
-                <th style={{ minWidth: '180px' }}>Last Updated</th>
-                <th style={{ minWidth: '400px' }} />
+                <th>Created</th>
+                <th>Updated</th>
+                <th style={{ minWidth: '372px' }} />
               </tr>
             </thead>
             <tbody>
@@ -75,6 +76,11 @@ const FormList = () => {
                   </td>
                   <td>
                     {form.email_recipient}
+                  </td>
+                  <td>
+                    <TimeAgo date={form.created_at}>
+                      {form.created_at}
+                    </TimeAgo>
                   </td>
                   <td>
                     <TimeAgo date={form.updated_at}>
