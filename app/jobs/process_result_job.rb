@@ -10,8 +10,10 @@ class ProcessResultJob < ApplicationJob
       pdf_file.write(pdf)
       pdf_file.rewind
 
+      # mail will raise exception if it fails
       UserMailer.result_processed(result, pdf_file).deliver_now
-      result.update()
+
+      result.update(processed: true)
     ensure
       pdf_file.close
       pdf_file.unlink
