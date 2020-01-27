@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import PublishForm from '../modals/PublishForm';
 
-const Header = ({ form, onToggleEditor, editForm }) => (
+const Header = ({ form, editForm }) => (
   <header>
     <div className="level">
       <div className="level-left">
