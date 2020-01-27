@@ -44,12 +44,6 @@ const snapshotForm = (outerHTML) => {
     $(input).attr('value', value);
   });
 
-  // set all checkbox/radio checked
-  /*$('input[type="checkbox"], input[type="radio"]', node).each((i, input) => {
-    const selected = $(input).data('selected');
-    if (selected) $(input).attr('checked', true);
-  });*/
-
   // return the compressed DOM tree payload as base64 string
   const payload = node.get(0).outerHTML;
 
