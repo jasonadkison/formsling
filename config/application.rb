@@ -35,5 +35,8 @@ module FormSling
     config.hosts << 'staging.formsling.com'
 
     config.active_job.queue_adapter = :sidekiq
+
+    # we only send emails async so we should retry when they fail
+    config.action_mailer.raise_delivery_errors = true
   end
 end
