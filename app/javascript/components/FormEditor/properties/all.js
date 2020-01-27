@@ -272,13 +272,7 @@ export const ToggleOptions = () => {
 
   // Removes option from state.
   // Ensures there is always at least one option.
-  const removeOption = id => {
-    if (choices.length === 1) {
-      alert('You must have at least one toggle option.');
-    } else {
-      setChoices(choices.filter(choice => choice.id !== id));
-    }
-  };
+  const removeOption = id => setChoices(choices.filter(choice => choice.id !== id));
 
   // Adds a new option to state.
   const onClickAdd = () => {
@@ -289,7 +283,7 @@ export const ToggleOptions = () => {
 
   return (
     <Panel label="Toggle Options">
-      {choices.map((choice) => (
+      {choices.map((choice, index) => (
         <div className="field is-grouped" key={choice.id}>
           <div className="control">
             <label className={`type is-marginless`}>
@@ -311,14 +305,16 @@ export const ToggleOptions = () => {
             />
           </div>
           <div className="control">
-            <button
-              className="button is-small"
-              onClick={() => removeOption(choice.id)}
-            >
-              <span className="icon">
-                <i className="fas fa-trash" />
-              </span>
-            </button>
+            {index !== 0 && (
+              <button
+                className="button is-small"
+                onClick={() => removeOption(choice.id)}
+              >
+                <span className="icon">
+                  <i className="fas fa-trash" />
+                </span>
+              </button>
+            )}
           </div>
         </div>
       ))}
