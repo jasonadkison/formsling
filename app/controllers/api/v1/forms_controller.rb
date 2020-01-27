@@ -2,7 +2,7 @@ module Api
   module V1
     class FormsController < Api::Controller
       def index
-        @forms = current_user.forms
+        @forms = current_user.forms.order(created_at: :desc)
       end
 
       def show
