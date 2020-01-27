@@ -5,7 +5,7 @@ import {
   Name,
   Label,
   Placeholder,
-  ToggleBehavior,
+  ToggleType,
   ToggleOptions,
   DefaultValue,
   Rows,
@@ -16,7 +16,7 @@ import {
 const ToggleProperties = () => (
   <>
     <Name />
-    <ToggleBehavior />
+    <ToggleType />
     <ToggleOptions />
     <HelpText />
     <InputAttributes />

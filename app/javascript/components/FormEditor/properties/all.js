@@ -196,32 +196,30 @@ export const DropdownAttributes = () => {
   );
 };
 
-export const ToggleBehavior = () => {
+export const ToggleType = () => {
   const { id, setProp, options, type } = useNode(node => node.data.props);
 
   return (
-    <Panel label="Toggle Behavior">
+    <Panel label="Toggle Type">
       <div className="field">
         <div className="control has-margin-bottom-10">
-          <label className="radio label is-small">
+          <label className="radio is-size-7">
             <input
               type="radio"
               name={`type-${id}`}
               defaultChecked={type === 'checkbox'}
               onChange={(e) => e.target.checked && setProp(props => props.type = 'checkbox')}
             />
-            More than one option may be selected
+            Checkboxes
           </label>
-        </div>
-        <div className="control">
-          <label className="radio label is-small">
+          <label className="radio is-size-7">
             <input
               type="radio"
               name={`type-${id}`}
               defaultChecked={type === 'radio'}
               onChange={(e) => e.target.checked && setProp(props => props.type = 'radio')}
             />
-            Only one option may be selected
+            Radios
           </label>
         </div>
       </div>
@@ -307,7 +305,7 @@ export const ToggleOptions = () => {
           <div className="control">
             {index !== 0 && (
               <button
-                className="button is-small"
+                className="button is-small is-danger"
                 onClick={() => removeOption(choice.id)}
               >
                 <span className="icon">
@@ -316,21 +314,20 @@ export const ToggleOptions = () => {
               </button>
             )}
           </div>
+          {(index + 1) === choices.length && (
+            <div className="control">
+              <button
+                className="button is-small is-success"
+                onClick={onClickAdd}
+              >
+                <span className="icon">
+                  <i className="fas fa-plus" />
+                </span>
+              </button>
+            </div>
+          )}
         </div>
       ))}
-      <div className="control">
-        <button
-          className="button is-small"
-          onClick={onClickAdd}
-        >
-          <span className="icon">
-            <i className="fas fa-plus" />
-          </span>
-          <span>
-            Add New Option
-          </span>
-        </button>
-      </div>
     </Panel>
   );
 };
