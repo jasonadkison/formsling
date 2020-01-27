@@ -6,7 +6,7 @@
     <style>
       button { display: none !important }
     </style>
-    <%= wicked_pdf_stylesheet_pack_tag 'pdf' %>
+    <%= Rails.env.production? ? production_pdf_pack_tag('pdf.css') : wicked_pdf_stylesheet_pack_tag 'pdf' %>
   </head>
   <body>
     <%= yield %>
