@@ -6,7 +6,7 @@ import { Editor } from "@craftjs/core";
 import { compress } from '../utils';
 
 import Loader from '../Loader';
-import Breadcrumb from '../Breadcrumb';
+import BreadcrumbPortal from '../BreadcrumbPortal';
 import Breadcrumbs from './Breadcrumbs';
 import EditForm from '../modals/EditForm';
 import Header from './Header';
@@ -105,9 +105,9 @@ const FormEditor = ({ enabled }) => {
       )}
       {<Loader loading={loading} />}
       <div id="editor" className={editorEnabled ? 'is-enabled' : 'is-disabled'}>
-        <Breadcrumb>
+        <BreadcrumbPortal>
           <Breadcrumbs {...form} />
-        </Breadcrumb>
+        </BreadcrumbPortal>
         <Editor resolver={resolvers} enabled={editorEnabled} onRender={RenderNode}>
           <Header
             form={form}

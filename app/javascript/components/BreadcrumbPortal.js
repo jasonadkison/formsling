@@ -22,7 +22,7 @@ export function BreadcrumbProvider({ children }) {
   );
 }
 
-export function Breadcrumb({ children }) {
+export function BreadcrumbPortal({ children }) {
   const breadcrumbNode = useContext(Context);
 
   return breadcrumbNode ? createPortal(
@@ -33,4 +33,4 @@ export function Breadcrumb({ children }) {
   ) : null;
 }
 
-export default Breadcrumb;
+export default BreadcrumbPortal;
