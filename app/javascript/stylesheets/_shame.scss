@@ -23,3 +23,6 @@
 
 // show an element as movable
 .is-movable { cursor: move; }
+
+// disable interactions with snapshot
+.is-snapshot { pointer-events: none; }
