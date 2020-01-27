@@ -173,6 +173,7 @@ body > [draggable="true"] {
   $icon-text: "\f11c";
   $icon-dropdown: "\f022";
   $icon-columns: "\f0db";
+  $icon-toggle: "\f14a";
 
   // The toolbar button (already has icon specified in the markup)
   &.button {
@@ -211,6 +212,10 @@ body > [draggable="true"] {
 
     &[data-name="Columns"]::after {
       content: $icon-columns;
+    }
+
+    &[data-name="Toggle"]::after {
+      content: $icon-toggle;
     }
   }
 }
