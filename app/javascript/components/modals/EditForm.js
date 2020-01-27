@@ -35,7 +35,7 @@ const EditForm = ({ form, onSuccess }) => {
     await axios.patch(`/api/v1/forms/${form.id}`, { form: nextForm }, { headers })
       .then(({ data }) => {
         handleClose();
-        onSuccess();
+        onSuccess(data);
       })
       .catch(() => {
         setError(true);
