@@ -6,7 +6,11 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.first || User.create(email: 'test@test.com', password: 'password', password_confirmation: 'password')
+user = User.first || User.create(first_name: "John",
+                                 last_name: "Doe",
+                                 email: 'test@test.com',
+                                 password: 'password',
+                                 password_confirmation: 'password')
 
 forms = [
   {
