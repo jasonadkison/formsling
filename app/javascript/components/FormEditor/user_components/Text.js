@@ -71,7 +71,7 @@ Text.propTypes = {
 
 Text.defaultProps = {
   name: 'Field Name',
-  type: '',
+  type: 'text',
   initialValue: '',
   placeholder: '',
   helpText: '',
