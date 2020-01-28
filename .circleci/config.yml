@@ -78,10 +78,10 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Setup test db
-          command: rake db:setup --trace
+          command: bundle exec rake db:setup --trace
       - run:
           name: Run rspec
-          command: rspec --format documentation --format RspecJunitFormatter -o ~/reports/rspec.xml
+          command: bundle exec rspec --format documentation --format RspecJunitFormatter -o ~/reports/rspec.xml
       - store_test_results:
           path: ~/reports
       - store_artifacts:
