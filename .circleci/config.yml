@@ -67,7 +67,7 @@ jobs:
           command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" || true
       - run:
           name: Run some tests
-          command: echo "Nothing to do yet..."
+          command: docker run "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" rspec
   deploy:
     docker:
       - image: docker:stable-git
