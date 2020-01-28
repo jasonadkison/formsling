@@ -60,6 +60,7 @@ const FormList = () => {
             <thead>
               <tr>
                 <th>Name</th>
+                <th>Published?</th>
                 <th>Created</th>
                 <th>Updated</th>
                 <th>Total Results</th>
@@ -73,6 +74,13 @@ const FormList = () => {
                     <Link to={`/forms/${form.id}`} title="Edit">
                       {form.name}
                     </Link>
+                  </td>
+                  <td>
+                    <span
+                      className={`icon has-text-${form.published ? 'success' : 'grey'}`}
+                    >
+                      <i className={`fas fa-${form.published ? 'check' : 'times'}-circle`} />
+                    </span>
                   </td>
                   <td>
                     <TimeAgo date={form.created_at}>

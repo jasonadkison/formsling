@@ -10,9 +10,23 @@ const Header = ({ form, editForm }) => (
     <div className="level">
       <div className="level-left">
         <div className="level-item">
-          <h2 className="title">
-            {form.name}
-          </h2>
+          <div className="level">
+            <div className="level-left">
+              <div className="level-item">
+                <h2 className="title">
+                  {form.name}
+                </h2>
+              </div>
+              <div className="level-item">
+                <span
+                  className="icon has-text-grey is-size-6"
+                  data-tooltip={form.published ? 'Published' : 'Unpublished'}
+                >
+                  <i className={`fas fa-eye${!form.published ? '-slash' : ''}`} />
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="level-item">
           {editForm}

@@ -11,6 +11,7 @@ const EditForm = ({ form, onSuccess }) => {
   const [error, setError] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [published, setPublished] = useState('');
 
   const onClickClose = (e) => {
     e.preventDefault();
@@ -20,6 +21,7 @@ const EditForm = ({ form, onSuccess }) => {
   const handleClose = () => {
     setName(form.name);
     setEmail(form.email_recipient);
+    setPublished(form.published);
     setIsOpen(false);
   };
 
@@ -30,7 +32,7 @@ const EditForm = ({ form, onSuccess }) => {
 
     setLoading(true);
     const token = getToken();
-    const nextForm = { name, email_recipient: email };
+    const nextForm = { name, email_recipient: email, published };
     const headers = { 'X-CSRF-TOKEN': token };
 
     await axios.patch(`/api/v1/forms/${form.id}`, { form: nextForm }, { headers })
@@ -47,6 +49,7 @@ const EditForm = ({ form, onSuccess }) => {
   useEffect(() => {
     setName(form.name);
     setEmail(form.email_recipient);
+    setPublished(form.published);
   }, [form]);
 
   const modal = isOpen ? (
@@ -100,6 +103,24 @@ const EditForm = ({ form, onSuccess }) => {
               <div className="help">
                 You may enter more than one address by separating each with a comma.
               </div>
+            </div>
+            <div className="field">
+              <label className="label">Visibility Settings</label>
+              <div className="control">
+                <input
+                  id={`published-${form.id}`}
+                  type="checkbox"
+                  className="switch"
+                  checked={published}
+                  onChange={(e) => setPublished(e.target.checked)}
+                />
+                <label htmlFor={`published-${form.id}`}>
+                  Published
+                </label>
+              </div>
+              <p className="help">
+                Your form will not be visible to others unless it is published.
+              </p>
             </div>
             <div className="field is-grouped is-grouped-right">
               <div className="control">
