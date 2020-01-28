@@ -11,6 +11,13 @@ describe Form do
         "User must exist"
       ])
     end
+
+    it 'requires payload' do
+      form = Form.new
+      form.payload = nil
+      form.valid?
+      expect(form.errors.full_messages).to include("Payload can't be blank")
+    end
   end
 
   context 'defaults' do
