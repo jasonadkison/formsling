@@ -20,6 +20,7 @@
     "bulma-switch": "^2.0.0",
     "bulma-tooltip": "^3.0.2",
     "classnames": "^2.2.6",
+    "iframe-resizer": "^4.2.9",
     "jquery": "^3.4.1",
     "lzutf8": "^0.5.5",
     "nanoid": "^2.1.10",
