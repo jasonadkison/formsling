@@ -84,12 +84,15 @@ const NewForm = ({ onClose }) => {
                   disabled={loading}
                 />
               </div>
+              <div className="help">
+                You may enter more than one address by separating each with a comma.
+              </div>
             </div>
             <div className="field is-grouped is-grouped-right">
               <div className="control">
                 <button
                   type="submit"
-                  className="button is-link"
+                  className="button is-primary is-outlined"
                   disabled={loading}
                 >
                   Submit
@@ -98,7 +101,7 @@ const NewForm = ({ onClose }) => {
               <div className="control">
                 <button
                   type="button"
-                  className="button is-link is-light"
+                  className="button is-link is-outlined"
                   onClick={onClickClose}
                   disabled={loading}
                 >

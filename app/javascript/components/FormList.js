@@ -43,7 +43,7 @@ const FormList = () => {
           </div>
           <div className="level-right">
             <button
-              className="button is-primary"
+              className="button is-primary is-outlined"
               onClick={() => setIsCreating(true)}
             >
               <span className="icon">

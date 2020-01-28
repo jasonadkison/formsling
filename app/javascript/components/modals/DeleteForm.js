@@ -42,7 +42,7 @@ const DeleteForm = ({ id, name, onClose, onDeleted }) => {
             <div className="control">
               <button
                 type="button"
-                className="button is-link"
+                className="button is-primary is-outlined"
                 onClick={deleteForm}
                 disabled={loading}
               >
@@ -52,7 +52,7 @@ const DeleteForm = ({ id, name, onClose, onDeleted }) => {
             <div className="control">
               <button
                 type="button"
-                className="button is-link is-light"
+                className="button is-link is-outlined"
                 onClick={onClose}
                 disabled={loading}
               >

@@ -66,7 +66,7 @@ const PublishForm = ({ form }) => {
         <div className="control">
           <button
             type="button"
-            className="button is-link"
+            className="button is-link is-outlined"
             onClick={onClickClose}
           >
             Close
