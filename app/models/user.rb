@@ -13,4 +13,7 @@ class User < ApplicationRecord
   after_initialize do
     self.role ||= :member if self.new_record?
   end
+
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 end
