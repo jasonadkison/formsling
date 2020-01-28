@@ -53,6 +53,8 @@ jobs:
   test:
     docker:
       - image: jadkison/formsling-ci:<< pipeline.git.revision >>
+        auth:
+          <<: *dockerauth
     steps:
       - run: echo "Just testing..."
 #  test:
