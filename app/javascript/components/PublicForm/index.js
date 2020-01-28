@@ -9,6 +9,7 @@ import lz from 'lzutf8';
 
 import { decompress, getToken } from '../utils';
 import resolvers from './resolvers';
+import Loader from '../Loader';
 
 // base64 encodes a string
 const compress = payload => lz.encodeBase64(lz.encodeUTF8(payload));
@@ -121,6 +122,7 @@ const Form = ({ form }) => {
 
   return (
     <div>
+      <Loader loading={loading} />
       <h1 className="title">
         {form.name}
       </h1>
