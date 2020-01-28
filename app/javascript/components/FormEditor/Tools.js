@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEditor } from '@craftjs/core';
+import cx from 'classnames';
 
 import resolvers from './resolvers';
 
@@ -8,8 +9,10 @@ const Tools = () => {
     enabled: state.options.enabled,
   }));
 
+  const classNames = cx('buttons are-medium', { 'is-invisible': !enabled });
+
   return (
-    <nav className="buttons are-medium">
+    <nav className={classNames}>
       <a
         className="button"
         ref={ref => connectors.create(ref, <resolvers.Text />)}

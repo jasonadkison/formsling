@@ -43,19 +43,18 @@ const Editor = ({ enabled, setEnabled, form, afterSaveEditor, afterSaveForm }) =
         <Header form={form} editForm={editForm} />
         <Toolbar form={form} onToggleEditor={onToggleEditor} />
         <MainFrame payload={form.payload} />
-        {enabled && (
-          <div className="has-text-centered">
-            <div className="has-margin-top-20">
-              <SaveButton handleSave={saveForm} loading={loading} />
-            </div>
 
-            {form.updated_at && (
-              <div className="has-margin-top-10">
-                <LastSaved timestamp={form.updated_at} />
-              </div>
-            )}
+        <div className="has-text-centered">
+          <div className="has-margin-top-20">
+            <SaveButton handleSave={saveForm} loading={loading} />
           </div>
-        )}
+
+          {form.updated_at && (
+            <div className="has-margin-top-10">
+              <LastSaved timestamp={form.updated_at} />
+            </div>
+          )}
+        </div>
       </CraftEditor>
     </>
   );
