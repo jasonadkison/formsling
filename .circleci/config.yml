@@ -52,7 +52,7 @@ jobs:
           command: docker push "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
   test:
     docker:
-      image: jadkison/formsling-ci:<< pipeline.git.revision >>
+      - image: jadkison/formsling-ci:<< pipeline.git.revision >>
     steps:
       - run: echo "Just testing..."
 #  test:
