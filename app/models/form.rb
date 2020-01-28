@@ -6,6 +6,11 @@ class Form < ApplicationRecord
   validates :user, presence: true
   validates :payload, presence: true
 
+  # Set the default payload
+  after_initialize do
+    self.payload ||= FormEditor::DefaultPayload::CONTACT_FORM
+  end
+
   def email_recipient
     [super, user.email].reject(&:blank?).first
   end
