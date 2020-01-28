@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get '/f/:id', to: 'public_form#show', as: 'public_form'
   post '/f/:id', to: 'public_form#submit', defaults: { format: :json }
   get '/r/:id', to: 'result#show', as: 'result'
+  get '/pricing', to: 'welcome#pricing'
 
   # catch every other request and send it to our react app
   get '*page', to: 'dashboard#index',
