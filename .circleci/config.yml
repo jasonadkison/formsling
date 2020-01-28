@@ -55,55 +55,49 @@ jobs:
       - image: jadkison/formsling-ci:<< pipeline.git.revision >>
         auth:
           <<: *dockerauth
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+          NODE_ENV: test
+          DATABASE_URL: postgres://postgres@localhost:5432/formsling_test
+      - image: postgres:11.6
+        environment:
+          POSTGRES_DB: formsling_test
+    working_directory: /app
     steps:
-      - run: echo "Just testing..."
-      - run: exit 1
-#  test:
-#    docker:
-#      - image: circleci/ruby:2.6.5-buster
-#        environment:
-#          RAILS_ENV: test
-#          RACK_ENV: test
-#          NODE_ENV: test
-#          DATABASE_URL: localhost
-#      - image: postgres:11.6
-#        environment:
-#          POSTGRES_DB: formsling_test
-#    steps:
-#      - checkout
-#      - restore_cache:
-#          keys:
-#            - bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-#            - bundle-v1-{{ arch }}-{{ .Branch }}
-#            - bundle-v1
-#      - run: bundle install --path vendor/bundle
-#      - save_cache:
-#          key: bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-#          paths:
-#            - vendor/bundle
-#      - restore_cache:
-#          keys:
-#            - node-modules-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-#            - node-modules-v1-{{ arch }}-{{ .Branch }}
-#            - node-modules-v1
-#      - run: yarn install
-#      - save_cache:
-#          key: node-modules-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-#          paths:
-#            - node_modules
-#      - run:
-#          name: Wait for DB
-#          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-#      - run:
-#          name: Setup test db
-#          command: bundle exec rake db:setup --trace
-#      - run:
-#          name: Run rspec
-#          command: bundle exec rspec --format documentation --format RspecJunitFormatter -o ~/reports/rspec.xml
-#      - store_test_results:
-#          path: ~/reports
-#      - store_artifacts:
-#          path: ~/reports
+      - restore_cache:
+          keys:
+            - bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - bundle-v1-{{ arch }}-{{ .Branch }}
+            - bundle-v1
+      - run: bundle install --path vendor/bundle
+      - save_cache:
+          key: bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - restore_cache:
+          keys:
+            - node-modules-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - node-modules-v1-{{ arch }}-{{ .Branch }}
+            - node-modules-v1
+      - run: yarn install
+      - save_cache:
+          key: node-modules-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Setup test db
+          command: bundle exec rake db:setup --trace
+      - run:
+          name: Run rspec
+          command: bundle exec rspec --format documentation --format RspecJunitFormatter -o ~/reports/rspec.xml
+      - store_test_results:
+          path: ~/reports
+      - store_artifacts:
+          path: ~/reports
   deploy:
     docker:
       - image: docker:stable-git
