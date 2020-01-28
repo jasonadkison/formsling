@@ -85,7 +85,7 @@ const NewForm = ({ onClose }) => {
                 />
               </div>
               <div className="help">
-                You may enter more than one address by separating each with a comma.
+                Where notifications are sent for this form.
               </div>
             </div>
             <div className="field is-grouped is-grouped-right">
