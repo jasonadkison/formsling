@@ -24,6 +24,9 @@ describe Form do
     it 'sets the default payload' do
       expect(subject.payload.present?).to be_truthy
     end
+    it 'is unpublished' do
+      expect(subject.published?).to be_falsey
+    end
   end
 
   describe '#email_recipient' do
