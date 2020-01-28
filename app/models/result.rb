@@ -2,6 +2,7 @@
 class Result < ApplicationRecord
   belongs_to :form
   validates_presence_of :payload
+  validates_presence_of :values
   validates_presence_of :form
 
   # Returns the full html content for the result
@@ -26,6 +27,8 @@ class Result < ApplicationRecord
   end
 
   def payload
+    return if super.blank?
+
     res = Base64.decode64(super)
     ActionController::Base.helpers.sanitize(
       res,
@@ -35,6 +38,8 @@ class Result < ApplicationRecord
   end
 
   def values
+    return if super.blank?
+
     Base64.decode64(super)
   end
 
