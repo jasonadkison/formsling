@@ -14,7 +14,7 @@ export function BreadcrumbProvider({ children }) {
 
   return (
     <>
-      <div ref={breadcrumbRef} />
+      <div ref={breadcrumbRef} className="breadcrumb-container" />
       <Context.Provider value={context}>
         {children}
       </Context.Provider>

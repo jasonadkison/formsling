@@ -20,6 +20,12 @@ body > .app-container {
   }
 }
 
+.breadcrumb-container {
+  .breadcrumb {
+    margin-top: 0;
+  }
+}
+
 #loading-overlay {
   position: fixed;
   top: 0;
