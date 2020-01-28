@@ -17,7 +17,7 @@ class PublicFormController < ApplicationController
       return render json: { message: 'Something went wrong.' }, status: 422
     end
 
-    ProcessResultJob.perform_async(@result.id)
+    ProcessResultJob.perform_later(@result.id)
     return render json: { message: 'Success' }, status: 200
   end
 
