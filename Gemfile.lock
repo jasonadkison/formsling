@@ -198,6 +198,8 @@ GEM
       rspec-mocks (~> 3.9.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.2)
+    rspec_junit_formatter (0.4.1)
+      rspec-core (>= 2, < 4, != 2.12.0)
     ruby_dep (1.5.0)
     rubyzip (2.0.0)
     selenium-webdriver (3.142.7)
@@ -266,6 +268,7 @@ DEPENDENCIES
   rails (~> 6.0.2, >= 6.0.2.1)
   react-rails
   rspec-rails
+  rspec_junit_formatter
   selenium-webdriver
   sidekiq
   spring
