@@ -4,13 +4,15 @@ import Text from './Text';
 import Dropdown from './Dropdown';
 import Toggle from './Toggle';
 import Columns, { Column } from './Columns';
+import Heading from './Heading';
 
 const resolvers = {
   Text,
   Dropdown,
   Toggle,
   Columns,
-  Column
+  Column,
+  Heading,
 };
 
 export default resolvers;

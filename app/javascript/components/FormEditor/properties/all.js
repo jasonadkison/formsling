@@ -23,6 +23,42 @@ export const Name = ({children}) => {
   );
 };
 
+export const TextAlignment = () => {
+  const { setProp, textAlignment } = useNode(node => node.data.props);
+
+  return (
+    <Panel label="Text Alignment">
+      <div className="select is-small is-fullwidth">
+        <select
+          onChange={(e) => setProp(props => props.textAlignment = e.target.value)}
+          defaultValue={textAlignment}
+        >
+          <option value="left">Left</option>
+          <option value="centered">Centered</option>
+          <option value="right">Right</option>
+        </select>
+      </div>
+    </Panel>
+  );
+};
+
+export const Text = () => {
+  const { setProp, text } = useNode(node => node.data.props);
+
+  return (
+    <Panel label="Text">
+      <input
+        className="input is-small"
+        type="text"
+        defaultValue={text}
+        onChange={(e) => {
+          setProp(props => props.text = e.target.value);
+        }}
+      />
+    </Panel>
+  );
+};
+
 export const TextType = () => {
   const { setProp, type } = useNode(node => node.data.props);
 

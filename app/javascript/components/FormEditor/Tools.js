@@ -50,6 +50,16 @@ const Tools = () => {
           <i className="fas fa-columns" aria-hidden="true" />
         </span>
       </a>
+      <a
+        className="button"
+        ref={ref => connectors.create(ref, <resolvers.Heading />)}
+        title="Heading"
+        data-tooltip="Heading"
+      >
+        <span className="icon">
+          <i className="fas fa-heading" aria-hidden="true" />
+        </span>
+      </a>
     </nav>
   );
 };
