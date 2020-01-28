@@ -175,6 +175,7 @@ body > [draggable="true"] {
   $icon-columns: "\f0db";
   $icon-toggle: "\f14a";
   $icon-heading: "\f1dc";
+  $icon-date: "\f073";
 
   // The toolbar button (already has icon specified in the markup)
   &.button {
@@ -221,6 +222,10 @@ body > [draggable="true"] {
 
     &[data-name="Heading"]::after {
       content: $icon-heading;
+    }
+
+    &[data-name="Date"]::after {
+      content: $icon-date;
     }
   }
 }

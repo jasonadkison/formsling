@@ -32,6 +32,16 @@ const Tools = () => {
       </a>
       <a
         className="button"
+        ref={ref => connectors.create(ref, <resolvers.Date />)}
+        title="Date"
+        data-tooltip="Date"
+      >
+        <span className="icon">
+          <i className="fas fa-calendar-alt" aria-hidden="true" />
+        </span>
+      </a>
+      <a
+        className="button"
         ref={ref => connectors.create(ref, <resolvers.Toggle />)}
         title="Toggle"
         data-tooltip="Toggle"

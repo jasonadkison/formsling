@@ -5,6 +5,7 @@ import Dropdown from './Dropdown';
 import Toggle from './Toggle';
 import Columns, { Column } from './Columns';
 import Heading from './Heading';
+import Date from './Date';
 
 const resolvers = {
   Text,
@@ -13,6 +14,7 @@ const resolvers = {
   Columns,
   Column,
   Heading,
+  Date,
 };
 
 export default resolvers;

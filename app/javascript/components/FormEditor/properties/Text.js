@@ -4,7 +4,6 @@ import { useNode } from '@craftjs/core';
 import {
   Name,
   TextType,
-  Label,
   Placeholder,
   DefaultValue,
   Rows,

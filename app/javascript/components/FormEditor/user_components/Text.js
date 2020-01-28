@@ -11,7 +11,6 @@ const Text = (props) => {
     placeholder,
     helpText,
     rows,
-    readOnly,
     required,
   } = props;
 
