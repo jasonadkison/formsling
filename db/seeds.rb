@@ -10,20 +10,22 @@ user = User.first || User.create(first_name: "John",
                                  last_name: "Doe",
                                  email: 'test@test.com',
                                  password: 'password',
-                                 password_confirmation: 'password')
+                                 password_confirmation: 'password',
+                                 confirmed_at: Time.zone.now
+                                 )
 
 forms = [
   {
     name: 'My first form',
-    url: 'http://example.com/1',
+    payload: FormEditor::DefaultPayload::CONTACT_FORM
   },
   {
     name: 'My second form',
-    url: 'http://example.com/2',
+    payload: FormEditor::DefaultPayload::CONTACT_FORM
   },
   {
     name: 'My third form',
-    url: 'http://example.com/3',
+    payload: FormEditor::DefaultPayload::CONTACT_FORM
   },
 ]
 

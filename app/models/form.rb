@@ -4,6 +4,7 @@ class Form < ApplicationRecord
 
   validates :name, presence: true
   validates :user, presence: true
+  validates :payload, presence: true
 
   def email_recipient
     [super, user.email].reject(&:blank?).first
