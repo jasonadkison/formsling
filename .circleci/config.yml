@@ -73,6 +73,16 @@ jobs:
           key: bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+      - restore_cache:
+          keys:
+            - node-modules-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - node-modules-v1-{{ arch }}-{{ .Branch }}
+            - node-modules-v1
+      - run: yarn install
+      - save_cache:
+          key: node-modules-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
