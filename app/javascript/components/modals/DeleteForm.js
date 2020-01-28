@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import { getToken } from '../utils';
 import Loader from '../Loader';
 import { Modal } from './Modal';
 
@@ -11,7 +12,7 @@ const DeleteForm = ({ id, name, onClose, onDeleted }) => {
   const deleteForm = async () => {
     if (loading) return;
 
-    const token = document.getElementsByName('csrf-token')[0].content;
+    const token = getToken();
     setLoading(true);
 
     await axios.delete(`/api/v1/forms/${id}`, { headers: { 'X-CSRF-TOKEN': token }})

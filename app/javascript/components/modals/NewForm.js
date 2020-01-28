@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
+import { getToken } from '../utils';
 import Loader from '../Loader';
 import { Modal } from './Modal';
 
@@ -25,7 +26,7 @@ const NewForm = ({ onClose }) => {
     if (loading) return;
 
     setLoading(true);
-    const token = document.getElementsByName('csrf-token')[0].content;
+    const token = getToken();
     const form = { name, email_recipient: email };
 
     await axios.post(`/api/v1/forms`, { form }, { headers: { 'X-CSRF-TOKEN': token }})

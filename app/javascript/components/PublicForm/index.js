@@ -7,7 +7,7 @@ import axios from 'axios';
 import $ from 'jquery'; // used to transform the final snapshot values
 import lz from 'lzutf8';
 
-import { decompress } from '../utils';
+import { decompress, getToken } from '../utils';
 import resolvers from './resolvers';
 
 // base64 encodes a string
@@ -89,7 +89,7 @@ const Form = ({ form }) => {
     }
 
     setLoading(true);
-    const token = document.getElementsByName('csrf-token')[0].content;
+    const token = getToken();
 
     await axios.post(
       `/f/${form.id}`,

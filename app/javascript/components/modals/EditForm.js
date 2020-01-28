@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import { getToken } from '../utils';
 import Loader from '../Loader';
 import { Modal } from './Modal';
 
@@ -28,7 +29,7 @@ const EditForm = ({ form, onSuccess }) => {
     if (loading) return;
 
     setLoading(true);
-    const token = document.getElementsByName('csrf-token')[0].content;
+    const token = getToken();
     const nextForm = { name, email_recipient: email };
     const headers = { 'X-CSRF-TOKEN': token };
 
