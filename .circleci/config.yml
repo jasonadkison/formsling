@@ -70,21 +70,11 @@ jobs:
             - bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
             - bundle-v1-{{ arch }}-{{ .Branch }}
             - bundle-v1
-      - run: bundle install --path vendor/bundle
+      - run: bundle install --path vendor/bundle --with test
       - save_cache:
           key: bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-      - restore_cache:
-          keys:
-            - node-modules-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - node-modules-v1-{{ arch }}-{{ .Branch }}
-            - node-modules-v1
-      - run: yarn install
-      - save_cache:
-          key: node-modules-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules
       - run:
           name: Setup test db
           command: bundle exec rake db:setup --trace
