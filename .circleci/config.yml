@@ -52,22 +52,40 @@ jobs:
           command: docker push "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
   test:
     docker:
-      - image: docker:stable-git
-        auth:
-          <<: *dockerauth
-    environment:
-      DOCKERHUB_REPO: *dockerhub_repo
+      - image: circleci/ruby:2.6.5-buster
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+          NODE_ENV: test
+          DATABASE_URL: localhost
+      - image: postgres:11.6
+        environment:
+          POSTGRES_DB: formsling_test
     steps:
-      - setup_remote_docker
+      - checkout
+      - restore_cache:
+          keys:
+            - bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - bundle-v1-{{ arch }}-{{ .Branch }}
+            - bundle-v1
+      - run: bundle install --path vendor/bundle
+      - save_cache:
+          key: bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
       - run:
-          name: Login to Docker Hub
-          command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
-          name: Pull build image from Docker Hub
-          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" || true
+          name: Setup test db
+          command: rake db:setup --trace
       - run:
-          name: Run some tests
-          command: docker run --env RAILS_ENV=test --env RACK_ENV=test "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" rspec
+          name: Run rspec
+          command: rspec --format documentation --format RspecJunitFormatter -o ~/reports/rspec.xml
+      - store_test_results:
+          path: ~/reports
+      - store_artifacts:
+          path: ~/reports
   deploy:
     docker:
       - image: docker:stable-git
