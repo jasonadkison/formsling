@@ -25,6 +25,14 @@ $editor-primary-highlight-color: $primary;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 
+  &.is-disabled {
+    .user-component {
+      p {
+        margin: 1rem 0 1.5rem 0;
+      }
+    }
+  }
+
   #root-canvas {
     min-height: 5rem;
 
