@@ -7,7 +7,7 @@ import Loader from './Loader';
 import NewForm from './modals/NewForm';
 import DeleteForm from './modals/DeleteForm';
 import FormButtons from './FormButtons';
-import PublishForm from './modals/PublishForm';
+import ShareForm from './modals/ShareForm';
 
 const FormList = () => {
   const [forms, setForms] = useState([]);
@@ -102,7 +102,7 @@ const FormList = () => {
                       >
                         View Results
                       </Link>
-                      <PublishForm form={form} />
+                      <ShareForm form={form} />
                       <a
                         className="button is-danger is-inverted is-inline"
                         onClick={() => setDeletingForm(form)}

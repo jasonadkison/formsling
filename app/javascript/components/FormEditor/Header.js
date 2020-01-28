@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useEditor } from '@craftjs/core';
 import { Link } from 'react-router-dom';
 
-import PublishForm from '../modals/PublishForm';
+import ShareForm from '../modals/ShareForm';
 
 const Header = ({ form, editForm }) => (
   <header>
@@ -42,7 +42,7 @@ const Header = ({ form, editForm }) => (
             >
               View Results
             </Link>
-            <PublishForm form={form} />
+            <ShareForm form={form} />
           </div>
         </div>
       </div>

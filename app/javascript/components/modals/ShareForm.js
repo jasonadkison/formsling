@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Modal } from './Modal';
 
-const PublishForm = ({ form }) => {
+const ShareForm = ({ form }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const onClickClose = (e) => {
@@ -89,4 +89,4 @@ const PublishForm = ({ form }) => {
   );
 };
 
-export default PublishForm;
+export default ShareForm;
