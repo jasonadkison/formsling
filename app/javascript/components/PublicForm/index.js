@@ -28,8 +28,8 @@ const snapshotForm = (outerHTML) => {
 
   // set all the selected dropdown options
   $('select[data-value]', node).each((i, input) => {
-    const value = $(input).attr('data-value');
-    $(`option[value="${value}"]`, input).attr('selected', true);
+    const value = $(input).attr('data-value') || $('option', input).first().prop('value');
+    $(`option[value="${value}"]:first`, input).attr('selected', true);
   });
 
   // set all textarea values

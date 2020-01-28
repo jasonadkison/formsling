@@ -9,7 +9,6 @@ const Dropdown = (props) => {
     initialValue,
     placeholder,
     helpText,
-    readOnly,
     required,
     options,
   } = props;
@@ -40,7 +39,7 @@ const Dropdown = (props) => {
           onChange={onChange}
           disabled={state.loading}
           data-name={name}
-          data-value={value}
+          data-value={value || (options.length ? options[0] : '')}
         >
           {placeholder && (
             <option value="">{placeholder}</option>
