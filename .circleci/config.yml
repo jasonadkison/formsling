@@ -67,7 +67,7 @@ jobs:
           command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" || true
       - run:
           name: Run some tests
-          command: docker run "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" rspec
+          command: docker run --env RAILS_ENV=test --env RACK_ENV=test "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" rspec
   deploy:
     docker:
       - image: docker:stable-git
