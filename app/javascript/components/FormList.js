@@ -60,11 +60,11 @@ const FormList = () => {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Published?</th>
-                <th>Created</th>
+                <th>Published</th>
+                <th>Results</th>
                 <th>Updated</th>
-                <th>Total Results</th>
-                <th style={{ minWidth: '372px' }} />
+                <th>Created</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -83,30 +83,44 @@ const FormList = () => {
                     </span>
                   </td>
                   <td>
-                    <TimeAgo date={form.created_at}>
-                      {form.created_at}
-                    </TimeAgo>
+                    {form.total_results > 0 ? (
+                      <Link
+                        to={`/forms/${form.id}/results`}
+                        title="Results"
+                      >
+                        {form.total_results}
+                      </Link>
+                    ) : (
+                      <span>{form.total_results}</span>
+                    )}
                   </td>
                   <td>
                     <TimeAgo date={form.updated_at}>
                       {form.updated_at}
                     </TimeAgo>
                   </td>
-                  <td>{form.total_results}</td>
-                  <td className="has-text-right">
+                  <td>
+                    <TimeAgo date={form.created_at}>
+                      {form.created_at}
+                    </TimeAgo>
+                  </td>
+                  <td>
                     <div className="buttons">
                       <Link
-                        to={`/forms/${form.id}/results`}
-                        title="Results"
-                        className="button is-inline is-outlined is-link"
+                        to={`/forms/${form.id}`}
+                        title="Edit"
+                        className="button is-link is-inverted is-inline"
+                        data-tooltip="Edit"
                       >
-                        View Results
+                        <span className="icon is-small">
+                          <i className="fas fa-edit" />
+                        </span>
                       </Link>
-                      <ShareForm form={form} />
                       <a
                         className="button is-danger is-inverted is-inline"
                         onClick={() => setDeletingForm(form)}
                         title="Delete"
+                        data-tooltip="Delete"
                       >
                         <span className="icon is-small">
                           <i className="fas fa-trash" />

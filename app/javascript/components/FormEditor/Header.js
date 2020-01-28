@@ -35,14 +35,18 @@ const Header = ({ form, editForm }) => (
       <div className="level-right">
         <div className="level-item">
           <div className="buttons">
-            <Link
-              to={`/forms/${form.id}/results`}
-              title="Results"
-              className="button is-inline is-outlined is-link"
-            >
-              View Results
-            </Link>
-            <ShareForm form={form} />
+            {form.total_results > 0 && (
+              <Link
+                to={`/forms/${form.id}/results`}
+                title="Results"
+                className="button is-inline is-outlined is-link"
+              >
+                View Results
+              </Link>
+            )}
+            {form.published && (
+              <ShareForm form={form} />
+            )}
           </div>
         </div>
       </div>
