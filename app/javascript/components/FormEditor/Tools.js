@@ -70,6 +70,16 @@ const Tools = () => {
           <i className="fas fa-heading" aria-hidden="true" />
         </span>
       </a>
+      <a
+        className="button"
+        ref={ref => connectors.create(ref, <resolvers.Paragraph />)}
+        title="Paragraph"
+        data-tooltip="Paragraph"
+      >
+        <span className="icon">
+          <i className="fas fa-paragraph" aria-hidden="true" />
+        </span>
+      </a>
     </nav>
   );
 };

@@ -14,7 +14,7 @@ Heading.propTypes = {
 
 Heading.defaultProps = {
   type: 'h1',
-  text: 'Heading',
+  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   textAlignment: 'left',
 };
 

@@ -6,6 +6,7 @@ import Toggle from './Toggle';
 import Columns, { Column } from './Columns';
 import Heading from './Heading';
 import Date from './Date';
+import Paragraph from './Paragraph';
 
 const resolvers = {
   Text,
@@ -15,6 +16,7 @@ const resolvers = {
   Column,
   Heading,
   Date,
+  Paragraph,
 };
 
 export default resolvers;

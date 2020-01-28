@@ -42,19 +42,30 @@ export const TextAlignment = () => {
   );
 };
 
-export const Text = () => {
+export const Text = ({ type }) => {
   const { setProp, text } = useNode(node => node.data.props);
 
   return (
     <Panel label="Text">
-      <input
-        className="input is-small"
-        type="text"
-        defaultValue={text}
-        onChange={(e) => {
-          setProp(props => props.text = e.target.value);
-        }}
-      />
+      {type === 'textarea' ? (
+        <textarea
+          className="textarea is-small"
+          defaultValue={text}
+          onChange={(e) => {
+            setProp(props => props.text = e.target.value);
+          }}
+          rows="5"
+        />
+      ) : (
+        <input
+          className="input is-small"
+          type="text"
+          defaultValue={text}
+          onChange={(e) => {
+            setProp(props => props.text = e.target.value);
+          }}
+        />
+      )}
     </Panel>
   );
 };
