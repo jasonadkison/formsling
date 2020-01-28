@@ -57,6 +57,7 @@ jobs:
           <<: *dockerauth
     steps:
       - run: echo "Just testing..."
+      - run: exit 1
 #  test:
 #    docker:
 #      - image: circleci/ruby:2.6.5-buster
