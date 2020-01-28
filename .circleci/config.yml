@@ -117,11 +117,11 @@ jobs:
       - run:
           name: Disable StrictHostKeyChecking
           command: |
-            tee -a ~/.ssh/config > /dev/null <<EOT
+            cat << EOF >> ~/.ssh/config
             Host formsling.com staging.formsling.com
               StrictHostKeyChecking=no
               UserKnownHostsFile=/dev/null
-            EOT
+            EOF
       - run:
           name: Login to Docker Hub
           command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
