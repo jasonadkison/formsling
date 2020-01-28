@@ -117,11 +117,9 @@ jobs:
       - run:
           name: Disable StrictHostKeyChecking
           command: |
-            cat << EOF >> ~/.ssh/config
-            Host formsling.com staging.formsling.com
-              StrictHostKeyChecking=no
-              UserKnownHostsFile=/dev/null
-            EOF
+            echo "Host formsling.com staging.formsling.com" >> ~/.ssh/config
+            echo "  StrictHostKeyChecking=no" >> ~/.ssh/config
+            echo "  UserKnownHostsFile=/dev/null" >> ~/.ssh/config
       - run:
           name: Login to Docker Hub
           command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
