@@ -63,6 +63,7 @@ jobs:
       - image: postgres:11.6
         environment:
           POSTGRES_DB: formsling_test
+      - image: redis:5.0.7
     working_directory: /app
     steps:
       - restore_cache:
