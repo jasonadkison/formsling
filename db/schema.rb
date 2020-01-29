@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_28_205444) do
+ActiveRecord::Schema.define(version: 2020_01_29_164800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,15 @@ ActiveRecord::Schema.define(version: 2020_01_28_205444) do
     t.index ["form_id"], name: "index_results_on_form_id"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "plan_id"
+    t.string "stripe_id"
+    t.datetime "current_period_ends_at"
+    t.boolean "active", default: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -53,6 +62,8 @@ ActiveRecord::Schema.define(version: 2020_01_28_205444) do
     t.integer "role"
     t.string "first_name"
     t.string "last_name"
+    t.string "stripe_id"
+    t.boolean "should_choose_subscription", default: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -60,4 +71,5 @@ ActiveRecord::Schema.define(version: 2020_01_28_205444) do
 
   add_foreign_key "forms", "users"
   add_foreign_key "results", "forms"
+  add_foreign_key "subscriptions", "users"
 end
