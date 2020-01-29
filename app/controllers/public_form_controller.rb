@@ -3,19 +3,23 @@ class PublicFormController < ApplicationController
   include Webpacker::Helper
 
   layout 'public_form'
+  before_action :set_form, only: [:show, :submit]
   after_action :allow_iframe, only: :show
   protect_from_forgery except: :embed
 
   def show
-    @form = Form.find(params[:id])
+    render :unpublished unless @form.published?
   end
 
   def submit
-    @form = Form.find(params[:id])
+    raise(ActionController::InvalidAuthenticityToken) unless @form.published?
 
-    return render json: { message: 'Success' }, status: 200 if @form.results.create(result_params)
+    unless @result = @form.results.create(result_params)
+      return render json: { message: 'Something went wrong.' }, status: 422
+    end
 
-    render json: { message: 'Something went wrong.' }, status: 422
+    ProcessResultJob.perform_later(@result.id)
+    return render json: { message: 'Success' }, status: 200
   end
 
   def embed
@@ -33,5 +37,9 @@ class PublicFormController < ApplicationController
   def allow_iframe
     response.headers.except! 'X-Frame-Options'
     #response.headers['X-Frame-Options'] = 'ALLOW-FROM https://the.end-user.com'
+  end
+
+  def set_form
+    @form = Form.find(params[:id])
   end
 end

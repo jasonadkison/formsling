@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= render 'layouts/iframe_resizer_assets' %>
     <%= stylesheet_pack_tag 'application', media: 'all' %>
   </head>
   <body>
     <section class="section">
       <div class="container">
         <%= yield %>
-        <p class="has-text-centered is-size-7">
-          <em>Powered by</em> <strong><%= link_to 'FormSling', root_url %></strong>.
+        <p class="has-text-centered is-size-7 has-margin-top-20">
+          <em>Powered by</em>
+          <strong><%= link_to 'FormSling.com', root_url, title: 'FormSling.com' %></strong>
         </p>
       </div>
     </section>

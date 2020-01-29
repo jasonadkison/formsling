@@ -7,14 +7,17 @@ const Breadcrumbs = ({ id, name }) => (
     <li>
       <Link to="/forms">Forms</Link>
     </li>
-    <li className="is-active">
-      <Link to={`/forms/${id}`}>{name}</Link>
-    </li>
+    {id && name && (
+      <li className="is-active">
+        <Link to={`/forms/${id}`}>{name}</Link>
+      </li>
+    )}
   </ul>
 );
 
 Breadcrumbs.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  name: PropTypes.string,
 };
 
 export default Breadcrumbs;

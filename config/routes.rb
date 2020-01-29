@@ -9,15 +9,18 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :forms
+      resources :forms do
+        resources :results, only: [:index]
+      end
     end
   end
 
+  get '/health', to: proc {[200, {}, ['ok']]}
   get '/embed', to: 'public_form#embed', as: 'embed'
   get '/f/:id', to: 'public_form#show', as: 'public_form'
   post '/f/:id', to: 'public_form#submit', defaults: { format: :json }
-
   get '/r/:id', to: 'result#show', as: 'result'
+  get '/pricing', to: 'welcome#pricing'
 
   # catch every other request and send it to our react app
   get '*page', to: 'dashboard#index',

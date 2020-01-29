@@ -7,7 +7,7 @@ import Loader from './Loader';
 import NewForm from './modals/NewForm';
 import DeleteForm from './modals/DeleteForm';
 import FormButtons from './FormButtons';
-import PublishForm from './modals/PublishForm';
+import ShareForm from './modals/ShareForm';
 
 const FormList = () => {
   const [forms, setForms] = useState([]);
@@ -43,7 +43,7 @@ const FormList = () => {
           </div>
           <div className="level-right">
             <button
-              className="button is-primary"
+              className="button is-primary is-outlined"
               onClick={() => setIsCreating(true)}
             >
               <span className="icon">
@@ -60,9 +60,11 @@ const FormList = () => {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Recipient</th>
-                <th style={{ minWidth: '180px' }}>Last Updated</th>
-                <th style={{ minWidth: '400px' }} />
+                <th>Published</th>
+                <th>Results</th>
+                <th>Updated</th>
+                <th>Created</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -74,27 +76,51 @@ const FormList = () => {
                     </Link>
                   </td>
                   <td>
-                    {form.email_recipient}
+                    <span
+                      className={`icon has-text-${form.published ? 'success' : 'grey'}`}
+                    >
+                      <i className={`fas fa-${form.published ? 'check' : 'times'}-circle`} />
+                    </span>
+                  </td>
+                  <td>
+                    {form.total_results > 0 ? (
+                      <Link
+                        to={`/forms/${form.id}/results`}
+                        title="Results"
+                      >
+                        {form.total_results}
+                      </Link>
+                    ) : (
+                      <span>{form.total_results}</span>
+                    )}
                   </td>
                   <td>
                     <TimeAgo date={form.updated_at}>
                       {form.updated_at}
                     </TimeAgo>
                   </td>
-                  <td className="has-text-right">
+                  <td>
+                    <TimeAgo date={form.created_at}>
+                      {form.created_at}
+                    </TimeAgo>
+                  </td>
+                  <td>
                     <div className="buttons">
                       <Link
-                        to={`/forms/${form.id}/results`}
-                        title="Results"
-                        className="button is-inline is-outlined is-link"
+                        to={`/forms/${form.id}`}
+                        title="Edit"
+                        className="button is-link is-inverted is-inline"
+                        data-tooltip="Edit"
                       >
-                        View Results
+                        <span className="icon is-small">
+                          <i className="fas fa-edit" />
+                        </span>
                       </Link>
-                      <PublishForm form={form} />
                       <a
                         className="button is-danger is-inverted is-inline"
                         onClick={() => setDeletingForm(form)}
                         title="Delete"
+                        data-tooltip="Delete"
                       >
                         <span className="icon is-small">
                           <i className="fas fa-trash" />

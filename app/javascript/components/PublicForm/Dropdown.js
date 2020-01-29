@@ -9,7 +9,6 @@ const Dropdown = (props) => {
     initialValue,
     placeholder,
     helpText,
-    readOnly,
     required,
     options,
   } = props;
@@ -22,9 +21,9 @@ const Dropdown = (props) => {
   return (
     <div className="field">
       <label className="label" htmlFor={id}>
-        {name}&nbsp;
+        {name}
         {required && (
-          <span className="help is-danger is-inline">* required</span>
+          <span className="help is-danger is-inline"> * required</span>
         )}
       </label>
       <div className="select is-fullwidth">
@@ -40,7 +39,7 @@ const Dropdown = (props) => {
           onChange={onChange}
           disabled={state.loading}
           data-name={name}
-          data-value={value}
+          data-value={value || (options.length ? options[0] : '')}
         >
           {placeholder && (
             <option value="">{placeholder}</option>

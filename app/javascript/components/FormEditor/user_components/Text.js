@@ -11,7 +11,6 @@ const Text = (props) => {
     placeholder,
     helpText,
     rows,
-    readOnly,
     required,
   } = props;
 
@@ -72,7 +71,7 @@ Text.propTypes = {
 
 Text.defaultProps = {
   name: 'Field Name',
-  type: '',
+  type: 'text',
   initialValue: '',
   placeholder: '',
   helpText: '',

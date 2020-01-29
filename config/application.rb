@@ -13,7 +13,7 @@ require "action_view/railtie"
 require "action_cable/engine"
 # require "action_mailbox/engine"
 # require "sprockets/railtie"
-require "rails/test_unit/railtie"
+# require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -35,5 +35,8 @@ module FormSling
     config.hosts << 'staging.formsling.com'
 
     config.active_job.queue_adapter = :sidekiq
+
+    # we only send emails async so we should retry when they fail
+    config.action_mailer.raise_delivery_errors = true
   end
 end

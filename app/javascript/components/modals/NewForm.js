@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
+import { getToken } from '../utils';
 import Loader from '../Loader';
 import { Modal } from './Modal';
 
@@ -25,7 +26,7 @@ const NewForm = ({ onClose }) => {
     if (loading) return;
 
     setLoading(true);
-    const token = document.getElementsByName('csrf-token')[0].content;
+    const token = getToken();
     const form = { name, email_recipient: email };
 
     await axios.post(`/api/v1/forms`, { form }, { headers: { 'X-CSRF-TOKEN': token }})
@@ -83,12 +84,15 @@ const NewForm = ({ onClose }) => {
                   disabled={loading}
                 />
               </div>
+              <div className="help">
+                Where notifications are sent for this form.
+              </div>
             </div>
             <div className="field is-grouped is-grouped-right">
               <div className="control">
                 <button
                   type="submit"
-                  className="button is-link"
+                  className="button is-primary is-outlined"
                   disabled={loading}
                 >
                   Submit
@@ -97,7 +101,7 @@ const NewForm = ({ onClose }) => {
               <div className="control">
                 <button
                   type="button"
-                  className="button is-link is-light"
+                  className="button is-link is-outlined"
                   onClick={onClickClose}
                   disabled={loading}
                 >

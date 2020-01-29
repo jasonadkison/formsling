@@ -4,9 +4,7 @@ import { useEditor } from '@craftjs/core';
 import cx from 'classnames';
 
 const SaveButton = ({ handleSave, loading }) => {
-  const { query, enabled } = useEditor((state) => ({
-    enabled: state.options.enabled,
-  }));
+  const { query } = useEditor();
 
   const onClickSave = (e) => {
     e.preventDefault();
@@ -15,8 +13,6 @@ const SaveButton = ({ handleSave, loading }) => {
   };
 
   const classNames = cx('button is-primary is-medium', { 'is-loading': loading });
-
-  if (!enabled) return null;
 
   return (
     <button
@@ -27,7 +23,7 @@ const SaveButton = ({ handleSave, loading }) => {
         <i className="far fa-save" />
       </span>
       <span>
-        Save Changes
+        Save Form Changes
       </span>
     </button>
   );

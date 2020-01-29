@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import { getToken } from '../utils';
 import Loader from '../Loader';
 import { Modal } from './Modal';
 
@@ -10,6 +11,7 @@ const EditForm = ({ form, onSuccess }) => {
   const [error, setError] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [published, setPublished] = useState('');
 
   const onClickClose = (e) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ const EditForm = ({ form, onSuccess }) => {
   const handleClose = () => {
     setName(form.name);
     setEmail(form.email_recipient);
+    setPublished(form.published);
     setIsOpen(false);
   };
 
@@ -28,14 +31,14 @@ const EditForm = ({ form, onSuccess }) => {
     if (loading) return;
 
     setLoading(true);
-    const token = document.getElementsByName('csrf-token')[0].content;
-    const nextForm = { name, email_recipient: email };
+    const token = getToken();
+    const nextForm = { name, email_recipient: email, published };
     const headers = { 'X-CSRF-TOKEN': token };
 
     await axios.patch(`/api/v1/forms/${form.id}`, { form: nextForm }, { headers })
       .then(({ data }) => {
         handleClose();
-        onSuccess();
+        onSuccess(data);
       })
       .catch(() => {
         setError(true);
@@ -46,6 +49,7 @@ const EditForm = ({ form, onSuccess }) => {
   useEffect(() => {
     setName(form.name);
     setEmail(form.email_recipient);
+    setPublished(form.published);
   }, [form]);
 
   const modal = isOpen ? (
@@ -96,12 +100,33 @@ const EditForm = ({ form, onSuccess }) => {
                   disabled={loading}
                 />
               </div>
+              <div className="help">
+                Where notifications are sent for this form.
+              </div>
+            </div>
+            <div className="field">
+              <label className="label">Visibility Settings</label>
+              <div className="control">
+                <input
+                  id={`published-${form.id}`}
+                  type="checkbox"
+                  className="switch"
+                  checked={published}
+                  onChange={(e) => setPublished(e.target.checked)}
+                />
+                <label htmlFor={`published-${form.id}`}>
+                  Published
+                </label>
+              </div>
+              <p className="help">
+                Your form will not be visible to others unless it is published.
+              </p>
             </div>
             <div className="field is-grouped is-grouped-right">
               <div className="control">
                 <button
                   type="submit"
-                  className="button is-link"
+                  className="button is-primary is-outlined"
                   disabled={loading}
                 >
                   Submit
@@ -110,7 +135,7 @@ const EditForm = ({ form, onSuccess }) => {
               <div className="control">
                 <button
                   type="button"
-                  className="button is-link is-light"
+                  className="button is-link is-outlined"
                   onClick={onClickClose}
                   disabled={loading}
                 >

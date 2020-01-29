@@ -2,7 +2,7 @@ module Api
   module V1
     class FormsController < Api::Controller
       def index
-        @forms = current_user.forms
+        @forms = current_user.forms.includes(:results).order(created_at: :desc)
       end
 
       def show
@@ -34,7 +34,7 @@ module Api
       private
 
       def form_params
-        params.require(:form).permit(:name, :email_recipient, :payload)
+        params.require(:form).permit(:name, :email_recipient, :payload, :published)
       end
     end
   end

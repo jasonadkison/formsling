@@ -10,16 +10,8 @@
   }
 }
 
-// make all select caret dark color
-.select:not(.is-multiple):not(.is-loading) {
-  &::after {
-    border-color: $dark;
-  }
-
-  &:hover::after {
-    border-color: $dark;
-  }
-}
-
 // show an element as movable
 .is-movable { cursor: move; }
+
+// disable interactions with snapshot
+.is-snapshot { pointer-events: none; }

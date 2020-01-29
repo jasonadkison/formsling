@@ -1,4 +1,4 @@
-json.(form, :id, :name, :created_at, :updated_at, :payload)
-json.email_recipient [form.email_recipient, current_user.email].reject(&:blank?).first
+json.(form, :id, :name, :email_recipient, :created_at, :updated_at, :payload, :published)
 json.public_url public_form_url(form.id)
 json.embed_url embed_url(format: :js)
+json.total_results form.results.size

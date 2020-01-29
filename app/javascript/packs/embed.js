@@ -1,14 +1,18 @@
 import $ from 'jquery';
+import nanoid from 'nanoid';
+import 'iframe-resizer';
 
 $(document).ready(function() {
-  var iframe;
   $('.formsling-form-widget').each(function (i, link) {
-    iframe = document.createElement('iframe');
+    const id = `formsling-${nanoid()}`;
+    const iframe = document.createElement('iframe');
+    iframe.classList.add('formsling-iframe');
     iframe.setAttribute('src', link.href);
-    iframe.setAttribute('width', '100%');
-    iframe.setAttribute('height', '100%');
     iframe.setAttribute('frameborder', '0');
-    iframe.setAttribute('scrolling', 'yes');
+    iframe.setAttribute('scrolling', 'no');
+    iframe.setAttribute('id', id);
     link.parentNode.replaceChild(iframe, link);
+
+    iFrameResize({ checkOrigin: false }, `#${id}`);
   });
 });

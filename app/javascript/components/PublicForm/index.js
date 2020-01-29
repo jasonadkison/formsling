@@ -1,15 +1,15 @@
 // This component is used by end users to complete the shared or embedded form.
 //
 // On submit it builds a data mapping and snapshots the entire DOM tree and sends it to the server.
-import React, {
-  useRef, useReducer, createContext, useEffect, useContext, useState } from 'react';
+import React, { useRef, useReducer, createContext, useEffect, useContext, useState } from 'react';
 import {Editor, Frame, Canvas, useEditor} from "@craftjs/core";
 import axios from 'axios';
 import $ from 'jquery'; // used to transform the final snapshot values
 import lz from 'lzutf8';
 
-import { decompress } from '../utils';
+import { decompress, getToken } from '../utils';
 import resolvers from './resolvers';
+import Loader from '../Loader';
 
 // base64 encodes a string
 const compress = payload => lz.encodeBase64(lz.encodeUTF8(payload));
@@ -29,8 +29,8 @@ const snapshotForm = (outerHTML) => {
 
   // set all the selected dropdown options
   $('select[data-value]', node).each((i, input) => {
-    const value = $(input).attr('data-value');
-    $(`option[value="${value}"]`, input).attr('selected', true);
+    const value = $(input).attr('data-value') || $('option', input).first().prop('value');
+    $(`option[value="${value}"]:first`, input).attr('selected', true);
   });
 
   // set all textarea values
@@ -90,7 +90,7 @@ const Form = ({ form }) => {
     }
 
     setLoading(true);
-    const token = document.getElementsByName('csrf-token')[0].content;
+    const token = getToken();
 
     await axios.post(
       `/f/${form.id}`,
@@ -121,7 +121,8 @@ const Form = ({ form }) => {
   }
 
   return (
-    <div ref={ref}>
+    <div>
+      <Loader loading={loading} />
       <h1 className="title">
         {form.name}
       </h1>
@@ -132,9 +133,11 @@ const Form = ({ form }) => {
               <p>Oops, something went wrong. Please try again.</p>
             </div>
           )}
-          <Frame json={decompress(form.payload)}>
-            <Canvas />
-          </Frame>
+          <div ref={ref}>
+            <Frame json={decompress(form.payload)}>
+              <Canvas />
+            </Frame>
+          </div>
           <div className="field is-grouped is-grouped-right has-margin-top-40 has-margin-bottom-10">
             <div className="control">
               <button

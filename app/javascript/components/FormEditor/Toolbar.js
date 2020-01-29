@@ -16,25 +16,26 @@ const Toolbar = ({ form, onToggleEditor }) => {
 
   return (
     <div className="toolbar">
-      <div className="columns">
-        <div className={`${enabled ? 'column' : 'is-hidden'}`}>
-          <p className="menu-label">
-            Drag and Drop Elements
-          </p>
-          <Tools form={form} />
+      <div className="level">
+        <div className="level-left">
+          <div className="level-item">
+            <Tools form={form} />
+          </div>
         </div>
-        <div className="column">
-          <div className="control is-pulled-right">
-            <input
-              id="editor-switch"
-              type="checkbox"
-              className="switch"
-              checked={enabled}
-              onChange={(e) => toggleEnabled(e.target.checked)}
-            />
-            <label htmlFor="editor-switch">
-              Edit Mode
-            </label>
+        <div className="level-right">
+          <div className="level-item">
+            <div className="control is-pulled-right">
+              <input
+                id="editor-switch"
+                type="checkbox"
+                className="switch"
+                checked={enabled}
+                onChange={(e) => toggleEnabled(e.target.checked)}
+              />
+              <label htmlFor="editor-switch">
+                Toggle Preview Mode
+              </label>
+            </div>
           </div>
         </div>
       </div>

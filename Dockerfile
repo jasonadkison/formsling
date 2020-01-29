@@ -3,7 +3,11 @@ FROM ruby:2.6.5-buster
 ARG RAILS_ENV=production
 ARG NODE_ENV=production
 
-RUN apt-get update && apt-get install -y build-essential wkhtmltopdf
+RUN apt-get update && apt-get install -y build-essential
+
+RUN wget -qO- https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz | tar Jxvf - -C /root && \
+    mv /root/wkhtmltox/bin/wkhtmlto* /usr/bin/ && \
+    rm -rf /root/wkhtmlto*
 
 RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
 RUN apt-get install -y nodejs

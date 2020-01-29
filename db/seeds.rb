@@ -6,20 +6,26 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.first || User.create(email: 'test@test.com', password: 'password', password_confirmation: 'password')
+user = User.first || User.create(first_name: "John",
+                                 last_name: "Doe",
+                                 email: 'test@test.com',
+                                 password: 'password',
+                                 password_confirmation: 'password',
+                                 confirmed_at: Time.zone.now
+                                 )
 
 forms = [
   {
     name: 'My first form',
-    url: 'http://example.com/1',
+    payload: FormEditor::DefaultPayload::CONTACT_FORM
   },
   {
     name: 'My second form',
-    url: 'http://example.com/2',
+    payload: FormEditor::DefaultPayload::CONTACT_FORM
   },
   {
     name: 'My third form',
-    url: 'http://example.com/3',
+    payload: FormEditor::DefaultPayload::CONTACT_FORM
   },
 ]
 

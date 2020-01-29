@@ -25,6 +25,14 @@ $editor-primary-highlight-color: $primary;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 
+  &.is-disabled {
+    .user-component {
+      p {
+        margin: 1rem 0 1.5rem 0;
+      }
+    }
+  }
+
   #root-canvas {
     min-height: 5rem;
 
@@ -173,6 +181,10 @@ body > [draggable="true"] {
   $icon-text: "\f11c";
   $icon-dropdown: "\f022";
   $icon-columns: "\f0db";
+  $icon-toggle: "\f14a";
+  $icon-heading: "\f1dc";
+  $icon-date: "\f073";
+  $icon-paragraph: "\f1dd";
 
   // The toolbar button (already has icon specified in the markup)
   &.button {
@@ -211,6 +223,22 @@ body > [draggable="true"] {
 
     &[data-name="Columns"]::after {
       content: $icon-columns;
+    }
+
+    &[data-name="Toggle"]::after {
+      content: $icon-toggle;
+    }
+
+    &[data-name="Heading"]::after {
+      content: $icon-heading;
+    }
+
+    &[data-name="Date"]::after {
+      content: $icon-date;
+    }
+
+    &[data-name="Paragraph"]::after {
+      content: $icon-paragraph;
     }
   }
 }
