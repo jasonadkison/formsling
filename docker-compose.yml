@@ -7,16 +7,35 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
       - ./log:/root/log:cached
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.14
   redis:
     image: redis:5.0.7
     volumes:
       - redis:/data
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.13
   smtp:
     image: mailhog/mailhog
     ports:
       - 1025:1025 # smtp
       - 8025:8025 # web UI
     restart: always
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.12
+  webhookrelay:
+    image: webhookrelay/webhookrelayd
+    environment:
+      - KEY=009eecfc-1bae-45eb-98be-112f9335238c
+      - SECRET=1t4kAEItAYJF
+      - BUCKET=formsling-development
+      - INSECURE=true
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.11
   app:
     build: .
     command: bash -c "rm -rf ./tmp/pids/*.pid && foreman start -f Procfile.dev-server"
@@ -35,9 +54,13 @@ services:
       - RAILS_ENV=development
       - RACK_ENV=development
       - NODE_ENV=development
+      - STRIPE_PUBLISHABLE_KEY=pk_test_AFLbvR5C9RHmlq74JW08E10x00UvxSHqhX
     depends_on:
       - db
       - redis
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
 
 volumes:
   postgres:
@@ -46,3 +69,10 @@ volumes:
   node_modules:
   rails_cache:
   packs:
+
+networks:
+  app_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
