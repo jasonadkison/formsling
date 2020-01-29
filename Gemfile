@@ -20,6 +20,7 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'capybara', '>= 2.15'
   gem 'database_cleaner-active_record'
+  gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'rspec_junit_formatter'
   gem 'selenium-webdriver'
