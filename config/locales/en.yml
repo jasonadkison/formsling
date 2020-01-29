@@ -33,4 +33,6 @@ en:
   hello: "Hello world"
   user_mailer:
     result_processed:
-      subject: "New FormSling result processed for %{name}"
+      subject: "New result processed for %{name}"
+    subscription_ended:
+      subject: "Your standard subscription has ended."

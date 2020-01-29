@@ -18,21 +18,13 @@
         <% if user_signed_in? %>
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
-              <%= current_user.first_name %>
+              <%= current_user.full_name %>
+              (<%= current_user.active_subscription? ? 'Standard' : 'Free' %>)
             </a>
 
             <div class="navbar-dropdown">
-              <%= link_to 'Forms', root_path, class: 'navbar-item' %>
-              <!--
-              <hr class="navbar-divider">
-              <a class="navbar-item">
-                Usage
-              </a>
-              <a class="navbar-item">
-                Subscription
-              </a>
-              -->
-              <%= link_to 'Account', edit_user_registration_path, class: 'navbar-item' %>
+              <%= link_to 'View Your Forms', root_path, class: 'navbar-item' %>
+              <%= link_to 'Manage Account', edit_user_registration_path, class: 'navbar-item' %>
               <hr class="navbar-divider">
               <a class="navbar-item">
                 Support

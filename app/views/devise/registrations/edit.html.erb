@@ -7,7 +7,7 @@
       <div class="field">
         <%= f.label :first_name, class: 'label' %>
         <div class="control">
-          <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", required: true, class: 'input' %>
+          <%= f.text_field :first_name, autocomplete: "first_name", required: true, class: 'input' %>
         </div>
       </div>
 
@@ -64,8 +64,31 @@
   </div>
   <div class="is-divider-vertical"></div>
   <div class="column">
-    <h3 class="title">Options</h3>
-    <p><%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button is-danger' %></p>
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-header-title">Subscription</h3>
+      </div>
+      <div class="card-content">
+        <div class="content">
+          <% if current_user.active_subscription? %>
+            <p>You're currently enrolled in the <strong>Standard</strong> plan.</p>
+            <p>
+              Next invoice will be billed on
+              <%= current_user.subscription.current_period_ends_at.strftime("%b %d") %>.
+            </p>
+          <% else %>
+            <p>You're currently enrolled in the <strong>Free</strong> plan.</p>
+          <% end %>
+        </div>
+      </div>
+      <footer class="card-footer">
+        <%= link_to 'Change Subscription', subscriptions_path, class: 'card-footer-item' %>
+      </footer>
+    </div>
+
+    <p class="has-margin-top-40">
+      <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button is-danger' %>
+    </p>
   </div>
 </div>
 

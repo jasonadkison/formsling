@@ -13,4 +13,10 @@ describe User do
       ])
     end
   end
+
+  context 'defaults' do
+    it 'sets role to member' do
+      expect(User.new.member?).to be_truthy
+    end
+  end
 end
