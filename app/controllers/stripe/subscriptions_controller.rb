@@ -71,10 +71,11 @@ class Stripe::SubscriptionsController < ApplicationController
     Rails.application.credentials.stripe[:test_publishable_key]
   end
 
+  # returns the unique webhook signing secret (different per environment)
   def stripe_webhook_endpoint_secret
-    return Rails.application.credentials.stripe[:live_signing_secret] if ENV.fetch('STRIPE_MODE', 'test') == 'live'
+    return Rails.application.credentials.stripe[:development_webhook_signing_secret] if Rails.env.development?
 
-    Rails.application.credentials.stripe[:test_signing_secret]
+    ENV.fetch('STRIPE_WEBHOOK_SIGNING_SECRET')
   end
 
   # Hook fires when user completes checkout successfully.
