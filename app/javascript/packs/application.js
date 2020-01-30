@@ -8,7 +8,8 @@ require("@rails/activestorage").start()
 require("channels")
 
 import '../stylesheets/main';
-import prepareSnapshotDisplay from '../lib/prepare_snapshot_display';
+import '../lib/navbar_toggler';
+import '../lib/prepare_snapshot_display';
 prepareSnapshotDisplay();
 
 // Uncomment to copy all static images under ../images to the output folder and reference

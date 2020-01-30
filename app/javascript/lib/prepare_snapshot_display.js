@@ -1,8 +1,9 @@
 import $ from 'jquery';
 
 // Used to make the result snapshot form fields read-only
-const prepareSnapshotDisplay = () => $(document).ready(() => {
+$(document).ready(() => {
   const snapshot = $('.is-snapshot');
+  if (snapshot.length) return;
 
   $(':input, option', snapshot)
     .prop('readonly', true)
@@ -16,5 +17,3 @@ const prepareSnapshotDisplay = () => $(document).ready(() => {
     $(e.target).val(originalValue);
   });
 });
-
-export default prepareSnapshotDisplay;
