@@ -73,8 +73,6 @@ class Stripe::SubscriptionsController < ApplicationController
 
   # returns the unique webhook signing secret (different per environment)
   def stripe_webhook_endpoint_secret
-    return Rails.application.credentials.stripe[:development_webhook_signing_secret] if Rails.env.development?
-
     ENV.fetch('STRIPE_WEBHOOK_SIGNING_SECRET')
   end
 
