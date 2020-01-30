@@ -1,6 +1,6 @@
 <div class="pricing-table has-margin-top-40 has-margin-bottom-40">
 
-  <div class="pricing-plan <%= 'is-active' unless user_signed_in? && current_user.active_subscription? %>">
+  <div class="pricing-plan <%= 'is-active' if user_signed_in? && !current_user.active_subscription? %>">
     <div class="plan-header">Free Plan</div>
     <div class="plan-price"><span class="plan-price-amount"><span class="plan-price-currency">$</span>0</span>/month</div>
     <div class="plan-items">
