@@ -34,7 +34,7 @@ class User < ApplicationRecord
 
   # Stop any existing subscription if the user is destroyed
   after_destroy do
-    Stripe::Customer.delete(stripe_id)
+    Stripe::Customer.delete(stripe_id) unless stripe_id.blank?
   end
 
   def active_subscription?
