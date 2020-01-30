@@ -29,7 +29,8 @@ class StripeHelpers
         plan_id: stripe_subscription.plan.id,
         current_period_ends_at: Time.zone.at(stripe_subscription.current_period_end),
         trial_starts_at: Time.zone.at(stripe_subscription.trial_start),
-        trial_ends_at: Time.zone.at(stripe_subscription.trial_end)
+        trial_ends_at: Time.zone.at(stripe_subscription.trial_end),
+        status: stripe_subscription.status
       )
 
       user.update!(subscription: subscription)

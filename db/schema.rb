@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_30_214627) do
+ActiveRecord::Schema.define(version: 2020_01_30_215337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,9 +43,9 @@ ActiveRecord::Schema.define(version: 2020_01_30_214627) do
     t.string "plan_id"
     t.string "stripe_id"
     t.datetime "current_period_ends_at"
-    t.boolean "active", default: true
     t.datetime "trial_starts_at"
     t.datetime "trial_ends_at"
+    t.integer "status"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 

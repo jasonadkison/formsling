@@ -87,6 +87,7 @@ describe StripeHelpers do
         current_period_end: current_period_end,
         trial_start: trial_start,
         trial_end: trial_end,
+        status: 'trialing'
       )
 
       args = hash_including(customer: user.stripe_id, trial_end: trial_end, items: [{ plan: described_class::PLAN_ID }])
@@ -124,6 +125,7 @@ describe StripeHelpers do
         current_period_end: current_period_end,
         trial_start: trial_start,
         trial_end: trial_end,
+        status: 'trialing'
       )
 
       allow(Stripe::Subscription).to receive(:create).and_return(stripe_subscription)
