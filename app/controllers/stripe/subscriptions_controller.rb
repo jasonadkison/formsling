@@ -114,9 +114,11 @@ class Stripe::SubscriptionsController < ApplicationController
   # If the subscription is no longer active then it will deactivate the user's subscription.
   def customer_subscription_updated(event)
     logger.debug "customer_subscription_updated event processing started"
-    logger.debug "Subscription status is #{subscription_object['status']}"
 
     subscription_object = event['data']['object']
+
+    logger.debug "Subscription status is #{subscription_object['status']}"
+
     subscription = Subscription.find_by(stripe_id: subscription_object['id'])
 
     unless subscription.present?
