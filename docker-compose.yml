@@ -54,7 +54,6 @@ services:
       - RAILS_ENV=development
       - RACK_ENV=development
       - NODE_ENV=development
-      - STRIPE_PUBLISHABLE_KEY=pk_test_AFLbvR5C9RHmlq74JW08E10x00UvxSHqhX
     depends_on:
       - db
       - redis

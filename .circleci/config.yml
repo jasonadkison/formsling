@@ -60,6 +60,7 @@ jobs:
           RACK_ENV: test
           NODE_ENV: test
           DATABASE_URL: postgres://postgres@localhost:5432/formsling_test
+          REDIS_URL: redis://localhost:6379
       - image: postgres:11.6
         environment:
           POSTGRES_DB: formsling_test
