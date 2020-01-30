@@ -1,6 +1,39 @@
 <div id="pricing">
-  <h1 class="title">Pricing</h1>
-  <p class="subtitle">Pick the right plan for your use case.</p>
+  <h1 class="title has-text-centered">Get started for Free</h1>
+  <p class="subtitle has-text-centered">No credit card required.</p>
 
-  <%= render 'shared/plans' %>
+  <div class="columns is-vcentered">
+    <div class="column is-4 is-offset-4">
+
+      <div class="pricing-table has-margin-bottom-20">
+
+        <div class="pricing-plan is-primary is-active">
+          <div class="plan-header">Standard Plan</div>
+          <div class="plan-price"><span class="plan-price-amount"><span class="plan-price-currency">$</span>10</span>/month</div>
+          <div class="plan-items">
+            <div class="plan-item">Unlimited Forms</div>
+            <div class="plan-item">Unlimited Submissions</div>
+            <div class="plan-item">Share and Embed Forms</div>
+            <div class="plan-item">Custom Styling</div>
+            <div class="plan-item">Spam Protection</div>
+            <div class="plan-item">Analytics</div>
+          </div>
+          <div class="plan-footer">
+            <% if user_signed_in? %>
+              <button class="button is-fullwidth" disabled>Already Signed Up</button>
+            <% else %>
+              <%= link_to 'Try it for free for 30 days', new_user_registration_path, class: 'button is-fullwidth' %>
+              <p class="has-margin-top-10">No credit card required</p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <p class="help has-text-centered">
+        For partial months, the cost is prorated. Cancel at any time.
+      </p>
+
+    </div>
+  </div>
+
 </div>
