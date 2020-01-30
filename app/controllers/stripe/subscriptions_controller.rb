@@ -41,8 +41,10 @@ class Stripe::SubscriptionsController < ApplicationController
     begin
       event = Stripe::Webhook.construct_event(payload, sig_header, stripe_webhook_endpoint_secret)
     rescue JSON::ParserError
+      logger.debug "JSON::ParserError in webhook."
       return head :bad_request
     rescue Stripe::SignatureVerificationError
+      logger.debug "Stripe::SignatureVerificationError in webhook."
       return head :bad_request
     end
 
@@ -54,6 +56,7 @@ class Stripe::SubscriptionsController < ApplicationController
     when 'customer.subscription.deleted'
       customer_subscription_deleted(event)
     else
+      logger.debug "Unhandled webhook event #{event.inspect}"
       return head :bad_request
     end
 
@@ -78,12 +81,17 @@ class Stripe::SubscriptionsController < ApplicationController
   # - Creates or updates the user's subscription.
   # - Destroys any previously active subscription.
   def checkout_session_completed(event)
+    logger.debug "checkout_session_completed webhook processing started."
+
     session_object = event['data']['object']
     customer = Stripe::Customer.retrieve(session_object['customer'])
     stripe_subscription = Stripe::Subscription.retrieve(session_object['subscription'])
 
     user = User.find_by(id: session_object['client_reference_id'])
-    user.subscription.interrupt if user.active_subscription?
+    if user.active_subscription?
+      logger.debug "Interrupting previous user subscription."
+      user.subscription.interrupt
+    end
 
     subscription = user.subscription || Subscription.new
 
@@ -95,36 +103,82 @@ class Stripe::SubscriptionsController < ApplicationController
     )
 
     user.update!(stripe_id: customer.id, subscription: subscription)
+    logger.debug "Setup active user subscription with id #{user.subscription.id}."
+  ensure
+    logger.debug "checkout_session_completed webhook processing completed."
   end
 
   # Hook fires when a stripe subscription is changed.
   # Syncs the current_period_end.
   # If the subscription is no longer active then it will deactivate the user's subscription.
   def customer_subscription_updated(event)
+    logger.debug "customer_subscription_updated event processing started"
+    logger.debug "Subscription status is #{subscription_object['status']}"
+
     subscription_object = event['data']['object']
     subscription = Subscription.find_by(stripe_id: subscription_object['id'])
-    return head :bad_request unless subscription.present?
+
+    unless subscription.present?
+      logger.debug "Could not find subscription for #{subscription_object.inspect}"
+      return head :bad_request
+    end
 
     # Update the current_period_ends_at
     subscription.update(current_period_ends_at: Time.zone.at(subscription_object['current_period_end']))
+    logger.debug "Updated subscription #{subscription.id} current_period_ends_at to #{subscription_object['current_period_end']}"
 
     # Do nothing else if the status is active.
-    return head :ok if subscription_object['status'] == 'active'
+    if subscription_object['status'] == 'active'
+      subscription.update(active: true)
+      logger.debug "Subscription status is active, nothing else to do."
+      return head :ok
+    end
 
     # Deactivate the user subscription
-    return head :ok unless subscription.active?
-    return head :bad_request unless subscription.deactivate
+    unless subscription.active?
+      logger.debug "User subscription not currently active. Nothing to deactivate."
+      return head :ok
+    end
+
+    unless subscription.deactivate
+      logger.debug "Could not deactivate the user subscription."
+      return head :bad_request
+    end
 
     head :ok
+  ensure
+    logger.debug "customer_subscription_updated webhook processing completed."
   end
 
   # Hook fires when customer’s subscription is canceled immediately.
   def customer_subscription_deleted(event)
+    logger.debug "customer_subscription_deleted webhook processing started."
+
     subscription_object = event['data']['object']
     subscription = Subscription.find_by(stripe_id: subscription_object['id'])
-    return head :bad_request unless subscription.present? && subscription.deactivate
+
+    unless subscription.present?
+      logger.debug "Could not find user subscription with stripe_id #{subscription_object['id']}"
+      return head :bad_request
+    end
+
+    logger.debug "User subscription located with id #{subscription.id}."
+
+    unless subscription.active?
+      logger.debug "User subscription not currently active. Nothing to deactivate."
+      return head :bad_request
+    end
+
+    logger.debug "User subscription is currently marked active."
+
+    unless subscription.deactivate
+      logger.debug "Could not deactivate the user subscription with id #{subscription.id}."
+      return head :bad_request
+    end
 
     head :ok
+  ensure
+    logger.debug "customer_subscription_deleted webhook processing completed."
   end
 
 end
