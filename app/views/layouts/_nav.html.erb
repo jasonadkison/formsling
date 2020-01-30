@@ -1,11 +1,12 @@
 <nav class="navbar has-shadow is-spaced" role="navigation" aria-label="main navigation">
   <div class="container">
+
     <div class="navbar-brand">
       <%= link_to root_path, class: 'navbar-item' do %>
         Form<span>Sling</span>
       <% end %>
 
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -14,7 +15,15 @@
 
 
     <div class="navbar-menu">
+      <div class="navbar-start">
+        <%= link_to 'Home', root_path, class: 'navbar-item' %>
+        <%= link_to 'Features', root_path(anchor: 'features'), class: 'navbar-item' %>
+        <%= link_to 'Use Cases', root_path, class: 'navbar-item' %>
+        <%= link_to 'Pricing', pricing_path, class: 'navbar-item' %>
+        <%= link_to 'Contact', root_path, class: 'navbar-item' %>
+      </div>
       <div class="navbar-end">
+
         <% if user_signed_in? %>
           <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">
