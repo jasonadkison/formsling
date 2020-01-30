@@ -63,13 +63,13 @@ class Stripe::SubscriptionsController < ApplicationController
   private
 
   def stripe_publishable_key
-    return Rails.application.credentials.stripe[:live_publishable_key] if Rails.env.production?
+    return Rails.application.credentials.stripe[:live_publishable_key] if ENV.fetch('STRIPE_MODE', 'test') == 'live'
 
     Rails.application.credentials.stripe[:test_publishable_key]
   end
 
   def stripe_webhook_endpoint_secret
-    return Rails.application.credentials.stripe[:live_signing_secret] if Rails.env.production?
+    return Rails.application.credentials.stripe[:live_signing_secret] if ENV.fetch('STRIPE_MODE', 'test') == 'live'
 
     Rails.application.credentials.stripe[:test_signing_secret]
   end
