@@ -19,23 +19,17 @@ class User < ApplicationRecord
     self.role ||= :member if self.new_record?
   end
 
-  # Will rollback unless the customer is created in stripe.
-  # We need to get a stripe customer id immediately on sign up.
-  after_create do
-    CreateOrUpdateStripeCustomerForUserJob.perform_now(id)
-  end
-
   # Sync the User with the stripe customer when these attributes change.
-  after_save do
-    if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_email?
-      CreateOrUpdateStripeCustomerForUserJob.perform_later(id)
-    end
-  end
-
-  # Stop any existing subscription if the user is destroyed
-  after_destroy do
-    Stripe::Customer.delete(stripe_id) unless stripe_id.blank?
-  end
+#  after_save on :update do
+#    if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_email?
+#      CreateOrUpdateStripeCustomerForUserJob.perform_later(id)
+#    end
+#  end
+#
+#  # Stop any existing subscription if the user is destroyed
+#  after_destroy do
+#    Stripe::Customer.delete(stripe_id) unless stripe_id.blank?
+#  end
 
   def active_subscription?
     subscription && subscription.active?

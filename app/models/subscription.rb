@@ -5,6 +5,8 @@ class Subscription < ApplicationRecord
   validates_presence_of :plan_id
   validates_presence_of :stripe_id
   validates_presence_of :current_period_ends_at
+  validates_presence_of :trial_starts_at
+  validates_presence_of :trial_ends_at
 
   # Stop any existing subscription.
   after_destroy do
