@@ -114,8 +114,12 @@ class Stripe::SubscriptionController < ApplicationController
       logger.debug "retrieve subscription #{subscription_id}"
 
       # attach the new payment method to the customer
-      Stripe::PaymentMethod.attach(payment_method_id, { customer: customer_id })
-      logger.debug "attached new payment method to customer"
+      begin
+        Stripe::PaymentMethod.attach(payment_method_id, { customer: customer_id })
+        logger.debug "attached new payment method to customer"
+      rescue e
+        raise e unless e.message.include?('The payment method you provided has already been attached to a customer')
+      end
     when 'subscription'
       customer_id = session['customer']
       subscription_id = session['subscription']
