@@ -7,9 +7,9 @@ class UserMailer < ApplicationMailer
          subject: t('user_mailer.result_processed.subject', name: result.form.name)
   end
 
-  def subscription_ended(subscription)
-    @subscription = subscription
+  def subscription_canceled(user)
+    @user = user
 
-    mail to: @subscription.user.email, subject: t('user_mailer.subscription_ended.subject')
+    mail to: @user.email, subject: t('user_mailer.subscription_canceled.subject')
   end
 end

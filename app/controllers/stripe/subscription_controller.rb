@@ -154,10 +154,10 @@ class Stripe::SubscriptionController < ApplicationController
 
     logger.debug "updated the user subscription"
 
-    user.subscription.send("#{subscription['status']}!")
+    user.subscription.active!
     logger.debug "user subscription status: #{user.subscription.status}"
 
-    user.update!(payment_method_id: payment_method_id,
+    user.update(payment_method_id: payment_method_id,
                  payment_method_last4: payment_method['card']['last4'])
     logger.debug "updated the user payment method"
 
@@ -214,10 +214,8 @@ class Stripe::SubscriptionController < ApplicationController
     end
 
     logger.debug "found user subscription to cancel with id #{subscription.id}."
-
-
-
     subscription.canceled!
+    UserMailer.subscription_canceled(subscription.user).deliver_later
 
     head :ok
   ensure

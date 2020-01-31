@@ -61,13 +61,13 @@
       </div>
 
       <div class="actions">
-        <%= f.submit "Update", class: 'button is-primary' %>
+        <%= f.submit "Update", class: 'button is-primary is-outlined' %>
       </div>
     <% end %>
   </div>
 
   <div class="column is-offset-1">
-    <%= render 'subscription', subscription: current_user.subscription if current_user.subscription.present? %>
+    <%= render 'subscription', subscription: current_user.subscription %>
     <div class="card">
       <div class="card-header">
         <h3 class="card-header-title">
@@ -80,7 +80,7 @@
           <p class="help">Any remaining credit will be refunded to the payment method you provided.</p>
           <p class="help has-text-danger">This action cannot be reversed.</p>
           <p>
-            <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button is-danger' %>
+            <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button is-danger is-outlined is-small' %>
           </p>
         </div>
       </div>

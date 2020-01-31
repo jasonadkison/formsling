@@ -34,8 +34,8 @@ en:
   user_mailer:
     result_processed:
       subject: "New result processed for %{name}"
-    subscription_ended:
-      subject: "Your standard subscription has ended."
+    subscription_canceled:
+      subject: "Your subscription was canceled."
   subscription:
     status:
       friendly:
