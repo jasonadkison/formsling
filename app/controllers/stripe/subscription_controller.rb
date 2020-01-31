@@ -9,12 +9,11 @@ class Stripe::SubscriptionController < ApplicationController
     @stripe_session = Stripe::Checkout::Session.create(
       customer: current_user.stripe_id,
       payment_method_types: ['card'],
-      subscription_data: { items: [{ plan: 'plan_GdMh40FZp0zoJ1' }] },
+      subscription_data: { items: [{ plan: StripeHelpers::PLAN_ID }] },
       client_reference_id: current_user.id,
       success_url: "#{edit_user_registration_url}?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: edit_user_registration_url
     )
-
     @publishable_key = stripe_publishable_key
   end
 
@@ -29,7 +28,7 @@ class Stripe::SubscriptionController < ApplicationController
         metadata: {
           user_id: current_user.id,
           customer_id: current_user.stripe_id,
-          subscription_id: @subscription.stripe_id
+          subscription_id: current_user.subscription.stripe_id
         }
       },
       success_url: "#{edit_user_registration_url}?session_id={CHECKOUT_SESSION_ID}",
@@ -41,16 +40,17 @@ class Stripe::SubscriptionController < ApplicationController
   # DELETE /subscription
   # Immediately cancels the user's subscription.
   def destroy
-    Stripe::Subscription.delete(@subscription.stripe_id)
+    StripeHelpers.cancel_subscription(@subscription.stripe_id)
   end
 
   def webhook
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+    webhook_signing_secret = ENV.fetch('STRIPE_WEBHOOK_SIGNING_SECRET')
     event = nil
 
     begin
-      event = Stripe::Webhook.construct_event(payload, sig_header, stripe_webhook_endpoint_secret)
+      event = Stripe::Webhook.construct_event(payload, sig_header, webhook_signing_secret)
     rescue JSON::ParserError
       logger.debug "JSON::ParserError in webhook."
       return head :bad_request
@@ -61,11 +61,11 @@ class Stripe::SubscriptionController < ApplicationController
 
     case event.type
     when 'checkout.session.completed'
-      checkout_session_completed(event)
+      checkout_session_completed(event['data']['object'])
     when 'customer.subscription.updated'
-      customer_subscription_updated(event)
+      customer_subscription_updated(event['data']['object'])
     when 'customer.subscription.deleted'
-      customer_subscription_deleted(event)
+      customer_subscription_deleted(event['data']['object'])
     else
       logger.debug "Unhandled webhook event #{event.type}"
       return head :ok
@@ -84,97 +84,113 @@ class Stripe::SubscriptionController < ApplicationController
     Rails.application.credentials.stripe[:test_publishable_key]
   end
 
-  # returns the unique webhook signing secret (different per environment)
-  def stripe_webhook_endpoint_secret
-    ENV.fetch('STRIPE_WEBHOOK_SIGNING_SECRET')
-  end
-
   # Hook fires when user completes checkout successfully.
   # This is used to update the user's payment method or reactivate a canceled subscription.
-  def checkout_session_completed(event)
+  def checkout_session_completed(session_object)
     logger.debug "checkout_session_completed webhook processing started."
 
-    # retrieve the session
-    session_object = event['data']['object']
-    session = Stripe::Checkout::Session.retrieve(session_object['id'])
-    logger.debug "retrieved session with mode #{session['mode']}"
-
-    case session['mode']
+    case session_object['mode']
     when 'setup'
-      # retrieve the setup_intent
-      setup_intent_id = session['setup_intent']
-      setup_intent = Stripe::SetupIntent.retrieve(setup_intent_id)
-      logger.debug "retrieved setup_intent"
-
-      customer_id = setup_intent['metadata']['customer_id']
-      subscription_id = setup_intent['metadata']['subscription_id']
-      payment_method_id = setup_intent['payment_method']
-
-      subscription = Stripe::Subscription.retrieve(subscription_id)
-      logger.debug "retrieve subscription #{subscription_id}"
-
-      # attach the new payment method to the customer
-      begin
-        Stripe::PaymentMethod.attach(payment_method_id, { customer: customer_id })
-        logger.debug "attached new payment method to customer"
-      rescue e
-        raise e unless e.message.include?('The payment method you provided has already been attached to a customer')
-      end
+      process_setup_session(session_object)
     when 'subscription'
-      customer_id = session['customer']
-      subscription_id = session['subscription']
-
-      subscription = Stripe::Subscription.retrieve(subscription_id)
-      logger.debug "retrieve subscription #{subscription_id}"
-
-      payment_method_id = subscription['default_payment_method']
+      process_subscription_session(session_object)
     else
-      logger.debug "Unhandled mode #{session['mode']}"
-      return head :ok
+      logger.debug "Unhandled session mode #{session_object['mode']}"
+      head :ok
     end
-
-    # Set the default payment method on their subscription
-    Stripe::Subscription.update(subscription_id, { default_payment_method: payment_method_id })
-    logger.debug "updated the subscription's default payment method"
-
-    # Set the default payment method on the customer
-    Stripe::Customer.update(
-      customer_id,
-      { invoice_settings: { default_payment_method: payment_method_id } }
-    )
-    logger.debug "updated the customer's default payment method"
-
-    payment_method = Stripe::PaymentMethod.retrieve(payment_method_id)
-    logger.debug "retrieved payment method"
-
-    user = User.find(session['client_reference_id'])
-    logger.debug "found user by with id #{session['client_reference_id']}"
-
-    user.subscription.update!(stripe_id: subscription['id'], current_period_ends_at: Time.at(subscription['current_period_end']))
-    user.subscription.update!(
-      trial_starts_at: Time.at(subscription['trial_start']),
-      trial_ends_at: Time.at(subscription['trial_end'])
-    ) if subscription['status'] == 'trialing'
-
-    logger.debug "updated the user subscription"
-
-    user.subscription.active!
-    logger.debug "user subscription status: #{user.subscription.status}"
-
-    user.update(payment_method_id: payment_method_id,
-                 payment_method_last4: payment_method['card']['last4'])
-    logger.debug "updated the user payment method"
-
-    head :ok
   ensure
     logger.debug "checkout_session_completed webhook processing completed."
   end
 
-  # Hook fires when a stripe subscription is changed.
-  def customer_subscription_updated(event)
-    logger.debug "customer_subscription_updated event processing started"
+  # Processes the new payment method
+  def process_setup_session(stripe_session)
+    logger.debug "process_setup_session started"
 
-    subscription_object = event['data']['object']
+    client_reference_id = stripe_session['client_reference_id']
+
+    # find the user
+    user = User.find_by_id(client_reference_id)
+    unless user.present?
+      logger.debug "could not find user by client_reference_id #{client_reference_id}"
+      return head :ok
+    end
+
+    logger.debug "found user #{user.id} #{user.email} #{user.full_name}"
+
+    setup_intent_id = stripe_session['setup_intent']
+    setup_intent = Stripe::SetupIntent.retrieve(setup_intent_id)
+    logger.debug "retrieved setup_intent #{setup_intent_id}"
+
+    payment_method_id = setup_intent['payment_method']
+
+    # retrieve the payment method
+    payment_method = Stripe::PaymentMethod.retrieve(payment_method_id)
+    logger.debug "retrieved payment method"
+
+    user.update!(payment_method_id: payment_method['id'], payment_method_last4: payment_method['card']['last4'])
+    logger.debug "updated the user's payment method"
+
+    HandlePaymentMethodUpdatedJob.perform_later(user.id, payment_method_id)
+
+    head :ok
+  ensure
+    logger.debug "process_setup_session completed"
+  end
+
+  # Processes the new subscription
+  def process_subscription_session(stripe_session)
+    client_reference_id = stripe_session['client_reference_id']
+    customer_id = stripe_session['customer']
+    subscription_id = stripe_session['subscription']
+
+    user = User.find_by_id(client_reference_id)
+    unless user.present?
+      logger.debug "could not find user by client_reference_id #{client_reference_id}"
+      # cancel the subscription because user doesn't exist
+      CancelStripeSubscriptionJob.perform_later(subscription_id)
+      return head :ok
+    end
+
+    logger.debug "found user #{user.id} #{user.email} #{user.full_name}"
+
+    # enqueue job to cancel previous subscription
+    CancelStripeSubscriptionJob.perform_later(user.subscription.stripe_id) if user.subscription.present? && !user.subscription.canceled?
+
+    # retrieve the subscription so we can get the payment method for saving later
+    subscription = Stripe::Subscription.retrieve(subscription_id)
+    logger.debug "retrieved subscription #{subscription_id}"
+
+    payment_method_id = subscription['default_payment_method']
+
+    # retrieve the payment method
+    payment_method = Stripe::PaymentMethod.retrieve(payment_method_id)
+    logger.debug "retrieved payment method"
+
+    # update their saved payment method immediately
+    user.update!(payment_method_id: payment_method['id'], payment_method_last4: payment_method['card']['last4'])
+    logger.debug "updated the user's payment method"
+
+    # update existing or create new subscription
+    user_subscription = user.subscription || Subscription.new
+    user_subscription.assign_attributes(
+      stripe_id: subscription['id'],
+      current_period_ends_at: Time.at(subscription['current_period_end']),
+      trial_starts_at: nil,
+      trial_ends_at: nil
+    )
+
+    user.update!(subscription: user_subscription)
+    logger.debug "updated the user subscription"
+
+    user.subscription.active!
+    logger.debug "made new subscription active"
+
+    head :ok
+  end
+
+  # Hook fires when a stripe subscription is changed.
+  def customer_subscription_updated(subscription_object)
+    logger.debug "customer_subscription_updated event processing started"
     logger.debug "subscription status is #{subscription_object['status']}"
 
     subscription = Subscription.find_by_stripe_id(subscription_object['id'])
@@ -206,12 +222,10 @@ class Stripe::SubscriptionController < ApplicationController
   end
 
   # Hook fires when customer’s subscription is canceled immediately.
-  def customer_subscription_deleted(event)
+  def customer_subscription_deleted(subscription_object)
     logger.debug "customer_subscription_deleted webhook processing started."
 
-    subscription_object = event['data']['object']
     subscription = Subscription.find_by_stripe_id(subscription_object['id'])
-
     unless subscription.present?
       logger.debug "did not find a user subscription with stripe_id #{subscription_object['id']}"
       return head :ok

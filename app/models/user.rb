@@ -27,10 +27,6 @@ class User < ApplicationRecord
     DeleteStripeCustomerJob.perform_later(stripe_id)
   end
 
-  def active_subscription?
-    subscription && subscription.active?
-  end
-
   def full_name
     "#{first_name} #{last_name}"
   end

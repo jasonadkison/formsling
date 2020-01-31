@@ -30,7 +30,7 @@
             </p>
           </div>
           <%= link_to 'Start a new subscription', stripe_create_subscription_path, remote: true, method: :post, class: 'button is-primary is-outlined is-small' %>
-        <% else %>
+        <% elsif !local_assigns[:subscription].trialing? %>
           <%= link_to 'Cancel my subscription', stripe_destroy_subscription_path, remote: true, method: :delete, class: 'button is-primary is-outlined is-small', data: { confirm: "Are you sure?" } %>
         <% end %>
       <% else %>
