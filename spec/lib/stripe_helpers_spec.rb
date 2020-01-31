@@ -10,7 +10,7 @@ describe StripeHelpers do
 
     before do
       allow(described_class).to receive(:create_customer).and_return(nil)
-      allow(described_class).to receive(:create_subscription).and_return(nil)
+      allow(described_class).to receive(:create_trial_subscription).and_return(nil)
     end
 
     context 'when user does not have stripe_id' do
@@ -30,7 +30,7 @@ describe StripeHelpers do
 
     context 'when user does not have a subscription' do
       it 'creates a new subscription' do
-        expect(described_class).to receive(:create_subscription).with(user).once
+        expect(described_class).to receive(:create_trial_subscription).with(user).once
         described_class.send(:onboard_user, user)
       end
     end
@@ -38,7 +38,7 @@ describe StripeHelpers do
     context 'when user has a subscription' do
       let(:subscription) { true }
       it 'does not create a new subscription' do
-        expect(described_class).to_not receive(:create_subscription)
+        expect(described_class).to_not receive(:create_trial_subscription)
         described_class.send(:onboard_user, user)
       end
     end
@@ -74,7 +74,7 @@ describe StripeHelpers do
     end
   end
 
-  describe '.create_subscription' do
+  describe '.create_trial_subscription' do
     it 'creates stripe subscription and associates it to the user' do
       user = create(:user, stripe_id: 'cust_1')
       current_period_end = 1.day.from_now.to_i
@@ -93,7 +93,7 @@ describe StripeHelpers do
       args = hash_including(customer: user.stripe_id, trial_end: trial_end, items: [{ plan: described_class::PLAN_ID }])
       allow(Stripe::Subscription).to receive(:create).with(args).and_return(stripe_subscription)
       allow(user).to receive(:valid?).and_return(true)
-      expect(described_class.send(:create_subscription, user)).to be_truthy
+      expect(described_class.send(:create_trial_subscription, user)).to be_truthy
 
       subscription = Subscription.last
       expect(subscription.user_id).to eq(user.id)
@@ -109,7 +109,7 @@ describe StripeHelpers do
       error = StandardError.new('test')
       allow(Stripe::Subscription).to receive(:create).and_raise(error)
       expect {
-        described_class.send(:create_subscription, user)
+        described_class.send(:create_trial_subscription, user)
       }.to raise_error(error)
     end
 
@@ -132,7 +132,7 @@ describe StripeHelpers do
       allow(user).to receive(:update!).and_raise(StandardError)
       expect(Stripe::Subscription).to receive(:delete).with(stripe_subscription.id)
 
-      described_class.send(:create_subscription, user)
+      described_class.send(:create_trial_subscription, user)
     end
 
   end

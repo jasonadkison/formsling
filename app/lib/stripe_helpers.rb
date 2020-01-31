@@ -3,7 +3,7 @@ class StripeHelpers
 
   def self.onboard_user(user)
     create_customer(user) if user.stripe_id.blank?
-    create_subscription(user) if user.subscription.blank?
+    create_trial_subscription(user) if user.subscription.blank?
   end
 
   def self.create_customer(user)
@@ -23,7 +23,7 @@ class StripeHelpers
     end
   end
 
-  def self.create_subscription(user)
+  def self.create_trial_subscription(user)
     stripe_subscription = Stripe::Subscription.create(
       customer: user.stripe_id,
       items: [{ plan: PLAN_ID }],
