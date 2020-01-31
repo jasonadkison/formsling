@@ -51,7 +51,7 @@ en:
         trialing: Your currently using your free trial.
         canceled: Your subscription was canceled.
         past_due: Your subscription is past due.
-        incomplete: Your subscription is incomplee.
+        incomplete: Your subscription is incomplete.
         incomplete_expired: Your subscription is incomplete or expired.
-        unpaid: Unpaid
+        unpaid: Your subscription is unpaid.
 
