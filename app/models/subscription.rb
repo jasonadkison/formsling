@@ -8,8 +8,8 @@ class Subscription < ApplicationRecord
   validates_presence_of :plan_id
   validates_presence_of :stripe_id
   validates_presence_of :current_period_ends_at
-  validates_presence_of :trial_starts_at
-  validates_presence_of :trial_ends_at
+  validates_presence_of :trial_starts_at, on: :create
+  validates_presence_of :trial_ends_at, on: :create
 
   after_initialize do
     self.status ||= :trialing if self.new_record?

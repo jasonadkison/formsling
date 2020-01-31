@@ -1,0 +1,56 @@
+<div class="card has-margin-bottom-40">
+  <div class="card-header">
+    <h3 class="card-header-title">
+      Subscription
+    </h3>
+  </div>
+  <div class="card-content">
+    <div class="content">
+      <% if local_assigns[:subscription].trialing? %>
+        <p>
+          Your free trial will end on
+          <%= local_assigns[:subscription].trial_ends_at.strftime('%m/%d/%Y') %>.
+        </p>
+        <% unless current_user.payment_method_id.present? %>
+          <p>Please provide a payment method to avoid interruption.</p>
+        <% end %>
+      <% else %>
+        <p><%= t("subscription.status.description.#{local_assigns[:subscription].status}") %></p>
+        <% unless local_assigns[:subscription].canceled? %>
+          <p>Current period ends at <%= local_assigns[:subscription].current_period_ends_at.strftime('%m/%d/%Y') %></p>
+        <% end %>
+      <% end %>
+
+      <% if local_assigns[:subscription].canceled? %>
+        <%= link_to 'Start new subscription', stripe_create_subscription_path, remote: true, method: :post, class: 'button is-primary is-outlined is-small' %>
+      <% else %>
+        <%= link_to 'Cancel my subscription', stripe_destroy_subscription_path, remote: true, method: :delete, class: 'button is-primary is-outlined is-small', data: { confirm: "Are you sure?" } %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<% unless local_assigns[:subscription].canceled? %>
+  <div class="card has-margin-bottom-40">
+    <div class="card-header">
+      <h3 class="card-header-title">
+        Payment Method
+      </h3>
+    </div>
+    <div class="card-content">
+      <div class="content">
+        <% if current_user.payment_method_id.present? %>
+          <p>
+            <span style="background: #eee">&nbsp;Card ending in <%= current_user.payment_method_last4 %>&nbsp;</span>
+          </p>
+          <%= link_to 'Update Payment Method', stripe_update_subscription_path, class: 'button is-primary is-outlined is-small', remote: true, method: :put %>
+        <% else %>
+          <p>
+            Payment method not provided.
+          </p>
+          <%= link_to 'Enter Payment Method', stripe_update_subscription_path, class: 'button is-primary is-outlined is-small', remote: true, method: :put %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

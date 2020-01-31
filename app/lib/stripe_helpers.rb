@@ -7,7 +7,14 @@ class StripeHelpers
   end
 
   def self.create_customer(user)
-    stripe_customer = Stripe::Customer.create(email: user.email, name: user.full_name)
+    stripe_customer = Stripe::Customer.create(
+      email: user.email,
+      name: user.full_name,
+      metadata: {
+        environment: Rails.env,
+        user_id: user.id
+      }
+    )
 
     begin
       user.update!(stripe_id: stripe_customer.id)
@@ -27,9 +34,9 @@ class StripeHelpers
       subscription = Subscription.new(
         stripe_id: stripe_subscription.id,
         plan_id: stripe_subscription.plan.id,
-        current_period_ends_at: Time.zone.at(stripe_subscription.current_period_end),
-        trial_starts_at: Time.zone.at(stripe_subscription.trial_start),
-        trial_ends_at: Time.zone.at(stripe_subscription.trial_end),
+        current_period_ends_at: Time.at(stripe_subscription.current_period_end),
+        trial_starts_at: Time.at(stripe_subscription.trial_start),
+        trial_ends_at: Time.at(stripe_subscription.trial_end),
         status: stripe_subscription.status
       )
 

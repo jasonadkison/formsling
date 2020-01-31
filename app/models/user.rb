@@ -20,16 +20,12 @@ class User < ApplicationRecord
   end
 
   # Sync the User with the stripe customer when these attributes change.
-#  after_save on :update do
-#    if saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_email?
-#      CreateOrUpdateStripeCustomerForUserJob.perform_later(id)
-#    end
-#  end
-#
-#  # Stop any existing subscription if the user is destroyed
-#  after_destroy do
-#    Stripe::Customer.delete(stripe_id) unless stripe_id.blank?
-#  end
+  after_update :sync_user_with_customer
+
+  # Stop any existing subscription if the user is destroyed
+  after_destroy do
+    Stripe::Customer.delete(stripe_id) unless stripe_id.blank?
+  end
 
   def active_subscription?
     subscription && subscription.active?
@@ -37,5 +33,13 @@ class User < ApplicationRecord
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  private
+
+  def sync_user_with_customer
+    return unless saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_email?
+
+    UpdateStripeCustomerForUserJob.perform_later(id)
   end
 end

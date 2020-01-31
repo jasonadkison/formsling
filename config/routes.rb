@@ -37,12 +37,11 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :stripe, path: '/subscriptions' do
-    get '/new', to: 'subscriptions#new', as: 'new_subscription'
-    delete '/cancel', to: 'subscriptions#cancel', as: 'cancel_subscription'
-    get '/checkout/successful', to: 'subscriptions#successful_checkout', as: 'successful_checkout'
-    get '/checkout/canceled', to: 'subscriptions#canceled_checkout', as: 'canceled_checkout'
-    post '/webhook', to: 'subscriptions#webhook', as: 'subscription_webhook'
+  namespace :stripe, path: '/subscription' do
+    post '/', to: 'subscription#create', as: 'create_subscription'
+    put '/', to: 'subscription#update', as: 'update_subscription'
+    delete '/', to: 'subscription#destroy', as: 'destroy_subscription'
+    post '/webhook', to: 'subscription#webhook', as: 'subscription_webhook'
   end
 
   # pages

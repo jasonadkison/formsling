@@ -1,6 +1,9 @@
+<h2 class="title">My Account</h2>
+<div class="is-divider"></div>
+
 <div class="columns">
   <div class="column">
-    <h2 class="title">My Account</h2>
+    <h3 class="title is-size-4">Edit Details</h3>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -62,33 +65,26 @@
       </div>
     <% end %>
   </div>
-  <div class="is-divider-vertical"></div>
-  <div class="column">
+
+  <div class="column is-offset-1">
+    <%= render 'subscription', subscription: current_user.subscription if current_user.subscription.present? %>
     <div class="card">
       <div class="card-header">
-        <h3 class="card-header-title">Subscription</h3>
+        <h3 class="card-header-title">
+          Close Account
+        </h3>
       </div>
       <div class="card-content">
         <div class="content">
-          <% if current_user.active_subscription? %>
-            <p>You're currently enrolled in the <strong>Standard</strong> plan.</p>
-            <p>
-              Next invoice will be billed on
-              <%= current_user.subscription.current_period_ends_at.strftime("%b %d") %>.
-            </p>
-          <% else %>
-            <p>You're currently enrolled in the <strong>Free</strong> plan.</p>
-          <% end %>
+          <p class="help">Closing your account will destroy all your data and cancel any subscription you may have.</p>
+          <p class="help">Any remaining credit will be refunded to the payment method you provided.</p>
+          <p class="help has-text-danger">This action cannot be reversed.</p>
+          <p>
+            <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button is-danger' %>
+          </p>
         </div>
       </div>
-      <footer class="card-footer">
-        <%= link_to 'Change Subscription', subscriptions_path, class: 'card-footer-item' %>
-      </footer>
     </div>
-
-    <p class="has-margin-top-40">
-      <%= button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'button is-danger' %>
-    </p>
   </div>
 </div>
 

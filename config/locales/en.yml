@@ -36,3 +36,22 @@ en:
       subject: "New result processed for %{name}"
     subscription_ended:
       subject: "Your standard subscription has ended."
+  subscription:
+    status:
+      friendly:
+        active: Active
+        trialing: Trial
+        canceled: Canceled
+        past_due: Past Due
+        incomplete: Incomplete
+        incomplete_expired: Incomplete/Expired
+        unpaid: Unpaid
+      description:
+        active: Your subscription is currently active.
+        trialing: Your currently using your free trial.
+        canceled: Your subscription was canceled.
+        past_due: Your subscription is past due.
+        incomplete: Your subscription is incomplee.
+        incomplete_expired: Your subscription is incomplete or expired.
+        unpaid: Unpaid
+
