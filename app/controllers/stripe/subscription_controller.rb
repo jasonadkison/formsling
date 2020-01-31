@@ -66,9 +66,14 @@ class Stripe::SubscriptionController < ApplicationController
       customer_subscription_updated(event['data']['object'])
     when 'customer.subscription.deleted'
       customer_subscription_deleted(event['data']['object'])
+    when 'customer.subscription.trial_will_end'
+      # TODO send emails telling the user to enter payment info
+      logger.debug "customer.subscription.trial_will_end is unhandled"
+    when 'invoice.payment_failed'
+      # TODO flag the user so they have to enter payment method
+      logger.debug "invoice.payment_failed is unhandled"
     else
       logger.debug "Unhandled webhook event #{event.type}"
-      return head :ok
     end
 
     head :ok
@@ -186,6 +191,9 @@ class Stripe::SubscriptionController < ApplicationController
     logger.debug "made new subscription active"
 
     head :ok
+  rescue StandardError => e
+    CancelStripeSubscriptionJob.perform_later(subscription_id)
+    logger.debug "Unhandled exception raised. Canceling the created subscription."
   end
 
   # Hook fires when a stripe subscription is changed.
