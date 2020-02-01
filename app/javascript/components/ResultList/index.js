@@ -1,14 +1,15 @@
 import React, { useReducer, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import TimeAgo from 'react-timeago'
 
+import EmptyState from '../EmptyState';
 import BreadcrumbPortal from '../BreadcrumbPortal';
 import Breadcrumbs from './Breadcrumbs';
 import Loader from '../Loader';
 
 const initialState = {
-  loading: false,
+  loading: true,
   form: {
     id: undefined,
     name: undefined,
@@ -58,72 +59,88 @@ const ResultList = () => {
   }, [formId]);
 
   return (
-    <div id="result-list">
-      {error && (
-        <div className="notification is-danger">
-          <p>Oops, something went wrong.</p>
-        </div>
-      )}
+    <>
       <Loader loading={loading} />
-      <BreadcrumbPortal>
-        <Breadcrumbs {...form} />
-      </BreadcrumbPortal>
-      <h1 className="title">Results</h1>
-      <div className="table-container">
-        <table className="table is-striped">
-          <thead>
-            <tr>
-              <th>Result ID</th>
-              <th>Created</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {results.map(result => (
-              <tr key={result.id}>
-                <td>{result.id}</td>
-                <td>
-                  <TimeAgo date={result.created_at}>
-                    {result.created_at}
-                  </TimeAgo>
-                </td>
-                <td>
-                  <div className="buttons">
-                    <a
-                      className="button is-small"
-                      href={`/r/${result.id}`}
-                      rel="noopener noreferrer"
-                      title="View Result"
-                      target="_blank"
-                    >
-                      <span className="icon">
-                        <i className="fas fa-eye" />
-                      </span>
-                      <span>
-                        View
-                      </span>
-                    </a>
-                    <a
-                      className="button is-small"
-                      href={`/r/${result.id}.pdf`}
-                      rel="noopener noreferrer"
-                      title="Download Result"
-                    >
-                      <span className="icon">
-                        <i className="fas fa-file-pdf" />
-                      </span>
-                      <span>
-                        Download
-                      </span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div id="result-list">
+        {error && (
+          <div className="notification is-danger">
+            <p>Oops, something went wrong.</p>
+          </div>
+        )}
+        <BreadcrumbPortal>
+          <Breadcrumbs {...form} />
+        </BreadcrumbPortal>
+        {results.length > 0 ? (
+          <>
+            <h1 className="title">Results</h1>
+            <div className="table-container">
+              <table className="table is-striped">
+                <thead>
+                  <tr>
+                    <th>Result ID</th>
+                    <th>Created</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.map(result => (
+                    <tr key={result.id}>
+                      <td>{result.id}</td>
+                      <td>
+                        <TimeAgo date={result.created_at}>
+                          {result.created_at}
+                        </TimeAgo>
+                      </td>
+                      <td>
+                        <div className="buttons">
+                          <a
+                            className="button is-small"
+                            href={`/r/${result.id}`}
+                            rel="noopener noreferrer"
+                            title="View Result"
+                            target="_blank"
+                          >
+                            <span className="icon">
+                              <i className="fas fa-eye" />
+                            </span>
+                            <span>
+                              View
+                            </span>
+                          </a>
+                          <a
+                            className="button is-small"
+                            href={`/r/${result.id}.pdf`}
+                            rel="noopener noreferrer"
+                            title="Download Result"
+                          >
+                            <span className="icon">
+                              <i className="fas fa-file-pdf" />
+                            </span>
+                            <span>
+                              Download
+                            </span>
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        ) : (
+          <EmptyState
+            top="No Results Found"
+            middle="This form has not received any submissions."
+            bottom={(
+              <Link to="/forms" className="button is-link is-outlined">
+                Back to Forms
+              </Link>
+            )}
+          />
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
