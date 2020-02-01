@@ -4,10 +4,90 @@ import axios from 'axios';
 import TimeAgo from 'react-timeago'
 
 import Loader from './Loader';
+import EmptyState from './EmptyState';
 import NewForm from './modals/NewForm';
 import DeleteForm from './modals/DeleteForm';
-import FormButtons from './FormButtons';
-import ShareForm from './modals/ShareForm';
+
+const FormTable = ({ forms }) => {
+  return (
+    <table className="table is-striped is-fullwidth">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Published</th>
+          <th>Results</th>
+          <th>Updated</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {forms.map(form => (
+          <tr key={form.id}>
+            <td>
+              <Link to={`/forms/${form.id}`} title="Edit">
+                {form.name}
+              </Link>
+            </td>
+            <td>
+              <span
+                className={`icon has-text-${form.published ? 'success' : 'grey'}`}
+              >
+                <i className={`fas fa-${form.published ? 'check' : 'times'}-circle`} />
+              </span>
+            </td>
+            <td>
+              {form.total_results > 0 ? (
+                <Link
+                  to={`/forms/${form.id}/results`}
+                  title="Results"
+                >
+                  {form.total_results}
+                </Link>
+              ) : (
+                <span>{form.total_results}</span>
+              )}
+            </td>
+            <td>
+              <TimeAgo date={form.updated_at}>
+                {form.updated_at}
+              </TimeAgo>
+            </td>
+            <td>
+              <TimeAgo date={form.created_at}>
+                {form.created_at}
+              </TimeAgo>
+            </td>
+            <td>
+              <div className="buttons">
+                <Link
+                  to={`/forms/${form.id}`}
+                  title="Edit"
+                  className="button is-link is-inverted is-inline"
+                  data-tooltip="Edit"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-edit" />
+                  </span>
+                </Link>
+                <a
+                  className="button is-danger is-inverted is-inline"
+                  onClick={() => setDeletingForm(form)}
+                  title="Delete"
+                  data-tooltip="Delete"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-trash" />
+                  </span>
+                </a>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+};
 
 const FormList = () => {
   const [forms, setForms] = useState([]);
@@ -37,102 +117,51 @@ const FormList = () => {
     <>
       <Loader loading={loading} />
       <div id="form-list">
-        <div className="level">
-          <div className="level-left">
-            <h3 className="title">Your Forms</h3>
-          </div>
-          <div className="level-right">
-            <button
-              className="button is-primary is-outlined"
-              onClick={() => setIsCreating(true)}
-            >
-              <span className="icon">
-                <i className="fas fa-plus" />
-              </span>
-              <span>
-                New Form
-              </span>
-            </button>
-          </div>
-        </div>
-        <div className="table-container">
-          <table className="table is-striped is-fullwidth">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Published</th>
-                <th>Results</th>
-                <th>Updated</th>
-                <th>Created</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {forms.map(form => (
-                <tr key={form.id}>
-                  <td>
-                    <Link to={`/forms/${form.id}`} title="Edit">
-                      {form.name}
-                    </Link>
-                  </td>
-                  <td>
-                    <span
-                      className={`icon has-text-${form.published ? 'success' : 'grey'}`}
-                    >
-                      <i className={`fas fa-${form.published ? 'check' : 'times'}-circle`} />
+        {forms.length > 0 ? (
+          <>
+            <div className="level">
+              <div className="level-left">
+                <div className="level-item">
+                  <h3 className="title">Your Forms</h3>
+                </div>
+                <div className="level-item">
+                  <button
+                    className="button is-primary is-outlined is-small"
+                    onClick={() => setIsCreating(true)}
+                  >
+                    <span className="icon">
+                      <i className="fas fa-plus" />
                     </span>
-                  </td>
-                  <td>
-                    {form.total_results > 0 ? (
-                      <Link
-                        to={`/forms/${form.id}/results`}
-                        title="Results"
-                      >
-                        {form.total_results}
-                      </Link>
-                    ) : (
-                      <span>{form.total_results}</span>
-                    )}
-                  </td>
-                  <td>
-                    <TimeAgo date={form.updated_at}>
-                      {form.updated_at}
-                    </TimeAgo>
-                  </td>
-                  <td>
-                    <TimeAgo date={form.created_at}>
-                      {form.created_at}
-                    </TimeAgo>
-                  </td>
-                  <td>
-                    <div className="buttons">
-                      <Link
-                        to={`/forms/${form.id}`}
-                        title="Edit"
-                        className="button is-link is-inverted is-inline"
-                        data-tooltip="Edit"
-                      >
-                        <span className="icon is-small">
-                          <i className="fas fa-edit" />
-                        </span>
-                      </Link>
-                      <a
-                        className="button is-danger is-inverted is-inline"
-                        onClick={() => setDeletingForm(form)}
-                        title="Delete"
-                        data-tooltip="Delete"
-                      >
-                        <span className="icon is-small">
-                          <i className="fas fa-trash" />
-                        </span>
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                    <span>
+                      New Form
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="table-container">
+              <FormTable forms={forms} setDeletingForm={setDeletingForm} />
+            </div>
+          </>
+        ) : (
+          <EmptyState
+            top="No Forms Found"
+            middle="Let's get started by creating your first form."
+            bottom={(
+              <button
+                className="button is-primary is-outlined is-large"
+                onClick={() => setIsCreating(true)}
+              >
+                <span className="icon">
+                  <i className="fas fa-edit" />
+                </span>
+                <span>
+                  New Form
+                </span>
+              </button>
+            )}
+          />
+        )}
         {isCreating && (
           <NewForm onClose={() => setIsCreating(false)} />
         )}
