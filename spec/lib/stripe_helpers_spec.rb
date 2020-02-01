@@ -180,7 +180,7 @@ describe StripeHelpers do
       allow(Stripe::PaymentMethod).to receive(:attach).and_raise(error)
       expect {
         described_class.send(:attach_customer_payment_method, customer_id, payment_method_id)
-      }.to_not raise_error(error)
+      }.to_not raise_error
     end
   end
 

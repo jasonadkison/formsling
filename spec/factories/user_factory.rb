@@ -6,4 +6,10 @@ FactoryBot.define do
     password { 'password' }
     password_confirmation { 'password' }
   end
+
+  factory :stripe_user, parent: :user do
+    sequence :stripe_id do |n|
+      "cus_#{n}"
+    end
+  end
 end

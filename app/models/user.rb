@@ -34,6 +34,7 @@ class User < ApplicationRecord
   private
 
   def sync_user_with_customer
+    return if stripe_id.blank?
     return unless saved_change_to_first_name? || saved_change_to_last_name? || saved_change_to_email?
 
     UpdateStripeCustomerForUserJob.perform_later(id)
