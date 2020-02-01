@@ -26,13 +26,19 @@ const FormTable = ({ forms, setDeletingForm }) => {
           <tr key={form.id}>
             <td>
               <span
-                className={`icon has-text-${form.published ? 'success' : 'grey'}`}
+                className="has-tooltip-right icon has-text-grey"
+                data-tooltip={form.published ? 'Published' : 'Unpublished'}
               >
                 <i className={`fas fa-${form.published ? 'eye' : 'eye-slash'}`} />
               </span>
             </td>
             <td>
-              <Link to={`/forms/${form.id}`} title="Edit">
+              <Link
+                to={`/forms/${form.id}`}
+                title="Edit"
+                className="has-tooltip-right"
+                data-tooltip="Edit Form"
+              >
                 {form.name}
               </Link>
             </td>
@@ -40,7 +46,8 @@ const FormTable = ({ forms, setDeletingForm }) => {
               {form.total_results > 0 ? (
                 <Link
                   to={`/forms/${form.id}/results`}
-                  title="Results"
+                  className="has-tooltip-right"
+                  data-tooltip="View Results"
                 >
                   {form.total_results}
                 </Link>
@@ -61,7 +68,7 @@ const FormTable = ({ forms, setDeletingForm }) => {
             <td>
               <div className="buttons">
                 <a
-                  className="has-text-danger"
+                  className="has-text-danger has-tooltip-left"
                   onClick={() => setDeletingForm(form)}
                   title="Delete"
                   data-tooltip="Delete"
