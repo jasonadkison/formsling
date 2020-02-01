@@ -83,6 +83,17 @@ const UserComponent = ({ children }) => {
                   </span>
                 </a>
               </div>
+              <div className="level-item has-margin-right-10">
+                <a
+                  className={cx('component-action', { 'is-invisible': !properties })}
+                  onClick={() => setExpanded(!expanded)}
+                  data-tooltip="Edit Settings"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-edit" />
+                  </span>
+                </a>
+              </div>
               <div className="level-item">
                 {isDeletable && <Delete handleDelete={() => actions.delete(id)} />}
               </div>
@@ -93,23 +104,25 @@ const UserComponent = ({ children }) => {
 
       {children}
 
-      {enabled && properties && (
-        <nav className="panel is-shadowless has-margin-top-20 has-text-centered">
-          <button
-            className="button is-small is-rounded"
-            onClick={() => setExpanded(!expanded)}
-          >
-            <span className="icon">
-              <i className={cx('fas', { 'fa-caret-up': expanded, 'fa-edit': !expanded })} />
-            </span>
-            <span>
-              {expanded ? 'Hide Settings' : 'Show Settings'}
-            </span>
-          </button>
-          <div style={{ display: expanded ? 'block' : 'none' }}>
+      {enabled && properties && expanded && (
+        <div className="card has-margin-10">
+          <header className="card-header">
+            <p className="card-header-title">
+              {name} Settings
+            </p>
+          </header>
+          <div className="card-content">
             {properties && React.createElement(properties)}
           </div>
-        </nav>
+          <footer className="card-footer">
+            <a
+              className="card-footer-item"
+              onClick={() => setExpanded(false)}
+            >
+              Close
+            </a>
+          </footer>
+        </div>
       )}
     </div>
   );
