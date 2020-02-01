@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // only show the loader if this many milliseconds have passed (prevent flickering)
-const delay = 250;
+const delay = 500;
 
 const Loader = ({ loading }) => {
   const [shouldDisplay, setShouldDisplay] = useState(false);
