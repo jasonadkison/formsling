@@ -1,5 +1,4 @@
 class StripeHelpers
-  include ActionView::Helpers::UrlHelper
 
   PLAN_ID = 'plan_GdMh40FZp0zoJ1'.freeze
 
@@ -56,10 +55,10 @@ class StripeHelpers
   # Attaches the new payment method to the customer
   def self.attach_customer_payment_method(customer_id, payment_method_id)
     begin
-      Stripe::PaymentMethod.attach(payment_method_id, { customer: customer_id })
+      Stripe::PaymentMethod.attach(payment_method_id, customer: customer_id)
       Rails.logger.debug "attached new payment method to customer"
     rescue StandardError => e
-      raise e unless e.message.include?('already been attached to a customer')
+      raise e unless e.message.include?('already been attached')
       Rails.logger.debug "The payment method has already been attached to a customer"
     end
   end
@@ -73,7 +72,7 @@ class StripeHelpers
 
   # Sets the default payment method on a subscription
   def self.update_subscription_payment_method(subscription_id, payment_method_id)
-     Stripe::Subscription.update(subscription_id, { default_payment_method: payment_method_id })
+     Stripe::Subscription.update(subscription_id, default_payment_method: payment_method_id)
      Rails.logger.debug "updated default payment method on subscription #{subscription_id}"
   end
 

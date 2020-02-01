@@ -59,6 +59,7 @@ describe StripeHelpers do
       user = build(:user)
       error = StandardError.new('test')
       allow(Stripe::Customer).to receive(:create).and_raise(error)
+      expect(Stripe::Customer).to receive(:create)
       expect {
         described_class.send(:create_customer, user)
       }.to raise_error(error)
@@ -108,6 +109,7 @@ describe StripeHelpers do
       user = build(:user, created_at: Time.now)
       error = StandardError.new('test')
       allow(Stripe::Subscription).to receive(:create).and_raise(error)
+      expect(Stripe::Subscription).to receive(:create).once
       expect {
         described_class.send(:create_trial_subscription, user)
       }.to raise_error(error)
@@ -135,6 +137,89 @@ describe StripeHelpers do
       described_class.send(:create_trial_subscription, user)
     end
 
+  end
+
+  describe '.cancel_subscription' do
+    let(:subscription_id) { 'sub_test' }
+
+    it 'deletes the stripe customer' do
+      expect(Stripe::Subscription).to receive(:delete).with(subscription_id)
+      described_class.send(:cancel_subscription, subscription_id)
+    end
+
+    it 'raises any stripe exception' do
+      error = StandardError.new('boom')
+      allow(Stripe::Subscription).to receive(:delete).and_raise(error)
+      expect(Stripe::Subscription).to receive(:delete).once
+      expect {
+        described_class.send(:cancel_subscription, subscription_id)
+      }.to raise_error(error)
+    end
+  end
+
+  describe '.attach_customer_payment_method' do
+    let(:customer_id) { 'cust_test' }
+    let(:payment_method_id) { 'pm_test' }
+
+    it 'attaches the payment method to the customer' do
+      expect(Stripe::PaymentMethod).to receive(:attach).with(payment_method_id, { customer: customer_id })
+      described_class.send(:attach_customer_payment_method, customer_id, payment_method_id)
+    end
+
+    it 'raises any stripe exception' do
+      error = StandardError.new('boom')
+      allow(Stripe::PaymentMethod).to receive(:attach).and_raise(error)
+      expect(Stripe::PaymentMethod).to receive(:attach).once
+      expect {
+        described_class.send(:attach_customer_payment_method, customer_id, payment_method_id)
+      }.to raise_error(error)
+    end
+
+    it 'rescues when payment method is already attached' do
+      error = StandardError.new('already been attached')
+      allow(Stripe::PaymentMethod).to receive(:attach).and_raise(error)
+      expect {
+        described_class.send(:attach_customer_payment_method, customer_id, payment_method_id)
+      }.to_not raise_error(error)
+    end
+  end
+
+  describe '.update_customer_payment_method' do
+    let(:customer_id) { 'cust_test' }
+    let(:payment_method_id) { 'pm_test' }
+
+    it 'updates the customers payment method' do
+      expect(Stripe::Customer).to receive(:update).with(customer_id, invoice_settings: { default_payment_method: payment_method_id })
+      described_class.send(:update_customer_payment_method, customer_id, payment_method_id)
+    end
+
+    it 'raises any stripe exception' do
+      error = StandardError.new('boom')
+      allow(Stripe::Customer).to receive(:update).and_raise(error)
+      expect(Stripe::Customer).to receive(:update).once
+      expect {
+        described_class.send(:update_customer_payment_method, customer_id, payment_method_id)
+      }.to raise_error(error)
+    end
+  end
+
+  describe '.update_subscription_payment_method' do
+    let(:subscription_id) { 'sub_test' }
+    let(:payment_method_id) { 'pm_test' }
+
+    it 'updates the subscription payment method' do
+      expect(Stripe::Subscription).to receive(:update).with(subscription_id, default_payment_method: payment_method_id)
+      described_class.send(:update_subscription_payment_method, subscription_id, payment_method_id)
+    end
+
+    it 'does not rescue any stripe exception' do
+      error = StandardError.new('boom')
+      allow(Stripe::Subscription).to receive(:update).and_raise(error)
+      expect(Stripe::Subscription).to receive(:update).once
+      expect {
+        described_class.send(:update_subscription_payment_method, subscription_id, payment_method_id)
+      }.to raise_error(error)
+    end
   end
 
 end
