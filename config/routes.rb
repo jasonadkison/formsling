@@ -45,9 +45,7 @@ Rails.application.routes.draw do
   end
 
   # pages
-  get '/pricing', to: 'welcome#pricing', as: 'pricing'
   get '/contact', to: 'welcome#contact', as: 'contact'
-  get '/faq', to: 'welcome#faq', as: 'faq'
 
   # catch every other request and send it to our react app
   get '*anything', to: 'dashboard#index',
