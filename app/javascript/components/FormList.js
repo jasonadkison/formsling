@@ -8,33 +8,33 @@ import EmptyState from './EmptyState';
 import NewForm from './modals/NewForm';
 import DeleteForm from './modals/DeleteForm';
 
-const FormTable = ({ forms }) => {
+const FormTable = ({ forms, setDeletingForm }) => {
   return (
-    <table className="table is-striped is-fullwidth">
+    <table className="table is-striped is-fullwidth is-hoverable">
       <thead>
         <tr>
+          <th />
           <th>Name</th>
-          <th>Published</th>
           <th>Results</th>
           <th>Updated</th>
           <th>Created</th>
-          <th>Actions</th>
+          <th />
         </tr>
       </thead>
       <tbody>
         {forms.map(form => (
           <tr key={form.id}>
             <td>
-              <Link to={`/forms/${form.id}`} title="Edit">
-                {form.name}
-              </Link>
-            </td>
-            <td>
               <span
                 className={`icon has-text-${form.published ? 'success' : 'grey'}`}
               >
-                <i className={`fas fa-${form.published ? 'check' : 'times'}-circle`} />
+                <i className={`fas fa-${form.published ? 'eye' : 'eye-slash'}`} />
               </span>
+            </td>
+            <td>
+              <Link to={`/forms/${form.id}`} title="Edit">
+                {form.name}
+              </Link>
             </td>
             <td>
               {form.total_results > 0 ? (
@@ -60,18 +60,8 @@ const FormTable = ({ forms }) => {
             </td>
             <td>
               <div className="buttons">
-                <Link
-                  to={`/forms/${form.id}`}
-                  title="Edit"
-                  className="button is-link is-inverted is-inline"
-                  data-tooltip="Edit"
-                >
-                  <span className="icon is-small">
-                    <i className="fas fa-edit" />
-                  </span>
-                </Link>
                 <a
-                  className="button is-danger is-inverted is-inline"
+                  className="has-text-danger"
                   onClick={() => setDeletingForm(form)}
                   title="Delete"
                   data-tooltip="Delete"
@@ -93,7 +83,7 @@ const FormList = () => {
   const [forms, setForms] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
   const [deletingForm, setDeletingForm] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   const loadForms = async () => {
