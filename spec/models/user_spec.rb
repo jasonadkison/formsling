@@ -28,6 +28,14 @@ describe User do
         user.save
       end
     end
+
+    describe 'after_destroy' do
+      it 'deletes the stripe customer' do
+        user = create(:stripe_user)
+        expect(DeleteStripeCustomerJob).to receive(:perform_later).with(user.stripe_id)
+        user.destroy
+      end
+    end
   end
 
   describe '#full_name' do
