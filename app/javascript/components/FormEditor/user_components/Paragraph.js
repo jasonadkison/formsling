@@ -10,6 +10,7 @@ const Paragraph = (props) => {
     <UserComponent>
       <div className="content">
         <p className={`has-text-${textAlignment}`}>{text}</p>
+        <p />
       </div>
     </UserComponent>
   );
