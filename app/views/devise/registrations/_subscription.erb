@@ -9,11 +9,11 @@
       <% if local_assigns[:subscription].present? %>
         <% if local_assigns[:subscription].trialing? %>
           <p>
-            Your free trial will end on
-            <%= local_assigns[:subscription].trial_ends_at.strftime('%m/%d/%Y') %>.
+            Your free trial ends on
+            <%= local_assigns[:subscription].trial_ends_at.strftime('%b %e') %>.
           </p>
           <% unless current_user.payment_method_id.present? %>
-            <p>Please provide a payment method to avoid interruption.</p>
+            <p>Provide a payment method to avoid interruption.</p>
           <% end %>
         <% else %>
           <p><%= t("subscription.status.description.#{local_assigns[:subscription].status}") %></p>
