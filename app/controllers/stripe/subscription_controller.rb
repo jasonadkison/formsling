@@ -1,5 +1,5 @@
 class Stripe::SubscriptionController < ApplicationController
-  before_action :set_subscription, only: [:create, :update, :destroy]
+  before_action :set_subscription, only: [:update, :destroy]
   before_action :authenticate_user!, except: :webhook
   skip_before_action :verify_authenticity_token, only: :webhook
 
