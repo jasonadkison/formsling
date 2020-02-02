@@ -155,6 +155,15 @@ describe StripeHelpers do
         described_class.send(:cancel_subscription, subscription_id)
       }.to raise_error(error)
     end
+
+    it 'rescues when subscription does not exist' do
+      error = StandardError.new('No such subscription')
+      allow(Stripe::Subscription).to receive(:delete).and_raise(error)
+      expect(Stripe::Subscription).to receive(:delete).once
+      expect {
+        described_class.send(:cancel_subscription, subscription_id)
+      }.to_not raise_error
+    end
   end
 
   describe '.attach_customer_payment_method' do

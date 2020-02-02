@@ -50,7 +50,7 @@ class StripeHelpers
   def self.cancel_subscription(subscription_id)
     Stripe::Subscription.delete(subscription_id)
     Rails.logger.debug "Canceled subscription #{subscription_id}"
-  rescue Stripe::InvalidRequestError => e
+  rescue StandardError => e
     raise e unless e.message.include?('No such subscription')
     Rails.logger.debug "Subscription #{subscription_id} not found"
   end
