@@ -1,0 +1,29 @@
+<% content_for :body do %>
+
+  <%= body_row "Hello #{@result.user.first_name}," %>
+
+  <%= body_row do %>
+    Your form named <strong><%= @result.form.name %></strong> has a new submission.
+  <% end %>
+
+  <%= body_row do %>
+    Unfortunately your subscription is no longer active so you can't view it right now.
+  <% end %>
+
+  <%= body_row do %>
+    Update the payment method on your account to unlock all your form submissions.
+  <% end %>
+
+  <%= body_row do %>
+    Please do not respond to this automated email.
+  <% end %>
+
+  <%= body_row do %>
+    Thanks,<br />FormSling Notification Service
+  <% end %>
+
+<% end %>
+
+<% content_for :button do %>
+  <%= button 'Visit My Account', edit_user_registration_url %>
+<% end %>

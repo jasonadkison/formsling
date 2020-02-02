@@ -43,13 +43,16 @@ class StripeHelpers
 
       user.update!(subscription: subscription)
     rescue
-      Stripe::Subscription.delete(stripe_subscription.id)
+      cancel_subscription(stripe_subscription.id)
     end
   end
 
   def self.cancel_subscription(subscription_id)
     Stripe::Subscription.delete(subscription_id)
     Rails.logger.debug "Canceled subscription #{subscription_id}"
+  rescue Stripe::InvalidRequestError => e
+    raise e unless e.message.include?('No such subscription')
+    Rails.logger.debug "Subscription #{subscription_id} not found"
   end
 
   # Attaches the new payment method to the customer

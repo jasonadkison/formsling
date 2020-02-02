@@ -8,6 +8,12 @@ class UserMailer < ApplicationMailer
          subject: t('user_mailer.result_processed.subject', name: result.form.name)
   end
 
+  def new_hidden_result(result)
+    @result = result
+    mail to: @result.user.email,
+         subject: t('user_mailer.new_hidden_result.subject', name: result.form.name)
+  end
+
   def subscription_canceled(user)
     @user = user
 

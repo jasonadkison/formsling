@@ -12,4 +12,9 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.result_processed(result, pdf)
   end
 
+  def new_hidden_result
+    result = FactoryBot.build(:result)
+    UserMailer.new_hidden_result(result)
+  end
+
 end

@@ -34,6 +34,8 @@ en:
   user_mailer:
     result_processed:
       subject: "New form submission processed for %{name}"
+    new_hidden_result:
+      subject: "New form submission received for %{name}"
     subscription_canceled:
       subject: "Your subscription was canceled."
   subscription:

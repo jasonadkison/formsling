@@ -49,6 +49,7 @@ class Stripe::SubscriptionController < ApplicationController
   # Immediately cancels the user's subscription.
   def destroy
     StripeHelpers.cancel_subscription(@subscription.stripe_id)
+    logger.debug "Canceled subscription immediately #{@subscription.stripe_id}"
   end
 
   def webhook
@@ -152,6 +153,7 @@ class Stripe::SubscriptionController < ApplicationController
 
   # Processes the new subscription
   def process_subscription_session(stripe_session)
+    logger.debug "process_subscription_session started"
     client_reference_id = stripe_session['client_reference_id']
     customer_id = stripe_session['customer']
     subscription_id = stripe_session['subscription']
@@ -167,7 +169,10 @@ class Stripe::SubscriptionController < ApplicationController
     logger.debug "found user #{user.id} #{user.email} #{user.full_name}"
 
     # enqueue job to cancel previous subscription
-    CancelStripeSubscriptionJob.perform_later(user.subscription.stripe_id) if user.subscription.present? && !user.subscription.canceled?
+    if user.subscription.present? && !user.subscription.canceled?
+      CancelStripeSubscriptionJob.perform_later(user.subscription.stripe_id)
+      logger.debug "Enqueued job to cancel previous subscription #{user.subscription.stripe_id}"
+    end
 
     # retrieve the subscription so we can get the payment method for saving later
     subscription = Stripe::Subscription.retrieve(subscription_id)
@@ -184,24 +189,31 @@ class Stripe::SubscriptionController < ApplicationController
     logger.debug "updated the user's payment method"
 
     # update existing or create new subscription
-    user_subscription = user.subscription || Subscription.new
-    user_subscription.assign_attributes(
+    user_subscription = user.subscription || user.build_subscription
+    logger.debug user_subscription.persisted? ? "Updating existing subscripton" : "Creating new subscription"
+
+    attributes = {
+      plan_id: subscription['plan']['id'],
       stripe_id: subscription['id'],
       current_period_ends_at: Time.at(subscription['current_period_end']),
       trial_starts_at: nil,
-      trial_ends_at: nil
-    )
+      trial_ends_at: nil,
+      status: :active
+    }
 
-    user.update!(subscription: user_subscription)
-    logger.debug "updated the user subscription"
+    user_subscription.assign_attributes(attributes)
 
-    user.subscription.active!
-    logger.debug "made new subscription active"
+    logger.debug "assigned attributes #{attributes.inspect}"
+
+    user_subscription.save!
+    logger.debug "saved the user subscription"
 
     head :ok
   rescue StandardError => e
-    CancelStripeSubscriptionJob.perform_later(subscription_id)
     logger.debug "Unhandled exception raised. Canceling the created subscription."
+    CancelStripeSubscriptionJob.perform_later(subscription_id)
+  ensure
+    logger.debug "process_subscription_session completed"
   end
 
   # Hook fires when a stripe subscription is changed.
