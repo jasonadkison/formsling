@@ -14,8 +14,10 @@ class PublicFormController < ApplicationController
   def submit
     raise(ActionController::InvalidAuthenticityToken) unless @form.published?
 
-    unless @result = @form.results.create(result_params)
-      return render json: { message: 'Something went wrong.' }, status: 422
+    @result = @form.results.new(result_params)
+
+    unless verify_recaptcha(response: params[:recaptcha_token], model: @result, secret_key: Rails.application.credentials.google_recaptcha[:secret_key]) && @result.save
+      return render json: { message: 'Something went wrong.', errors: @result.errors.full_messages }, status: 422
     end
 
     ProcessResultJob.perform_later(@result.id)

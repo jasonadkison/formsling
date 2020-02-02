@@ -1,3 +1,7 @@
-<%= react_component("PublicForm", form: @form.attributes.slice('id', 'name', 'payload')) do %>
+<%= react_component(
+  'PublicForm',
+  form: @form.attributes.slice('id', 'name', 'payload'),
+  recaptcha_site_key: Rails.application.credentials.google_recaptcha[:site_key]
+) do %>
   <p class="has-text-centered">Javascript is required.</p>
 <% end %>
