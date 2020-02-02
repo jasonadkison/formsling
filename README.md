@@ -5,6 +5,8 @@ Build and embed web forms with ease.
 ## Stack
 - Ruby 2.6.5
 - Rails 6
+- PostgreSQL 11.6
+- Redis 5.0.7
 - React.js 16
 - Webpacker
 - Docker
