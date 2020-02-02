@@ -6,6 +6,7 @@ class Stripe::SubscriptionController < ApplicationController
   # POST /subscription
   # Used to create a new subscription
   def create
+    StripeHelpers.create_customer(current_user) unless current_user.stripe_id.present?
     @stripe_session = Stripe::Checkout::Session.create(
       customer: current_user.stripe_id,
       payment_method_types: ['card'],
@@ -120,20 +121,20 @@ class Stripe::SubscriptionController < ApplicationController
   def process_setup_session(stripe_session)
     logger.debug "process_setup_session started"
 
-    client_reference_id = stripe_session['client_reference_id']
+    setup_intent_id = stripe_session['setup_intent']
+    setup_intent = Stripe::SetupIntent.retrieve(setup_intent_id)
+    logger.debug "retrieved setup_intent #{setup_intent_id}"
+
+    customer_id = setup_intent['metadata']['customer_id']
 
     # find the user
-    user = User.find_by_id(client_reference_id)
+    user = User.find_by_stripe_id(customer_id)
     unless user.present?
-      logger.debug "could not find user by client_reference_id #{client_reference_id}"
+      logger.debug "could not find user by customer_id #{customer_id}"
       return head :ok
     end
 
     logger.debug "found user #{user.id} #{user.email} #{user.full_name}"
-
-    setup_intent_id = stripe_session['setup_intent']
-    setup_intent = Stripe::SetupIntent.retrieve(setup_intent_id)
-    logger.debug "retrieved setup_intent #{setup_intent_id}"
 
     payment_method_id = setup_intent['payment_method']
 
@@ -154,15 +155,12 @@ class Stripe::SubscriptionController < ApplicationController
   # Processes the new subscription
   def process_subscription_session(stripe_session)
     logger.debug "process_subscription_session started"
-    client_reference_id = stripe_session['client_reference_id']
     customer_id = stripe_session['customer']
     subscription_id = stripe_session['subscription']
 
-    user = User.find_by_id(client_reference_id)
+    user = User.find_by_stripe_id(customer_id)
     unless user.present?
-      logger.debug "could not find user by client_reference_id #{client_reference_id}"
-      # cancel the subscription because user doesn't exist
-      CancelStripeSubscriptionJob.perform_later(subscription_id)
+      logger.debug "could not find user by customer_id #{customer_id}"
       return head :ok
     end
 
