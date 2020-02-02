@@ -15,6 +15,10 @@ class Stripe::SubscriptionController < ApplicationController
       cancel_url: edit_user_registration_url
     )
     @publishable_key = stripe_publishable_key
+  rescue Stripe::InvalidRequestError => e
+    raise e unless e.message.include?('No such customer')
+    StripeHelpers.create_customer(current_user)
+    retry
   end
 
   # PUT /subscription
@@ -35,6 +39,10 @@ class Stripe::SubscriptionController < ApplicationController
       cancel_url: edit_user_registration_url
     )
     @publishable_key = stripe_publishable_key
+  rescue Stripe::InvalidRequestError => e
+    raise e unless e.message.include?('No such customer')
+    StripeHelpers.create_customer(current_user)
+    retry
   end
 
   # DELETE /subscription
