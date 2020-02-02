@@ -19,8 +19,8 @@ describe Form do
       expect(subject.errors.full_messages).to include("Payload can't be blank")
     end
 
-    context 'when published' do
-      subject { build(:form, published: true) }
+    context 'validates url' do
+      subject { build(:form) }
 
       it 'allows a valid url' do
         subject.url = 'http://test.com/test.html'
@@ -32,16 +32,15 @@ describe Form do
         expect(subject.valid?).to be_truthy
       end
 
-      it 'requires url' do
-        subject.url = nil
-        subject.valid?
-        expect(subject.errors.full_messages).to include("Url can't be blank")
-      end
-
       it 'requires a valid url' do
         subject.url = "somewhere.net"
         subject.valid?
         expect(subject.errors.full_messages).to include("Url is not a valid URL")
+      end
+
+      it 'allows blank url' do
+        subject.url = nil
+        expect(subject.valid?).to be_truthy
       end
     end
   end
