@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable, :async
 
-  has_many :forms, dependent: :delete_all
+  has_many :forms, dependent: :destroy
   has_one :subscription, dependent: :destroy
 
   enum role: [:member, :admin]
