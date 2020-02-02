@@ -58,15 +58,18 @@ const ResultList = () => {
     return () => clearTimeout(setTimeout);
   }, [formId]);
 
+  if (error) {
+    return (
+      <div className="notification is-danger">
+        <p>Oops, something went wrong and your results could not be loaded.</p>
+      </div>
+    )
+  }
+
   return (
     <>
       <Loader loading={loading} />
       <div id="result-list">
-        {error && (
-          <div className="notification is-danger">
-            <p>Oops, something went wrong.</p>
-          </div>
-        )}
         <BreadcrumbPortal>
           <Breadcrumbs {...form} />
         </BreadcrumbPortal>

@@ -108,6 +108,14 @@ const FormList = () => {
   const handleDeleted = () => {
     setDeletingForm(false);
     loadForms();
+  };
+
+  if (error) {
+    return (
+      <div className="notification is-danger">
+        <p>Oops, something went wrong and your forms could not be loaded.</p>
+      </div>
+    );
   }
 
   return (
