@@ -1,7 +1,26 @@
-<p>Hello <%= @email %>!</p>
+<% content_for :body do %>
 
-<% if @resource.try(:unconfirmed_email?) %>
-  <p>We're contacting you to notify you that your email is being changed to <%= @resource.unconfirmed_email %>.</p>
-<% else %>
-  <p>We're contacting you to notify you that your email has been changed to <%= @resource.email %>.</p>
+  <%= body_row "Hello #{@resource.first_name}," %>
+
+  <%= body_row do %>
+    <% if @resource.try(:unconfirmed_email?) %>
+      We're contacting you to notify you that your email is being changed to <%= @resource.unconfirmed_email %>.
+    <% else %>
+      We're contacting you to notify you that your email has been changed to <%= @resource.email %>.
+    <% end %>
+  <% end %>
+
+  <%= body_row do %>
+    If this was intentional, you can safely ignore this message.
+  <% end %>
+  <%= body_row do %>
+    If you do not recognize this change, please reach out to our support department at
+    <%= link_to 'support@formsling.com', 'mailto:support@formsling.com' %>.
+  <% end %>
+
+  <%= body_row do %>
+    Please do not respond to this automated email.
+  <% end %>
+
+  <%= body_row 'Thanks,<br />FormSling Notification Service' %>
 <% end %>
