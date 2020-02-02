@@ -34,7 +34,7 @@ module Api
       private
 
       def form_params
-        params.require(:form).permit(:name, :email_recipient, :payload, :published)
+        params.require(:form).permit(:name, :email_recipient, :url, :payload, :published)
       end
     end
   end

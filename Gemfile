@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
+gem 'ahoy_matey'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'devise'
 gem 'devise-async'
@@ -16,6 +17,7 @@ gem 'recaptcha'
 gem 'rollbar'
 gem 'sidekiq'
 gem 'stripe'
+gem 'validate_url'
 gem 'webpacker', '~> 4.0'
 gem 'wicked_pdf'
 
