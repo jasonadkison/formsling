@@ -15,6 +15,20 @@ Build and embed web forms with ease.
 - DigitalOcean
 - Dokku
 
+## Seeds
+
+Admin: `admin@example.com` / `password`
+
+Member: `member@example.com` / `password`
+
+## Mailer Previews
+
+You can preview all mailer views by visiting `http://localhost:3000/rails/mailers`.
+
+Mailer previews are located in the `spec/mailers/previews` directory.
+
+Care should be taken not to create permanent data through the preview classes.
+
 ## Stripe
 
 ### Webhooks
