@@ -1,91 +1,16 @@
-<section class="hero">
-  <div class="hero-body has-padding-top-80 has-padding-bottom-40">
-    <div class="container">
-      <div class="columns is-vcentered">
-        <div class="column is-5 is-offset-1">
-          <h1 class="title is-1 is-spaced">
-            Sling, Forms.
-          </h1>
-          <h2 class="subtitle is-5">
-            Build and embed web forms with zero coding and no servers to maintain.
-          </h2>
-          <div class="buttons">
-            <%= link_to('Sign Up', new_user_registration_path, class: 'button is-primary') %>
-            <%= link_to('Login', new_user_session_path, class: 'button') %>
-          </div>
-        </div>
-        <div class="column is-5">
-          <figure class="image is-4by3">
-            <img src="https://via.placeholder.com/600x400/eeeeee?text=Some+Trendy+Screenshot+Goes+Here" alt="Description" />
-          </figure>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<% set_meta_tags(
+  title: 'A Platform for Building and Publishing Web Forms',
+  canonical: root_url,
+  description: "FormSling is a platform for building and publishing web forms that allows you to create, share, and embed forms without any server infrastructure.",
+) %>
 
-<section class="section is-medium">
-  <div class="container">
-    <div class="title-wrapper has-text-centered">
-      <h2 class="title is-2">Awesome Features</h2>
-      <h3 class="subtitle is-5 is-muted">They're easy to use too!</h3>
-      <div class="divider is-centered"></div>
-    </div>
+<%= render 'hero' %>
 
-    <div class="columns is-vcentered has-margin-top-60">
-      <div class="column is-4 is-offset-1">
-        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
-          Easy to Build
-        </h3>
-        <p class="subtitle is-5">
-          Build your forms using our simple drag and drop editor.
-        </p>
-      </div>
-      <div class="column is-5 is-offset-1">
-        <img src="https://via.placeholder.com/500x500/eeeeee?text=Feature+Image" alt="" />
-      </div>
-    </div>
+<a name="features"></a>
+<%= render 'features' %>
 
-    <div class="columns is-vcentered has-margin-top-60">
-      <div class="column is-4 is-offset-1">
-        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
-          Easy to Integrate
-        </h3>
-        <p class="subtitle is-5">
-          Embed your forms into any website in any location with just 2 lines of code.
-        </p>
-      </div>
-      <div class="column is-5 is-offset-1">
-        <img src="https://via.placeholder.com/500x500/eeeeee?text=Feature+Image" alt="" />
-      </div>
-    </div>
+<a name="pricing"></a>
+<%= render 'pricing' %>
 
-    <div class="columns is-vcentered has-margin-top-60">
-      <div class="column is-4 is-offset-1">
-        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
-          Easy to Share
-        </h3>
-        <p class="subtitle is-5">
-          Share your forms with others by sending them a public link.
-        </p>
-      </div>
-      <div class="column is-5 is-offset-1">
-        <img src="https://via.placeholder.com/500x500/eeeeee?text=Feature+Image" alt="" />
-      </div>
-    </div>
-
-    <div class="columns is-vcentered has-margin-top-60">
-      <div class="column is-4 is-offset-1">
-        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
-          Easy to Receive
-        </h3>
-        <p class="subtitle is-5">
-          Get notified each time your form is completed.
-        </p>
-      </div>
-      <div class="column is-5 is-offset-1">
-        <img src="https://via.placeholder.com/500x500/eeeeee?text=Feature+Image" alt="" />
-      </div>
-    </div>
-  </div>
-</section>
+<a name="faq"></a>
+<%= render 'faq' %>

@@ -1,0 +1,20 @@
+<% set_meta_tags(
+  title: 'Contact',
+  canonical: contact_url,
+  description: "Sends us a quick message using our contact form.",
+) %>
+
+<section class="section has-text-centered has-margin-bottom-20">
+  <div class="notification is-info is-inline">
+    This contact form is actually a published form created within the platform.
+  </div>
+</section>
+
+<script type="text/javascript" src="<%= embed_url %>"></script>
+<a class="formsling-form-widget" href="<%= public_form_url(Form.first.id) %>">My first form</a>
+
+<style>
+  .formsling-iframe {
+    width: 100%;
+  }
+</style>

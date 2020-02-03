@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
 
-  authenticate :user, lambda { |u| u.admin? } do
+  if Rails.env.development?
     mount Sidekiq::Web => '/sidekiq'
+  else
+    authenticate :user, lambda { |u| u.admin? } do
+      mount Sidekiq::Web => '/sidekiq'
+    end
   end
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
@@ -15,15 +19,36 @@ Rails.application.routes.draw do
     end
   end
 
+  # health check endpoint
   get '/health', to: proc {[200, {}, ['ok']]}
+
+  # public form routes
   get '/embed', to: 'public_form#embed', as: 'embed'
   get '/f/:id', to: 'public_form#show', as: 'public_form'
   post '/f/:id', to: 'public_form#submit', defaults: { format: :json }
+
+  # result endpoint
   get '/r/:id', to: 'result#show', as: 'result'
-  get '/pricing', to: 'welcome#pricing'
+
+  # subscriptions
+  resources :subscriptions, only: [:index] do
+    collection do
+      get '/confirm/:plan', to: 'subscriptions#confirm', as: 'confirm'
+    end
+  end
+
+  namespace :stripe, path: '/subscription' do
+    post '/', to: 'subscription#create', as: 'create_subscription'
+    put '/', to: 'subscription#update', as: 'update_subscription'
+    delete '/', to: 'subscription#destroy', as: 'destroy_subscription'
+    post '/webhook', to: 'subscription#webhook', as: 'subscription_webhook'
+  end
+
+  # pages
+  get '/contact', to: 'welcome#contact', as: 'contact'
 
   # catch every other request and send it to our react app
-  get '*page', to: 'dashboard#index',
+  get '*anything', to: 'dashboard#index',
     constraints: lambda { |req|
       # exclude XHR requests
       return false if req.xhr?

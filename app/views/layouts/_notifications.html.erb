@@ -1,5 +1,6 @@
 <% flash.each do |type, msg| %>
   <div class="notification <%= css_class_for_flash_type(type) %>">
+    <button class="delete"></button>
     <%= msg %>
   </div>
 <% end %>

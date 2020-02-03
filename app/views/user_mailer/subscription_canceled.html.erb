@@ -1,0 +1,21 @@
+<% content_for(:body) do %>
+  <%= body_row do %>
+    Hello <%= @user.first_name %>,
+  <% end %>
+  <%= body_row do %>
+    Your FormSling subscription has been canceled.
+  <% end %>
+  <%= body_row do %>
+    Your published forms will continue functioning as normal, but you'll need to start a new
+    subscription to modify them and reveal their submissions.
+  <% end %>
+  <%= body_row do %>
+    Any remaining credit will be refunded to your original payment method.
+  <% end %>
+  <%= body_row do %>
+    Please do not respond to this automated email.
+  <% end %>
+  <%= body_row do %>
+    Thanks,<br />FormSling Notification Service
+  <% end %>
+<% end %>

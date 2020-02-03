@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNode } from '@craftjs/core';
+
 import UserComponent from './UserComponent';
 import TextProperties from '../properties/Text';
 
 const Text = (props) => {
+  const { id } = useNode();
   const {
     name,
     type,
@@ -20,7 +23,7 @@ const Text = (props) => {
   return (
     <UserComponent>
       <div className="field">
-        <label className="label">
+        <label className="label" htmlFor={id}>
           {name}
           {required && (
             <>
@@ -38,6 +41,7 @@ const Text = (props) => {
               rows={rows}
               readOnly
               required={required}
+              id={id}
             />
           ) : (
             <input
@@ -47,6 +51,7 @@ const Text = (props) => {
               placeholder={placeholder}
               readOnly
               required={required}
+              id={id}
             />
           )}
         </div>

@@ -3,18 +3,6 @@ import PropTypes from 'prop-types';
 import { useNode, useEditor } from '@craftjs/core';
 import cx from 'classnames';
 
-const Move = ({ childRef }) => (
-  <a
-    className="component-action move-action"
-    ref={childRef}
-    data-tooltip="Move"
-  >
-    <span className="icon is-small">
-      <i className="fas fa-arrows-alt" />
-    </span>
-  </a>
-);
-
 const Delete = ({ handleDelete }) => (
   <a
     className="component-action delete-action"
@@ -36,21 +24,26 @@ const UserComponent = ({ children }) => {
     connectors: { connect, drag },
     id,
     name,
+    parent,
+    currentIndex,
+    isLast,
     properties,
-    isDraggable,
     isDeletable,
-    isSelected,
     isBeingDragged,
-    isBeingHovered,
-  } = useNode((node) => ({
-    name: node.data.displayName,
-    properties: node.related && node.related.properties,
-    isDraggable: query.node(node.id).isDraggable(),
-    isDeletable: query.node(node.id).isDeletable(),
-    isSelected: node.events.selected,
-    isBeingDragged: node.events.dragged,
-    isBeingHovered: node.events.hovered,
-  }));
+  } = useNode((node) => {
+    const siblings = query.node(node.data.parent).decendants();
+    const currentIndex = siblings.indexOf(node.id);
+    const isLast = siblings.length === 1 || currentIndex === siblings.length - 1;
+    return {
+      parent: node.data.parent,
+      currentIndex,
+      isLast,
+      name: node.data.displayName,
+      properties: node.related && node.related.properties,
+      isDeletable: query.node(node.id).isDeletable(),
+      isBeingDragged: node.events.dragged,
+    };
+  });
 
   const [expanded, setExpanded] = useState(false);
 
@@ -68,8 +61,42 @@ const UserComponent = ({ children }) => {
                 <span className="component-name">{name}</span>
               </div>
             </div>
+
             <div className="level-right">
-              {isDeletable && <Delete handleDelete={() => actions.delete(id)} />}
+              <div className="level-item has-margin-right-10">
+                <a
+                  className={cx('component-action', { 'is-invisible': currentIndex === 0 })}
+                  onClick={() => actions.move(id, parent, currentIndex - 1 || 0)}
+                  data-tooltip="Move Up"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-caret-up" />
+                  </span>
+                </a>
+                <a
+                  className={cx('component-action', { 'is-invisible': isLast })}
+                  onClick={() => actions.move(id, parent, currentIndex + 2)}
+                  data-tooltip="Move Down"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-caret-down" />
+                  </span>
+                </a>
+              </div>
+              <div className="level-item has-margin-right-10">
+                <a
+                  className={cx('component-action', { 'is-invisible': !properties })}
+                  onClick={() => setExpanded(!expanded)}
+                  data-tooltip="Edit Settings"
+                >
+                  <span className="icon is-small">
+                    <i className="fas fa-edit" />
+                  </span>
+                </a>
+              </div>
+              <div className="level-item">
+                {isDeletable && <Delete handleDelete={() => actions.delete(id)} />}
+              </div>
             </div>
           </div>
         </div>
@@ -77,23 +104,25 @@ const UserComponent = ({ children }) => {
 
       {children}
 
-      {enabled && properties && (
-        <nav className="panel is-shadowless has-margin-top-20 has-text-centered">
-          <button
-            className="button is-small is-rounded"
-            onClick={() => setExpanded(!expanded)}
-          >
-            <span className="icon">
-              <i className={cx('fas', { 'fa-caret-up': expanded, 'fa-edit': !expanded })} />
-            </span>
-            <span>
-              {expanded ? 'Hide Settings' : 'Show Settings'}
-            </span>
-          </button>
-          <div style={{ display: expanded ? 'block' : 'none' }}>
+      {enabled && properties && expanded && (
+        <div className="card has-margin-10">
+          <header className="card-header">
+            <p className="card-header-title">
+              {name} Settings
+            </p>
+          </header>
+          <div className="card-content">
             {properties && React.createElement(properties)}
           </div>
-        </nav>
+          <footer className="card-footer">
+            <a
+              className="card-footer-item"
+              onClick={() => setExpanded(false)}
+            >
+              Close
+            </a>
+          </footer>
+        </div>
       )}
     </div>
   );

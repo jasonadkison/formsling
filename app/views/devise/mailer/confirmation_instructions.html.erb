@@ -1,5 +1,13 @@
-<p>Welcome <%= @email %>!</p>
+<% content_for(:title) do %>
+  Welcome <%= @resource.first_name %>!
+<% end %>
 
-<p>You can confirm your account email through the link below:</p>
+<% content_for(:body) do %>
+  <%= body_row align: :center do %>
+    Please confirm your account email by clicking the button below.
+  <% end %>
+<% end %>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<% content_for(:button) do %>
+  <%= button('Confirm My Email', confirmation_url(@resource, confirmation_token: @token)) %>
+<% end %>

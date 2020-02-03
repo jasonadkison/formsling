@@ -1,0 +1,8 @@
+var stripe = Stripe('<%= @publishable_key %>');
+
+stripe.redirectToCheckout({
+  sessionId: '<%= @stripe_session.id %>',
+}).then(function (result) {
+  alert(result.error.message);
+  window.location.reload();
+});

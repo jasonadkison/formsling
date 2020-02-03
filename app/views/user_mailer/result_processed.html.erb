@@ -1,6 +1,22 @@
-<h1><%= @result.form.name %></h1>
-<p>A new result has been processed and is attached.</p>
-<p>This is an automated message - do not respond to this email.</p>
-<p>Thanks,</p>
-<p>The FormSling Team</p>
+<% content_for :body do %>
 
+  <%= body_row 'Hello,' %>
+
+  <%= body_row do %>
+    Your email address is currently used as the recipient for the form named
+    <strong><%= @result.form.name %></strong>.
+  <% end %>
+
+  <%= body_row do %>
+    A new submission has been processed and is attached to this email.
+  <% end %>
+
+  <%= body_row do %>
+    Please do not respond to this automated email.
+  <% end %>
+
+  <%= body_row do %>
+    Thanks,<br />FormSling Notification Service
+  <% end %>
+
+<% end %>

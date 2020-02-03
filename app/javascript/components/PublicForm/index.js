@@ -2,10 +2,12 @@
 //
 // On submit it builds a data mapping and snapshots the entire DOM tree and sends it to the server.
 import React, { useRef, useReducer, createContext, useEffect, useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import {Editor, Frame, Canvas, useEditor} from "@craftjs/core";
 import axios from 'axios';
 import $ from 'jquery'; // used to transform the final snapshot values
 import lz from 'lzutf8';
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { decompress, getToken } from '../utils';
 import resolvers from './resolvers';
@@ -68,37 +70,57 @@ const reducer = (state, action) => {
   return state;
 };
 
-const Form = ({ form }) => {
+const Form = ({ form, recaptcha_site_key }) => {
   const { dispatch } = useContext(Context);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-  const ref = useRef(null);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState();
+  const snapshotRef = useRef();
+  const recaptchaRef = useRef();
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    if (loading) return;
+    if (loading || !recaptchaToken) return;
+
+    setError(false);
+    setErrorMessage(false);
+    setLoading(true);
+
+    const token = getToken();
 
     // must take a snapshot before manipulating any state causing a re-render
-    const { payload, values } = snapshotForm(ref.current.outerHTML);
+    const { payload, values } = snapshotForm(snapshotRef.current.outerHTML);
 
     // !TODO: make this prettier
     if (values.filter((x) => x.value).length < 1) {
-      alert('Oops! This form was not configured properly by the owner.');
+      alert('Oops! This form is not working properly.');
+      console.error('No values would be submitted.');
       return;
     }
 
-    setLoading(true);
-    const token = getToken();
+    const data = {
+      result: { payload: compress(payload), values: compress(JSON.stringify(values)) },
+      recaptcha_token: recaptchaToken,
+    };
 
     await axios.post(
       `/f/${form.id}`,
-      { result: { payload: compress(payload), values: compress(JSON.stringify(values)) } },
+      data,
       { headers: { 'X-CSRF-TOKEN': token }},
     )
       .then(() => setSuccess(true))
-      .catch(() => setError(true))
+      .catch((res) => {
+        setError(true);
+        if (res.response.data.errors) {
+          setErrorMessage(res.response.data.errors.join(' '));
+          setError(true);
+          setRecaptchaToken(null);
+        }
+        recaptchaRef.current.reset();
+      })
       .then(() => setLoading(false));
   };
 
@@ -111,10 +133,10 @@ const Form = ({ form }) => {
     return (
       <>
         <h1 className="title">
-          Thank you!
+          Thanks!
         </h1>
         <div className="notification is-success">
-          <p>You've successfully completed the form. You may safely close this page at any time.</p>
+          <p>You've successfully completed the form.</p>
         </div>
       </>
     );
@@ -130,20 +152,31 @@ const Form = ({ form }) => {
         <form onSubmit={onSubmit}>
           {error && (
             <div className="notification is-danger">
-              <p>Oops, something went wrong. Please try again.</p>
+              {errorMessage ? (
+                <p>{errorMessage}</p>
+              ) : (
+                <p>Oops, something went wrong. Please try again.</p>
+              )}
             </div>
           )}
-          <div ref={ref}>
+          <div ref={snapshotRef}>
             <Frame json={decompress(form.payload)}>
               <Canvas />
             </Frame>
+          </div>
+          <div className="field is-grouped is-grouped-right has-margin-top-40">
+            <ReCAPTCHA
+              sitekey={recaptcha_site_key}
+              onChange={(value) => setRecaptchaToken(value)}
+              ref={recaptchaRef}
+            />
           </div>
           <div className="field is-grouped is-grouped-right has-margin-top-40 has-margin-bottom-10">
             <div className="control">
               <button
                 type="submit"
                 className={`button is-primary ${loading ? 'is-loading' : ''}`}
-                disabled={loading}
+                disabled={loading || !recaptchaToken}
               >
                 Submit
               </button>
@@ -153,8 +186,16 @@ const Form = ({ form }) => {
       </div>
     </div>
   );
-
 };
+
+Form.propTypes = {
+  form: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    payload: PropTypes.string.isRequired,
+  }),
+  recaptcha_site_key: PropTypes.string.isRequired,
+}
 
 const PublicForm = props => (
   <Provider>

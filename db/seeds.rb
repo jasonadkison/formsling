@@ -11,7 +11,8 @@ user = User.first || User.create(first_name: "John",
                                  email: 'test@test.com',
                                  password: 'password',
                                  password_confirmation: 'password',
-                                 confirmed_at: Time.zone.now
+                                 confirmed_at: Time.zone.now,
+                                 stripe_id: 'cus_Gdizz5Xmri1z9e'
                                  )
 
 forms = [

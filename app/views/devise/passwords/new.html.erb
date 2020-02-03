@@ -1,3 +1,9 @@
+<% set_meta_tags(
+  title: 'Password Reset',
+  canonical: new_user_password_url,
+  description: "Recover your account password by providing your email address.",
+) %>
+
 <h2 class="title">Forgot your password?</h2>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
@@ -9,7 +15,7 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "Send me reset password instructions", class: 'button is-primary' %>
+    <%= f.submit "Send me password reset instructions", class: 'button is-primary' %>
   </div>
 <% end %>
 

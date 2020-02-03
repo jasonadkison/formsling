@@ -33,4 +33,27 @@ en:
   hello: "Hello world"
   user_mailer:
     result_processed:
-      subject: "New FormSling result processed for %{name}"
+      subject: "New form submission processed for %{name}"
+    new_hidden_result:
+      subject: "New form submission received for %{name}"
+    subscription_canceled:
+      subject: "Your subscription was canceled."
+  subscription:
+    status:
+      friendly:
+        active: Active
+        trialing: Trial
+        canceled: Canceled
+        past_due: Past Due
+        incomplete: Incomplete
+        incomplete_expired: Incomplete/Expired
+        unpaid: Unpaid
+      description:
+        active: Your subscription is currently active.
+        trialing: Your currently using your free trial.
+        canceled: Your subscription was canceled.
+        past_due: Your subscription is past due.
+        incomplete: Your subscription is incomplete.
+        incomplete_expired: Your subscription is incomplete or expired.
+        unpaid: Your subscription is unpaid.
+

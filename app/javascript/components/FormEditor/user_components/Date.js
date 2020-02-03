@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNode } from '@craftjs/core';
+
 import UserComponent from './UserComponent';
 import DateProperties from '../properties/Date';
 
 const Date = (props) => {
+  const { id } = useNode();
   const {
     name,
     initialValue,
@@ -14,7 +17,7 @@ const Date = (props) => {
   return (
     <UserComponent>
       <div className="field">
-        <label className="label">
+        <label className="label" htmlFor={id}>
           {name}
           {required && (
             <>
@@ -30,6 +33,7 @@ const Date = (props) => {
             value={initialValue}
             readOnly
             required={required}
+            id={id}
           />
         </div>
         {helpText && (

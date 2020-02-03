@@ -1,0 +1,15 @@
+Hello <%= @result.user.first_name %>,
+
+Your form named "<%= @result.form.name %>" has a new submission.
+
+Unfortunately your subscription is no longer active so you can't view it right now.
+
+Use the link below to update the payment method on your account to unlock all your form submissions.
+
+<%= edit_user_registration_url %>
+
+Please do not respond to this automated email.
+
+Thanks,
+
+FormSling Notification Service

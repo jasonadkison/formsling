@@ -1,49 +1,59 @@
-<h2 class="title">Sign up</h2>
+<% set_meta_tags(
+  title: 'Free 30 Day Trial Sign Up',
+  canonical: new_user_registration_url,
+  description: "Sign up for a new FormSling account. Enjoy a free 30 day trial with no credit card required.",
+) %>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<h1 class="title">Sign Up For Your Free 30 Day Trial</h1>
 
-  <div class="field">
-    <%= f.label :first_name, class: 'label' %>
-    <div class="control">
-      <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", required: true, class: 'input' %>
-    </div>
-  </div>
+<div class="columns">
+  <div class="column is-6">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :last_name, class: 'label' %>
-    <div class="control">
-      <%= f.text_field :last_name, autocomplete: "last_name", required: true, class: 'input' %>
-    </div>
-  </div>
+      <div class="field">
+        <%= f.label :first_name, class: 'label' %>
+        <div class="control">
+          <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", required: true, class: 'input' %>
+        </div>
+      </div>
 
-  <div class="field">
-    <%= f.label :email, class: 'label' %>
-    <div class="control">
-      <%= f.email_field :email, autocomplete: "email", required: true, class: 'input' %>
-    </div>
-  </div>
+      <div class="field">
+        <%= f.label :last_name, class: 'label' %>
+        <div class="control">
+          <%= f.text_field :last_name, autocomplete: "last_name", required: true, class: 'input' %>
+        </div>
+      </div>
 
-  <div class="field">
-    <%= f.label :password, class: 'label' %>
-    <div class="control">
-      <%= f.password_field :password, autocomplete: "new-password", required: true, class: 'input' %>
-    </div>
-    <% if @minimum_password_length %>
-      <p class="help">(<%= @minimum_password_length %> characters minimum)</p>
+      <div class="field">
+        <%= f.label :email, class: 'label' %>
+        <div class="control">
+          <%= f.email_field :email, autocomplete: "email", required: true, class: 'input' %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= f.label :password, class: 'label' %>
+        <div class="control">
+          <%= f.password_field :password, autocomplete: "new-password", required: true, class: 'input' %>
+        </div>
+        <% if @minimum_password_length %>
+          <p class="help">(<%= @minimum_password_length %> characters minimum)</p>
+        <% end %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation, class: 'label' %>
+        <div class="control">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, class: 'input' %>
+        </div>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Sign Up", class: 'button is-primary' %>
+      </div>
     <% end %>
-  </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, class: 'label' %>
-    <div class="control">
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", required: true, class: 'input' %>
-    </div>
+    <%= render "devise/shared/links" %>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up", class: 'button is-primary' %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

@@ -1,6 +1,7 @@
 # payload attribute is stored as base64 format (UTF-8)
 class Result < ApplicationRecord
   belongs_to :form
+  delegate :user, to: :form
   validates_presence_of :payload
   validates_presence_of :values
   validates_presence_of :form

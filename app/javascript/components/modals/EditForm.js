@@ -11,6 +11,7 @@ const EditForm = ({ form, onSuccess }) => {
   const [error, setError] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [url, setUrl] = useState('');
   const [published, setPublished] = useState('');
 
   const onClickClose = (e) => {
@@ -21,8 +22,11 @@ const EditForm = ({ form, onSuccess }) => {
   const handleClose = () => {
     setName(form.name);
     setEmail(form.email_recipient);
+    setUrl(form.url);
     setPublished(form.published);
     setIsOpen(false);
+    setError(false);
+    setLoading(false);
   };
 
   const onSubmit = async (e) => {
@@ -31,8 +35,9 @@ const EditForm = ({ form, onSuccess }) => {
     if (loading) return;
 
     setLoading(true);
+    setError(false);
     const token = getToken();
-    const nextForm = { name, email_recipient: email, published };
+    const nextForm = { name, email_recipient: email, url, published };
     const headers = { 'X-CSRF-TOKEN': token };
 
     await axios.patch(`/api/v1/forms/${form.id}`, { form: nextForm }, { headers })
@@ -49,6 +54,7 @@ const EditForm = ({ form, onSuccess }) => {
   useEffect(() => {
     setName(form.name);
     setEmail(form.email_recipient);
+    setUrl(form.url);
     setPublished(form.published);
   }, [form]);
 
@@ -57,11 +63,6 @@ const EditForm = ({ form, onSuccess }) => {
       <Loader loading={loading} />
       <Modal onClickOutside={handleClose}>
         <div className="edit-form">
-          {error && (
-            <div className="notification is-danger">
-              <p>An issue prevented your settings from being saved. Please try again.</p>
-            </div>
-          )}
           <button className="delete is-pulled-right" onClick={onClickClose}>
             Close
           </button>
@@ -105,6 +106,25 @@ const EditForm = ({ form, onSuccess }) => {
               </div>
             </div>
             <div className="field">
+              <label htmlFor="embed-url" className="label">
+                Embed URL
+              </label>
+              <div className="control">
+                <input
+                  id="embed-url"
+                  type="url"
+                  className="input"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  placeholder="Enter the URL of any web page this form will be embedded."
+                  disabled={loading}
+                />
+              </div>
+              <div className="help">
+                Only these hosts will be allowed to embed this form: <em>{form.csp_host}</em>.
+              </div>
+            </div>
+            <div className="field">
               <label className="label">Visibility Settings</label>
               <div className="control">
                 <input
@@ -122,6 +142,11 @@ const EditForm = ({ form, onSuccess }) => {
                 Your form will not be visible to others unless it is published.
               </p>
             </div>
+            {error && (
+              <div className="notification is-danger">
+                <p>An issue prevented your settings from being saved. Please try again.</p>
+              </div>
+            )}
             <div className="field is-grouped is-grouped-right">
               <div className="control">
                 <button

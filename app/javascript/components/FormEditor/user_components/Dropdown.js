@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNode } from '@craftjs/core';
 import Select from 'react-select';
 
 import UserComponent from './UserComponent';
 import DropdownProperties from '../properties/Dropdown';
 
 const Dropdown = (props) => {
+  const { id } = useNode();
   const {
     name,
     initialValue,
@@ -29,7 +31,7 @@ const Dropdown = (props) => {
   return (
     <UserComponent>
       <div className="field">
-        <label className="label">
+        <label className="label" htmlFor={id}>
           {name}
           {required && (
             <>
@@ -45,6 +47,7 @@ const Dropdown = (props) => {
             required={required}
             value={options.indexOf(selected) === -1 ? null : { value: selected, label: selected }}
             styles={{ control: (provided) => ({ ...provided, borderRadius: 0 }) }}
+            inputId={id}
           />
         </div>
         {helpText && (
