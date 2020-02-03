@@ -10,6 +10,10 @@
   }
 }
 
+.navbar-burger:hover {
+  color: $white !important;
+}
+
 // show an element as movable
 .is-movable { cursor: move; }
 
