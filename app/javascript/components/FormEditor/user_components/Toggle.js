@@ -12,6 +12,7 @@ const Toggle = (props) => {
     helpText,
     required,
     options,
+    display,
   } = props;
 
   return (
@@ -26,21 +27,33 @@ const Toggle = (props) => {
             </>
           )}
         </label>
-        {options.map((option) => (
-          <div className="field" key={option.id}>
-            <input
-              className="is-checkradio"
-              type={type}
-              readOnly
-              onClick={(e) => e.preventDefault()}
-              checked={option.selected || false}
-              id={`checkradio-${option.id}`}
-            />
-            <label htmlFor={`checkradio-${option.id}`}>
-              {option.name}
-            </label>
-          </div>
-        ))}
+        <div className="control">
+          {options.map((option) => {
+            let toggle = (
+              <>
+                <input
+                  className="is-checkradio"
+                  type={type}
+                  readOnly
+                  onClick={(e) => e.preventDefault()}
+                  checked={option.selected || false}
+                  id={`checkradio-${option.id}`}
+                />
+                <label htmlFor={`checkradio-${option.id}`}>
+                  {option.name}
+                </label>
+              </>
+            );
+            if (display === 'block') {
+              toggle = <div className="field">{toggle}</div>;
+            }
+            return (
+              <React.Fragment key={option.id}>
+                {toggle}
+              </React.Fragment>
+            );
+          })}
+        </div>
         {helpText && (
           <p className="help">{helpText}</p>
         )}
@@ -59,6 +72,7 @@ Toggle.propTypes = {
     name: PropTypes.string.isRequired,
     selected: PropTypes.bool,
   })).isRequired,
+  display: PropTypes.oneOf(['inline', 'block']),
 };
 
 Toggle.defaultProps = {
@@ -76,6 +90,7 @@ Toggle.defaultProps = {
     id: nanoid(),
     name: 'Option 3',
   }],
+  display: 'inline',
 };
 
 Toggle.craft = {

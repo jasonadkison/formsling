@@ -244,7 +244,7 @@ export const DropdownAttributes = () => {
 };
 
 export const ToggleType = () => {
-  const { id, setProp, options, type } = useNode(node => node.data.props);
+  const { id, setProp, type } = useNode(node => node.data.props);
 
   return (
     <Panel label="Toggle Type">
@@ -379,4 +379,34 @@ export const ToggleOptions = () => {
   );
 };
 
+export const Display = () => {
+  const { id, setProp, display } = useNode(node => node.data.props);
+
+  return (
+    <Panel label="Display">
+      <div className="field">
+        <div className="control has-margin-bottom-10">
+          <label className="radio is-size-7">
+            <input
+              type="radio"
+              name={`display-${id}`}
+              defaultChecked={display === 'inline'}
+              onChange={(e) => e.target.checked && setProp(props => props.display = 'inline')}
+            />
+            Inline
+          </label>
+          <label className="radio is-size-7">
+            <input
+              type="radio"
+              name={`display-${id}`}
+              defaultChecked={display === 'block'}
+              onChange={(e) => e.target.checked && setProp(props => props.display = 'block')}
+            />
+            Block
+          </label>
+        </div>
+      </div>
+    </Panel>
+  );
+};
 
