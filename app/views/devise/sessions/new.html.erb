@@ -1,4 +1,10 @@
-<h2 class="title">Account Login</h2>
+<% set_meta_tags(
+  title: 'Account Login',
+  canonical: new_user_session_url,
+  description: "Login to your existing FormSling account.",
+) %>
+
+<h1 class="title">Login to Your Existing Account</h1>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
