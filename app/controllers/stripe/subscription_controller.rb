@@ -50,7 +50,8 @@ class Stripe::SubscriptionController < ApplicationController
   # Immediately cancels the user's subscription.
   def destroy
     StripeHelpers.cancel_subscription(@subscription.stripe_id)
-    logger.debug "Canceled subscription immediately #{@subscription.stripe_id}"
+    @subscription.stripe_id = nil
+    @subscription.destroy!
   end
 
   def webhook
@@ -167,9 +168,9 @@ class Stripe::SubscriptionController < ApplicationController
     logger.debug "found user #{user.id} #{user.email} #{user.full_name}"
 
     # enqueue job to cancel previous subscription
-    if user.subscription.present? && !user.subscription.canceled?
-      CancelStripeSubscriptionJob.perform_later(user.subscription.stripe_id)
-      logger.debug "Enqueued job to cancel previous subscription #{user.subscription.stripe_id}"
+    if user.subscription.present?
+      logger.debug "Destroying previous subscription #{user.subscription.stripe_id}"
+      user.subscription.destroy!
     end
 
     # retrieve the subscription so we can get the payment method for saving later
@@ -186,10 +187,6 @@ class Stripe::SubscriptionController < ApplicationController
     user.update!(payment_method_id: payment_method['id'], payment_method_last4: payment_method['card']['last4'])
     logger.debug "updated the user's payment method"
 
-    # update existing or create new subscription
-    user_subscription = user.subscription || user.build_subscription
-    logger.debug user_subscription.persisted? ? "Updating existing subscripton" : "Creating new subscription"
-
     attributes = {
       plan_id: subscription['plan']['id'],
       stripe_id: subscription['id'],
@@ -199,12 +196,12 @@ class Stripe::SubscriptionController < ApplicationController
       status: :active
     }
 
-    user_subscription.assign_attributes(attributes)
-
-    logger.debug "assigned attributes #{attributes.inspect}"
+    # create new subscription
+    user_subscription = user.build_subscription(attributes)
+    logger.debug "built new user subscription #{user_subscription.inspect}"
 
     user_subscription.save!
-    logger.debug "saved the user subscription"
+    logger.debug "saved the new user subscription"
 
     head :ok
   rescue StandardError => e

@@ -12,4 +12,8 @@ class Subscription < ApplicationRecord
   after_initialize do
     self.status ||= :trialing if self.new_record?
   end
+
+  after_destroy do
+    CancelStripeSubscriptionJob.perform_later(self.stripe_id) if self.stripe_id.present?
+  end
 end
