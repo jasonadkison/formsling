@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import nanoid from 'nanoid';
 
 import UserComponent from './UserComponent';
 import ToggleProperties from '../properties/Toggle';
@@ -9,7 +10,6 @@ const Toggle = (props) => {
     type,
     name,
     helpText,
-    readOnly,
     required,
     options,
   } = props;
@@ -66,7 +66,16 @@ Toggle.defaultProps = {
   name: 'Field Label',
   helpText: '',
   required: true,
-  options: [],
+  options: [{
+    id: nanoid(),
+    name: 'Option 1',
+  }, {
+    id: nanoid(),
+    name: 'Option 2',
+  }, {
+    id: nanoid(),
+    name: 'Option 3',
+  }],
 };
 
 Toggle.craft = {
