@@ -6,14 +6,20 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.first || User.create(first_name: "John",
-                                 last_name: "Doe",
-                                 email: 'test@test.com',
-                                 password: 'password',
-                                 password_confirmation: 'password',
-                                 confirmed_at: Time.zone.now,
-                                 stripe_id: 'cus_Gdizz5Xmri1z9e'
-                                 )
+admin = User.create(first_name: "Admin",
+                    last_name: "User",
+                    email: 'admin@example.com',
+                    password: 'password',
+                    password_confirmation: 'password',
+                    confirmed_at: Time.zone.now,
+                    role: 'admin')
+
+user = User.create(first_name: "Member",
+                   last_name: "User",
+                   email: 'member@example.com',
+                   password: 'password',
+                   password_confirmation: 'password',
+                   confirmed_at: Time.zone.now)
 
 forms = [
   {
@@ -31,5 +37,6 @@ forms = [
 ]
 
 forms.each do |form_hash|
+  admin.forms.create(form_hash)
   user.forms.create(form_hash)
 end

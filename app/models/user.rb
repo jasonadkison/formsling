@@ -10,9 +10,9 @@ class User < ApplicationRecord
 
   enum role: [:member, :admin]
 
+  validates :role, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
-  validates :stripe_id, presence: true, on: :update
 
   # Set the defaults for new users
   after_initialize do

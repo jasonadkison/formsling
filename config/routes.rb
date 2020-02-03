@@ -1,12 +1,9 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
 
-  if Rails.env.development?
+  authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
-  else
-    authenticate :user, lambda { |u| u.admin? } do
-      mount Sidekiq::Web => '/sidekiq'
-    end
+    ActiveAdmin.routes(self)
   end
 
   devise_for :users, controllers: { registrations: 'users/registrations' }

@@ -35,4 +35,9 @@ class ApplicationController < ActionController::Base
     self.is_a?(Stripe::SubscriptionController)
   end
 
+  # restrict access to admin module for non-admin users
+  def authenticate_admin_user!
+    raise SecurityError unless current_user.try(:admin?)
+  end
+
 end

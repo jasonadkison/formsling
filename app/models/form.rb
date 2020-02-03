@@ -13,7 +13,7 @@ class Form < ApplicationRecord
   end
 
   def email_recipient
-    [super, user.email].reject(&:blank?).first
+    [super, user.try(:email)].reject(&:blank?).first
   end
 
   # returns the host string for the Content Security Policy frame-ancestor.
