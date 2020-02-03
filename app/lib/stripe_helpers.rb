@@ -1,6 +1,6 @@
 class StripeHelpers
 
-  PLAN_ID = 'plan_GdMh40FZp0zoJ1'.freeze
+  PLAN_ID = ENV.fetch('STRIPE_PLAN', 'plan_GdMh40FZp0zoJ1')
 
   def self.onboard_user(user)
     create_customer(user) if user.stripe_id.blank?
