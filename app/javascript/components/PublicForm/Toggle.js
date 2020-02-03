@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
 import { Context } from '../PublicForm';
 
-const Toggle = ({ name, type, helpText, options, required, readOnly }) => {
+const Toggle = ({ name, type, display, helpText, options, required }) => {
   const { id } = useNode();
   const { state } = useContext(Context);
   const [optionsState, setOptionsState] = useState(options);
@@ -36,24 +36,37 @@ const Toggle = ({ name, type, helpText, options, required, readOnly }) => {
       </label>
 
       <div className="control">
-        {optionsState.map((option, index) => (
-          <div className="field" key={option.id}>
-            <input
-              className="is-checkradio"
-              type={type}
-              id={option.id}
-              defaultChecked={option.selected}
-              disabled={state.loading}
-              name={id}
-              onChange={onChange}
-              required={index === 0 && required && !finalValue}
-            />
-            <label htmlFor={option.id}>
-              {option.name}
-            </label>
-          </div>
-        ))}
+        {optionsState.map((option, index) => {
+          let toggle = (
+            <>
+              <input
+                className="is-checkradio"
+                type={type}
+                id={option.id}
+                defaultChecked={option.selected}
+                disabled={state.loading}
+                name={id}
+                onChange={onChange}
+                required={index === 0 && required && !finalValue}
+              />
+              <label htmlFor={option.id}>
+                {option.name}
+              </label>
+            </>
+          );
+          if (display === 'block') {
+            toggle = <div className="field">{toggle}</div>;
+          }
+          return (
+            <React.Fragment key={option.id}>
+              {toggle}
+            </React.Fragment>
+          );
+        })}
       </div>
+      {helpText && (
+        <p className="help">{helpText}</p>
+      )}
     </div>
   );
 };

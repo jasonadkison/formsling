@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import nanoid from 'nanoid';
 
 import UserComponent from './UserComponent';
 import ToggleProperties from '../properties/Toggle';
@@ -9,9 +10,9 @@ const Toggle = (props) => {
     type,
     name,
     helpText,
-    readOnly,
     required,
     options,
+    display,
   } = props;
 
   return (
@@ -26,21 +27,33 @@ const Toggle = (props) => {
             </>
           )}
         </label>
-        {options.map((option) => (
-          <div className="field" key={option.id}>
-            <input
-              className="is-checkradio"
-              type={type}
-              readOnly
-              onClick={(e) => e.preventDefault()}
-              checked={option.selected || false}
-              id={`checkradio-${option.id}`}
-            />
-            <label htmlFor={`checkradio-${option.id}`}>
-              {option.name}
-            </label>
-          </div>
-        ))}
+        <div className="control">
+          {options.map((option) => {
+            let toggle = (
+              <>
+                <input
+                  className="is-checkradio"
+                  type={type}
+                  readOnly
+                  onClick={(e) => e.preventDefault()}
+                  checked={option.selected || false}
+                  id={`checkradio-${option.id}`}
+                />
+                <label htmlFor={`checkradio-${option.id}`}>
+                  {option.name}
+                </label>
+              </>
+            );
+            if (display === 'block') {
+              toggle = <div className="field">{toggle}</div>;
+            }
+            return (
+              <React.Fragment key={option.id}>
+                {toggle}
+              </React.Fragment>
+            );
+          })}
+        </div>
         {helpText && (
           <p className="help">{helpText}</p>
         )}
@@ -59,6 +72,7 @@ Toggle.propTypes = {
     name: PropTypes.string.isRequired,
     selected: PropTypes.bool,
   })).isRequired,
+  display: PropTypes.oneOf(['inline', 'block']),
 };
 
 Toggle.defaultProps = {
@@ -66,7 +80,17 @@ Toggle.defaultProps = {
   name: 'Field Label',
   helpText: '',
   required: true,
-  options: [],
+  options: [{
+    id: nanoid(),
+    name: 'Option 1',
+  }, {
+    id: nanoid(),
+    name: 'Option 2',
+  }, {
+    id: nanoid(),
+    name: 'Option 3',
+  }],
+  display: 'inline',
 };
 
 Toggle.craft = {

@@ -23,6 +23,10 @@
           <%= link_to 'FAQ', root_path(anchor: 'faq'), class: 'navbar-item' %>
           <%= link_to 'Contact', contact_path, class: 'navbar-item' %>
         <% end %>
+        <% if user_signed_in? && current_user.admin? %>
+          <%= link_to 'ActiveAdmin', admin_root_path, target: '_blank', class: 'navbar-item' %>
+          <%= link_to 'Sidekiq', sidekiq_web_path, target: '_blank', class: 'navbar-item' %>
+        <% end %>
       </div>
       <div class="navbar-end">
 

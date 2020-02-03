@@ -3,12 +3,9 @@ import { useNode } from '@craftjs/core';
 
 import {
   Name,
-  Label,
-  Placeholder,
   ToggleType,
   ToggleOptions,
-  DefaultValue,
-  Rows,
+  Display,
   HelpText,
   InputAttributes,
 } from './all';
@@ -18,6 +15,7 @@ const ToggleProperties = () => (
     <Name />
     <ToggleType />
     <ToggleOptions />
+    <Display />
     <HelpText />
     <InputAttributes />
   </>

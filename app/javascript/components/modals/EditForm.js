@@ -114,7 +114,7 @@ const EditForm = ({ form, onSuccess }) => {
                   id="embed-url"
                   type="url"
                   className="input"
-                  value={url}
+                  value={url || ''}
                   onChange={(e) => setUrl(e.target.value)}
                   placeholder="Enter the URL of any web page this form will be embedded."
                   disabled={loading}
