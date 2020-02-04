@@ -1,5 +1,5 @@
 
-import * as utils from '../utils';
+import * as utils from 'components/utils';
 
 const uncompressed = '{"hello":"world"}';
 const compressed = 'eyJoZWxsbyI6IndvcmxkIn0=';

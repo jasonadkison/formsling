@@ -46,11 +46,15 @@
   },
   "jest": {
     "roots": [
-      "<rootDir>/app/javascript"
+      "spec/javascript"
     ],
     "verbose": true,
     "testMatch": [
-      "**/__tests__/**/*.test.[jt]s?(x)"
+      "**/*.test.[jt]s?(x)"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript"
     ]
   },
   "scripts": {

@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Editor from './Editor';
-import Paragraph from '../Paragraph';
+import TestEditor from './TestEditor';
+import Paragraph from 'components/FormEditor/user_components/Paragraph';
 
 it('has defaults', () => {
-  const { getByTestId } = render(<Paragraph />, { wrapper: Editor });
+  const { getByTestId } = render(<Paragraph />, { wrapper: TestEditor });
   const p = getByTestId('paragraph');
   expect(p.nodeName).toEqual('P');
   expect(p.textContent).toEqual('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
@@ -13,7 +13,7 @@ it('has defaults', () => {
 
 it('uses specified text', () => {
   const expected = 'This is the test paragraph text';
-  const { getByTestId } = render(<Paragraph text={expected} />, { wrapper: Editor });
+  const { getByTestId } = render(<Paragraph text={expected} />, { wrapper: TestEditor });
 
   const paragraph = getByTestId('paragraph');
   expect(paragraph.textContent).toEqual(expected);
@@ -25,7 +25,7 @@ describe('textAlignment', () => {
       const expected = `has-text-${textAlignment}`;
       const { getByTestId } = render(
         <Paragraph textAlignment={textAlignment} />,
-        { wrapper: Editor },
+        { wrapper: TestEditor },
       );
       const paragraph = getByTestId('paragraph');
       expect(paragraph.classList).toContain(expected);

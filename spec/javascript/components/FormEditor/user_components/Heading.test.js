@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Editor from './Editor';
-import Heading from '../Heading';
+import TestEditor from './TestEditor';
+import Heading from 'components/FormEditor/user_components/Heading';
 
 it('has defaults', () => {
-  const { getByTestId } = render(<Heading />, { wrapper: Editor });
+  const { getByTestId } = render(<Heading />, { wrapper: TestEditor });
 
   const heading = getByTestId('heading');
   expect(heading.nodeName).toEqual('H1');
@@ -14,7 +14,7 @@ it('has defaults', () => {
 
 it('uses specified text', () => {
   const expected = 'This is the test heading text';
-  const { getByTestId } = render(<Heading text={expected} />, { wrapper: Editor });
+  const { getByTestId } = render(<Heading text={expected} />, { wrapper: TestEditor });
 
   const heading = getByTestId('heading');
   expect(heading.textContent).toEqual(expected);
@@ -26,7 +26,7 @@ describe('textAlignment', () => {
       const expected = `has-text-${textAlignment}`;
       const { getByTestId } = render(
         <Heading textAlignment={textAlignment} />,
-        { wrapper: Editor },
+        { wrapper: TestEditor },
       );
       const heading = getByTestId('heading');
       expect(heading.classList).toContain(expected);
@@ -37,7 +37,7 @@ describe('textAlignment', () => {
 describe('type', () => {
   ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].forEach((type) => {
     it(`supports ${type} element`, () => {
-      const { getByTestId } = render(<Heading type={type} />, { wrapper: Editor });
+      const { getByTestId } = render(<Heading type={type} />, { wrapper: TestEditor });
       const heading = getByTestId('heading');
       expect(heading.nodeName).toEqual(type.toUpperCase());
     });

@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Editor from './Editor';
-import Text from '../Text';
+import TestEditor from './TestEditor';
+import Text from 'components/FormEditor/user_components/Text';
 
 it('uses defaults', () => {
-  const { getByLabelText, getByTestId } = render(<Text />, { wrapper: Editor });
+  const { getByLabelText, getByTestId } = render(<Text />, { wrapper: TestEditor });
   const label = getByTestId('label');
   const input = getByLabelText(/Field Name/);
 
@@ -16,7 +16,7 @@ it('uses defaults', () => {
 describe('types', () => {
   ['text', 'number', 'email', 'url'].forEach((type) => {
     it(`supports ${type} input`, () => {
-      const { getByTestId } = render(<Text type={type} />, { wrapper: Editor });
+      const { getByTestId } = render(<Text type={type} />, { wrapper: TestEditor });
       const field = getByTestId('field');
       expect(field.type).toEqual(type);
     });
@@ -24,7 +24,7 @@ describe('types', () => {
 });
 
 it('renders the help text', () => {
-  const { getByText } = render(<Text helpText="test-help-text" />, { wrapper: Editor });
+  const { getByText } = render(<Text helpText="test-help-text" />, { wrapper: TestEditor });
   const el = getByText('test-help-text');
   expect(el.classList).toContain('help');
 });
@@ -40,7 +40,7 @@ describe('input field', () => {
       required: true,
     };
 
-    const { getByTestId } = render(<Text {...props} />, { wrapper: Editor });
+    const { getByTestId } = render(<Text {...props} />, { wrapper: TestEditor });
 
     const label = getByTestId('label');
     const field = getByTestId('field');
@@ -55,12 +55,12 @@ describe('input field', () => {
   });
 
   it('can be required', () => {
-    const { getByTestId } = render(<Text required />, { wrapper: Editor });
+    const { getByTestId } = render(<Text required />, { wrapper: TestEditor });
     expect(getByTestId('field').required).toBeTruthy();
   });
 
   it('can be optional', () => {
-    const { getByTestId } = render(<Text required={false} />, { wrapper: Editor });
+    const { getByTestId } = render(<Text required={false} />, { wrapper: TestEditor });
     expect(getByTestId('field').required).toBeFalsy();
   });
 });
@@ -76,7 +76,7 @@ describe('textarea field', () => {
       required: true,
     }
 
-    const { getByTestId } = render(<Text {...props} />, { wrapper: Editor });
+    const { getByTestId } = render(<Text {...props} />, { wrapper: TestEditor });
 
     const label = getByTestId('label');
     const field = getByTestId('field');
@@ -92,12 +92,12 @@ describe('textarea field', () => {
   });
 
   it('can be required', () => {
-    const { getByTestId } = render(<Text rows={3} required />, { wrapper: Editor });
+    const { getByTestId } = render(<Text rows={3} required />, { wrapper: TestEditor });
     expect(getByTestId('field').required).toBeTruthy();
   });
 
   it('can be optional', () => {
-    const { getByTestId } = render(<Text rows={3} required={false} />, { wrapper: Editor });
+    const { getByTestId } = render(<Text rows={3} required={false} />, { wrapper: TestEditor });
     expect(getByTestId('field').required).toBeFalsy();
   });
 });
