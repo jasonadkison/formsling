@@ -69,10 +69,27 @@ jobs:
     steps:
       - restore_cache:
           keys:
+            - yarn-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-v1-{{ arch }}-{{ .Branch }}
+            - yarn-v1
+      - run: yarn install
+      - save_cache:
+          key: yarn-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run jest
+          command: yarn test --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: ~/reports/junit.xml
+      - restore_cache:
+          keys:
             - bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
             - bundle-v1-{{ arch }}-{{ .Branch }}
             - bundle-v1
-      - run: bundle install --path vendor/bundle --with test
+      - run:
+          name: Run rspec
+          command: bundle install --path vendor/bundle --with test
       - save_cache:
           key: bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:

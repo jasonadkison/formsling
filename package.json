@@ -37,6 +37,38 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0",
+    "jest-junit": "^10.0.0",
+    "react-test-renderer": "^16.12.0",
     "webpack-dev-server": "^3.10.1"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/app/javascript"
+    ],
+    "verbose": true,
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>/app/javascript"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/$1"
+    },
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    }
+  },
+  "scripts": {
+    "test": "NODE_ENV=test jest --config package.json",
+    "test-watch": "NODE_ENV=test jest --config package.json --watch"
   }
 }
