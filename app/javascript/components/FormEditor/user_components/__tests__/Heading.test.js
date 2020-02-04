@@ -4,7 +4,7 @@ import Editor from './Editor';
 import Heading from '../Heading';
 
 it('has defaults', () => {
-  const { getByTestId } = render(<Editor resolver={Heading}><Heading /></Editor>);
+  const { getByTestId } = render(<Heading />, { wrapper: Editor });
 
   const heading = getByTestId('heading');
   expect(heading.nodeName).toEqual('H1');
@@ -14,9 +14,7 @@ it('has defaults', () => {
 
 it('uses specified text', () => {
   const expected = 'This is the test heading text';
-  const { getByTestId } = render(
-    <Editor resolver={Heading}><Heading text={expected} /></Editor>
-  );
+  const { getByTestId } = render(<Heading text={expected} />, { wrapper: Editor });
 
   const heading = getByTestId('heading');
   expect(heading.textContent).toEqual(expected);
@@ -27,7 +25,8 @@ describe('textAlignment', () => {
     it(`sets the alignment class for ${textAlignment}`, () => {
       const expected = `has-text-${textAlignment}`;
       const { getByTestId } = render(
-        <Editor resolver={Heading}><Heading textAlignment={textAlignment} /></Editor>
+        <Heading textAlignment={textAlignment} />,
+        { wrapper: Editor },
       );
       const heading = getByTestId('heading');
       expect(heading.classList).toContain(expected);
@@ -38,9 +37,7 @@ describe('textAlignment', () => {
 describe('type', () => {
   ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].forEach((type) => {
     it(`supports ${type} element`, () => {
-      const { getByTestId } = render(
-        <Editor resolver={Heading}><Heading type={type} /></Editor>
-      );
+      const { getByTestId } = render(<Heading type={type} />, { wrapper: Editor });
       const heading = getByTestId('heading');
       expect(heading.nodeName).toEqual(type.toUpperCase());
     });

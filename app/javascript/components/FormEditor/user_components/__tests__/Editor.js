@@ -1,9 +1,10 @@
 import React from 'react';
 import { Editor, Frame, Canvas } from '@craftjs/core';
+import resolvers from '../../resolvers';
 
-export default ({ resolver, children }) => (
+export default ({ children }) => (
   <Editor>
-    <Frame resolver={resolver}>
+    <Frame resolver={resolvers}>
       <Canvas>
         {children}
       </Canvas>
