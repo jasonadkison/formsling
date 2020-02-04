@@ -17,7 +17,7 @@ jobs:
           command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
           name: Pull master image from Docker Hub
-          command: docker pull "${DOCKERHUB_REPO}:master" || true
+          command: docker pull "${DOCKERHUB_REPO}:master"
       - run:
           name: Create the build image with the checked out source code
           command: docker build --cache-from "${DOCKERHUB_REPO}:master" --tag "build:${CIRCLE_BRANCH}" .
@@ -126,7 +126,7 @@ jobs:
           command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
           name: Pull build image from Docker Hub
-          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" || true
+          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
       - run:
           name: Create dokku tag from build image
           command: docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "dokku/${DOKKU_APP}:${CIRCLE_SHA1}"
