@@ -10,13 +10,13 @@
             A platform for building and publishing web forms.
           </h1>
           <div class="buttons">
-            <%= link_to('Start My Free Trial', new_user_registration_path, class: 'button is-primary') %>
+            <%= link_to('Start Free Trial', new_user_registration_path, class: 'button is-primary') %>
             <%= link_to('Login', new_user_session_path, class: 'button') %>
           </div>
         </div>
         <div class="column is-5">
           <figure class="image is-4by3">
-            <img src="https://via.placeholder.com/600x400/eeeeee?text=Some+Trendy+Screenshot+Goes+Here" alt="Description" />
+            <%= image_tag asset_pack_path('media/images/builder-screenshot.png'), alt: "FormSling Screenshot" %>
           </figure>
         </div>
       </div>

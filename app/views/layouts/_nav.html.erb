@@ -16,8 +16,10 @@
 
     <div class="navbar-menu">
       <div class="navbar-start">
+
+      </div>
+      <div class="navbar-end">
         <% unless user_signed_in? %>
-          <%= link_to 'Home', root_path, class: 'navbar-item' %>
           <%= link_to 'Features', root_path(anchor: 'features'), class: 'navbar-item' %>
           <%= link_to 'Pricing', root_path(anchor: 'pricing'), class: 'navbar-item' %>
           <%= link_to 'FAQ', root_path(anchor: 'faq'), class: 'navbar-item' %>
@@ -27,8 +29,6 @@
           <%= link_to 'ActiveAdmin', admin_root_path, target: '_blank', class: 'navbar-item' %>
           <%= link_to 'Sidekiq', sidekiq_web_path, target: '_blank', class: 'navbar-item' %>
         <% end %>
-      </div>
-      <div class="navbar-end">
 
         <% if user_signed_in? %>
           <div class="navbar-item has-dropdown is-hoverable">
@@ -47,7 +47,7 @@
         <% else %>
           <div class="navbar-item">
             <div class="buttons">
-              <%= link_to(content_tag(:strong, 'Start My Free Trial'), new_user_registration_path, class: 'button') %>
+              <%= link_to(content_tag(:strong, 'Start Free Trial'), new_user_registration_path, class: 'button') %>
               <%= link_to('Login', new_user_session_path, class: 'button is-primary') %>
             </div>
           </div>
