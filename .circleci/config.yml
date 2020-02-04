@@ -81,15 +81,13 @@ jobs:
           name: Run jest
           command: yarn test --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT_DIR: /root/reports/junit.xml
+            JEST_JUNIT_OUTPUT_DIR: /root/reports/jest/results.xml
       - restore_cache:
           keys:
             - bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
             - bundle-v1-{{ arch }}-{{ .Branch }}
             - bundle-v1
-      - run:
-          name: Run rspec
-          command: bundle install --path vendor/bundle --with test
+      - run: bundle install --path vendor/bundle --with test
       - save_cache:
           key: bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
@@ -99,7 +97,7 @@ jobs:
           command: bundle exec rake db:setup --trace
       - run:
           name: Run rspec
-          command: bundle exec rspec --format documentation --format RspecJunitFormatter -o /root/reports/rspec.xml
+          command: bundle exec rspec --format documentation --format RspecJunitFormatter -o /root/reports/rspec/results.xml
       - store_test_results:
           path: /root/reports
       - store_artifacts:
