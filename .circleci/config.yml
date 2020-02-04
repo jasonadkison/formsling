@@ -81,7 +81,8 @@ jobs:
           name: Run jest
           command: yarn test --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT_DIR: /root/reports/jest/results.xml
+            JEST_JUNIT_OUTPUT_DIR: /root/reports/jest
+            JEST_JUNIT_OUTPUT_NAME: results.xml
       - restore_cache:
           keys:
             - bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
