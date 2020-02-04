@@ -37,6 +37,7 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@testing-library/react": "^9.4.0",
     "babel-jest": "^25.1.0",
     "jest": "^25.1.0",
     "jest-junit": "^10.0.0",
@@ -47,25 +48,7 @@
     "roots": [
       "<rootDir>/app/javascript"
     ],
-    "verbose": true,
-    "globals": {
-      "NODE_ENV": "test"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "<rootDir>/app/javascript"
-    ],
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/$1"
-    },
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
-    }
+    "verbose": true
   },
   "scripts": {
     "test": "NODE_ENV=test jest --config package.json",

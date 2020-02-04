@@ -1,15 +1,18 @@
 
 import * as utils from '../utils';
 
+const uncompressed = '{"hello":"world"}';
+const compressed = 'eyJoZWxsbyI6IndvcmxkIn0=';
+
 describe('compress', () => {
   test('compresses the payload', () => {
-    expect(utils.compress('{"hello":"world"}')).toEqual('eyJoZWxsbyI6IndvcmxkIn0=');
+    expect(utils.compress(uncompressed)).toEqual(compressed);
   });
 });
 
 describe('decompress', () => {
   test('decompresses the payload', () => {
-    expect(utils.decompress('eyJoZWxsbyI6IndvcmxkIn0=')).toEqual('{"hello":"world"}');
+    expect(utils.decompress(compressed)).toEqual(uncompressed);
   });
 });
 
