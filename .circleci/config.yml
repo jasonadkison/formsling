@@ -16,11 +16,11 @@ jobs:
           name: Login to Docker Hub
           command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
-          name: Pull base image from Docker Hub
-          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" || true
+          name: Pull master image from Docker Hub
+          command: docker pull "${DOCKERHUB_REPO}:master" || true
       - run:
-          name: Rebuild the build image with the checked out source code
-          command: docker build --cache-from "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" --tag "build:${CIRCLE_BRANCH}" .
+          name: Create the build image with the checked out source code
+          command: docker build --cache-from "${DOCKERHUB_REPO}:master" --tag "build:${CIRCLE_BRANCH}" .
       - run:
           name: Prepare volume for storing build artifacts
           command: |
