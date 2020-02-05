@@ -9,7 +9,7 @@ const Paragraph = (props) => {
   return (
     <UserComponent>
       <div className="content">
-        <p className={`has-text-${textAlignment}`}>{text}</p>
+        <p data-testid="paragraph" className={`has-text-${textAlignment}`}>{text}</p>
         <p />
       </div>
     </UserComponent>

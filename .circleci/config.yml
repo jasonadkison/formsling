@@ -16,11 +16,11 @@ jobs:
           name: Login to Docker Hub
           command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
-          name: Pull base image from Docker Hub
-          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" || true
+          name: Pull master image from Docker Hub
+          command: docker pull "${DOCKERHUB_REPO}:master"
       - run:
-          name: Rebuild the build image with the checked out source code
-          command: docker build --cache-from "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}" --tag "build:${CIRCLE_BRANCH}" .
+          name: Create the build image with the checked out source code
+          command: docker build --cache-from "${DOCKERHUB_REPO}:master" --tag "build:${CIRCLE_BRANCH}" .
       - run:
           name: Prepare volume for storing build artifacts
           command: |
@@ -69,6 +69,22 @@ jobs:
     steps:
       - restore_cache:
           keys:
+            - yarn-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-v1-{{ arch }}-{{ .Branch }}
+            - yarn-v1
+      - run: yarn install
+      - save_cache:
+          key: yarn-v1-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run jest
+          command: yarn test --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: /root/reports/jest
+            JEST_JUNIT_OUTPUT_NAME: results.xml
+      - restore_cache:
+          keys:
             - bundle-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
             - bundle-v1-{{ arch }}-{{ .Branch }}
             - bundle-v1
@@ -82,11 +98,11 @@ jobs:
           command: bundle exec rake db:setup --trace
       - run:
           name: Run rspec
-          command: bundle exec rspec --format documentation --format RspecJunitFormatter -o ~/reports/rspec.xml
+          command: bundle exec rspec --format documentation --format RspecJunitFormatter -o /root/reports/rspec/results.xml
       - store_test_results:
-          path: ~/reports
+          path: /root/reports
       - store_artifacts:
-          path: ~/reports
+          path: /root/reports
   deploy:
     docker:
       - image: docker:stable-git
@@ -111,7 +127,7 @@ jobs:
           command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
           name: Pull build image from Docker Hub
-          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" || true
+          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
       - run:
           name: Create dokku tag from build image
           command: docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "dokku/${DOKKU_APP}:${CIRCLE_SHA1}"
@@ -135,6 +151,22 @@ jobs:
 
 workflows:
   version: 2
+  feature-workflow:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore:
+                - master
+                - develop
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore:
+                - master
+                - develop
   staging-workflow:
     jobs:
       - build:

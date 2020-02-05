@@ -37,6 +37,28 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@testing-library/react": "^9.4.0",
+    "babel-jest": "^25.1.0",
+    "jest": "^25.1.0",
+    "jest-junit": "^10.0.0",
+    "react-test-renderer": "^16.12.0",
     "webpack-dev-server": "^3.10.1"
+  },
+  "jest": {
+    "roots": [
+      "spec/javascript"
+    ],
+    "verbose": true,
+    "testMatch": [
+      "**/*.test.[jt]s?(x)"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript"
+    ]
+  },
+  "scripts": {
+    "test": "NODE_ENV=test jest --config package.json",
+    "test-watch": "NODE_ENV=test jest --runInBand --config package.json --watch"
   }
 }
