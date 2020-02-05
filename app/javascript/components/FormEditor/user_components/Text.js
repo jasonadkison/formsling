@@ -23,7 +23,7 @@ const Text = (props) => {
   return (
     <UserComponent>
       <div className="field">
-        <label className="label" htmlFor={id}>
+        <label className="label" htmlFor={id} data-testid="label">
           {name}
           {required && (
             <>
@@ -42,6 +42,7 @@ const Text = (props) => {
               readOnly
               required={required}
               id={id}
+              data-testid="field"
             />
           ) : (
             <input
@@ -52,6 +53,7 @@ const Text = (props) => {
               readOnly
               required={required}
               id={id}
+              data-testid="field"
             />
           )}
         </div>
@@ -70,7 +72,6 @@ Text.propTypes = {
   placeholder: PropTypes.string,
   helpText: PropTypes.string,
   rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  readOnly: PropTypes.bool,
   required: PropTypes.bool,
 };
 
@@ -81,7 +82,6 @@ Text.defaultProps = {
   placeholder: '',
   helpText: '',
   rows: 1,
-  readOnly: false,
   required: true,
 };
 

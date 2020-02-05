@@ -105,18 +105,12 @@ const UserComponent = ({ children }) => {
       {children}
 
       {enabled && properties && expanded && (
-        <div className="card has-margin-10">
-          <header className="card-header">
-            <p className="card-header-title">
-              {name} Settings
-            </p>
-          </header>
-          <div className="card-content">
-            {properties && React.createElement(properties)}
-          </div>
-          <footer className="card-footer">
+        <div className="panel has-margin-10">
+          {properties && React.createElement(properties)}
+
+          <footer className="panel-block">
             <a
-              className="card-footer-item"
+              className="button is-fullwidth"
               onClick={() => setExpanded(false)}
             >
               Close

@@ -11,7 +11,7 @@ const Heading = (props) => {
   return (
     <UserComponent>
       <div className="content">
-        <Heading className={`has-text-${textAlignment}`}>{text}</Heading>
+        <Heading data-testid="heading" className={`has-text-${textAlignment}`}>{text}</Heading>
       </div>
     </UserComponent>
   );

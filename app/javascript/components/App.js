@@ -1,18 +1,12 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 import { BreadcrumbProvider } from "./BreadcrumbPortal";
 import { ModalProvider } from "./modals/Modal";
-
-//import MainMenu from './MainMenu';
-//import Usage from './Usage';
-//import Subscription from './Subscription';
-//import Account from './Account';
 import FormList from './FormList';
 import FormEditor from './FormEditor';
 import ResultList from './ResultList';
@@ -22,7 +16,6 @@ const App = () => {
   return (
     <ModalProvider>
       <Router>
-        {/*<MainMenu />*/}
         <BreadcrumbProvider>
           <Switch>
             <Route exact path="/" component={FormList} />
