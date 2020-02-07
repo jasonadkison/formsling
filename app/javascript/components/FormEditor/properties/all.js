@@ -224,7 +224,7 @@ export const DropdownOptions = () => {
   const removeOption = id => setChoices(choices.filter(choice => choice.id !== id));
 
   // Adds a new option to state.
-  const onClickAdd = () => setChoices([...choices, { id: nanoid(), name: 'New Option' }]);
+  const onClickAdd = () => setChoices([...choices, { id: nanoid(), name: '', value: '' }]);
 
   const selectedChoice = choices.find(choice => choice.selected);
 
