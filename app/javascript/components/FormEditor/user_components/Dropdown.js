@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
-import Select from 'react-select';
 
 import UserComponent from './UserComponent';
 import DropdownProperties from '../properties/Dropdown';
@@ -13,7 +12,6 @@ const Dropdown = (props) => {
     initialValue,
     placeholder,
     helpText,
-    readOnly,
     required,
     options,
   } = props;
@@ -40,18 +38,26 @@ const Dropdown = (props) => {
             </>
           )}
         </label>
-        <div className="control">
-          <Select
-            options={options.map(option => ({ value: option, label: option }))}
-            placeholder={placeholder}
-            required={required}
-            value={options.indexOf(selected) === -1 ? null : { value: selected, label: selected }}
-            styles={{ control: (provided) => ({ ...provided, borderRadius: 0 }) }}
-            inputId={id}
-          />
+        <div className="control is-expanded">
+          <div className="select is-fullwidth">
+            <select
+              id={id}
+              value={options.indexOf(selected) === -1 ? '' : selected}
+              required={required}
+              readOnly
+              className="input"
+            >
+              {placeholder && (
+                <option disabled>{placeholder}</option>
+              )}
+              {options.map(option => (
+                <option key={option} value={option}>{option}</option>
+              ))}
+            </select>
+          </div>
         </div>
         {helpText && (
-          <p className="help">{helpText}</p>
+          <p className="help" data-testid="help">{helpText}</p>
         )}
       </div>
     </UserComponent>
@@ -63,8 +69,6 @@ Dropdown.propTypes = {
   initialValue: PropTypes.string,
   placeholder: PropTypes.string,
   helpText: PropTypes.string,
-  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  readOnly: PropTypes.bool,
   required: PropTypes.bool,
   options: PropTypes.arrayOf(PropTypes.string),
 };
@@ -74,8 +78,6 @@ Dropdown.defaultProps = {
   initialValue: '',
   placeholder: '',
   helpText: '',
-  rows: 1,
-  readOnly: false,
   required: true,
   options: [],
 };
