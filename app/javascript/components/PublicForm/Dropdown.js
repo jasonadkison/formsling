@@ -27,10 +27,6 @@ const Dropdown = (props) => {
         )}
       </label>
       <div className="select is-fullwidth">
-        {/* Use a normal <select /> element because react-select's Select is unable to use
-          * the "required" attribute in a practical manner.
-          * See: https://github.com/JedWatson/react-select/issues/3140#issuecomment-514754657
-        */}
         <select
           id={id}
           required={required}
