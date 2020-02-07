@@ -45,20 +45,40 @@ test('it can render a required field', () => {
 });
 
 test('it renders the specified options', () => {
-  const options = ['One', 'Two', 'Three'];
-  const { getByLabelText, getByText, debug } = render(<Dropdown name="Test Field" options={options} />);
-  const field = getByLabelText(/test field/i)
+  const options = [
+    { id: 0, name: 'Placeholder', value: '' },
+    { id: 1, name: 'One', value: '1' },
+    { id: 2, name: 'Two', value: '2' },
+    { id: 3, name: 'Three', value: '3' }
+  ];
+  const { getByText } = render(<Dropdown name="Test Field" options={options} />);
   options.forEach((option) => {
-    const el = getByText(option);
+    const el = getByText(option.name);
     expect(el.nodeName).toMatch(/option/i)
-    expect(el).toHaveValue(option)
+    expect(el).toHaveValue(option.value)
   });
 })
 
-test('it renders the placeholder as a disabled option', () => {
-  const { getByLabelText, getByText } = render(<Dropdown name="Test Field" placeholder="The Placeholder" />)
+test('it can have a selected value', () => {
+  const options = [
+    { id: 1, name: 'One', value: '1' },
+    { id: 2, name: 'Two', value: '2', selected: true },
+    { id: 3, name: 'Three', value: '3' }
+  ];
+  const { getByLabelText } = render(<Dropdown name="Test Field" options={options} initialValue="Two" />);
+  const field = getByLabelText(/test field/i)
+  expect(field).toHaveValue('2')
+});
+
+test('it renders the first option as a placeholder', () => {
+  const options = [
+    { id: 1, name: 'The Placeholder', value: '1' },
+    { id: 2, name: 'Two', value: '2', selected: true },
+    { id: 3, name: 'Three', value: '3' }
+  ];
+  const { getByLabelText, getByText } = render(<Dropdown name="Test Field" options={options} />)
   const select = getByLabelText(/test field/i)
   const option = getByText(/the placeholder/i)
   expect(option.nodeName).toMatch(/option/i)
-  expect(option).toHaveAttribute('disabled')
+  expect(option).toHaveValue('')
 });

@@ -6,17 +6,20 @@ import { Context } from '../PublicForm';
 const Dropdown = (props) => {
   const {
     name,
-    initialValue,
-    placeholder,
     helpText,
     required,
+    readOnly,
     options,
   } = props;
+
+  const selectedOption = options.find(option => option.selected);
+  const initialValue = selectedOption ? selectedOption.value : '';
 
   const [value, setValue] = useState(initialValue);
   const { id } = useNode();
   const { state } = useContext(Context);
-  const onChange = (e) => setValue(e.target.value);
+
+  const onChange = (e) => setValue(readOnly ? initialValue : e.target.value);
 
   return (
     <div className="field">
@@ -30,19 +33,15 @@ const Dropdown = (props) => {
         <select
           id={id}
           required={required}
-          placeholder={placeholder}
           value={value}
           onChange={onChange}
           disabled={state.loading}
           data-name={name}
           data-value={value || (options.length ? options[0] : '')}
         >
-          {placeholder && (
-            <option value="">{placeholder}</option>
-          )}
-          {options.map(option => (
-            <option key={option} value={option}>
-              {option}
+          {options.map((option, index) => (
+            <option key={option.id} value={index === 0 ? '' : option.value}>
+              {option.name}
             </option>)
           )}
         </select>
@@ -56,21 +55,20 @@ const Dropdown = (props) => {
 
 Dropdown.propTypes = {
   name: PropTypes.string,
-  initialValue: PropTypes.string,
-  placeholder: PropTypes.string,
   helpText: PropTypes.string,
-  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   readOnly: PropTypes.bool,
   required: PropTypes.bool,
-  options: PropTypes.arrayOf(PropTypes.string),
+  options: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    value: PropTypes.string,
+    selected: PropTypes.bool,
+  })).isRequired,
 };
 
 Dropdown.defaultProps = {
   name: 'Field Name',
-  initialValue: '',
-  placeholder: '',
   helpText: '',
-  rows: 1,
   readOnly: false,
   required: true,
   options: [],

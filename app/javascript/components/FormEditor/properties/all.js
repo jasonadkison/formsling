@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNode } from '@craftjs/core';
 import nanoid from 'nanoid';
-import CreatableSelect from 'react-select/creatable';
 
 import Panel from './Panel';
 
@@ -193,52 +192,105 @@ export const InputAttributes = () => {
   );
 };
 
-export const DropdownAttributes = () => {
-  const { setProp, options } = useNode(node => node.data.props);
-  const [choices, setChoices] = useState(options.map(choice => ({ value: choice, label: choice })));
+export const DropdownOptions = () => {
+  const getDefaultOptions = () => [
+    { id: nanoid(), name: 'Choose an option', value: '' },
+    { id: nanoid(), name: 'Option 1', value: '1' },
+    { id: nanoid(), name: 'Option 2', value: '2' },
+    { id: nanoid(), name: 'Option 3', value: '3' },
+  ];
 
-  useEffect(() => {
-    const options = choices.map(choice => choice.value);
-    setProp(props => props.options = options);
-  }, [choices]);
+  const { id: nodeId, setProp, options } = useNode(node => node.data.props);
+  const [choices, setChoices] = useState(options.length ? options : getDefaultOptions());
+
+  // This updates the user component props each time state changes.
+  useEffect(() => setProp(props => props.options = choices), [choices]);
+
+  // Updates option name in state.
+  const updateOptionName = (id, name) => {
+    setChoices(choices.map(choice => choice.id === id ? { ...choice, name } : choice));
+  };
+
+  // Updates option value in state.
+  const updateOptionValue = (id, value) => {
+    setChoices(choices.map(choice => choice.id === id ? { ...choice, value } : choice));
+  };
+
+  const setSelectedOption = (id) => {
+    setChoices(choices.map(choice => ({ ...choice, selected: choice.id === id })));
+  };
+
+  // Removes option from state.
+  const removeOption = id => setChoices(choices.filter(choice => choice.id !== id));
+
+  // Adds a new option to state.
+  const onClickAdd = () => setChoices([...choices, { id: nanoid(), name: 'New Option' }]);
+
+  const selectedChoice = choices.find(choice => choice.selected);
 
   return (
     <Panel label="Dropdown Options">
-      <CreatableSelect
-        placeholder="Enter options..."
-        isClearable
-        isMulti
-        options={choices}
-        value={choices}
-        onChange={choices => setChoices(choices || [])}
-        onCreateOption={choice => setChoices([...choices, { value: choice, label: choice }])}
-        components={{
-          ClearIndicator: () => null,
-          DropdownIndicator: () => null,
-          //Menu: () => null,
-          IndicatorSeparator: () => null,
-          Placeholder: () => <span className="is-size-7">Type options and press enter</span>,
-        }}
-        styles={{
-          multiValue: (provided, state) => ({
-            ...provided,
-            background: '#eee',
-          }),
-          multiValueLabel: (provided, state) => ({
-            ...provided,
-            fontSize: '1rem',
-          }),
-          multiValueRemove: (provided, state) => ({
-            ...provided,
-            color: '#ff3300',
-            cursor: 'pointer',
-          }),
-          control: (provided) => ({
-            ...provided,
-            borderRadius: 0,
-          })
-        }}
-      />
+      {choices.map((choice, index) => (
+        <div className="field is-grouped" key={choice.id}>
+          <div className="control">
+            <label className={`is-marginless`}>
+              <input
+                className="is-marginless"
+                type="radio"
+                name={`selected-${nodeId}`}
+                defaultChecked={choice.selected || (!selectedChoice && index === 0)}
+                onChange={(e) => setSelectedOption(choice.id)}
+              />
+            </label>
+          </div>
+          <div className="control">
+            <input
+              type="text"
+              className="input is-small"
+              placeholder={index === 0 ? 'Placeholder Text' : 'Option Text'}
+              defaultValue={choice.name}
+              onChange={(e) => updateOptionName(choice.id, e.target.value)}
+            />
+          </div>
+          {index === 0 ? (
+            <span className="help">Placeholder</span>
+          ) : (
+            <>
+              <div className="control">
+                <input
+                  type="text"
+                  className="input is-small"
+                  placeholder="Option Value"
+                  defaultValue={choice.value}
+                  onChange={(e) => updateOptionValue(choice.id, e.target.value)}
+                />
+              </div>
+              <div className="control">
+                <button
+                  className="button is-small is-danger"
+                  onClick={() => removeOption(choice.id)}
+                >
+                  <span className="icon">
+                    <i className="fas fa-trash" />
+                  </span>
+                </button>
+              </div>
+            </>
+          )}
+          {(index + 1) === choices.length && (
+            <div className="control">
+              <button
+                className="button is-small is-success"
+                onClick={onClickAdd}
+              >
+                <span className="icon">
+                  <i className="fas fa-plus" />
+                </span>
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
     </Panel>
   );
 };

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
+import nanoid from 'nanoid';
 
 import UserComponent from './UserComponent';
 import DropdownProperties from '../properties/Dropdown';
@@ -9,22 +10,13 @@ const Dropdown = (props) => {
   const { id } = useNode();
   const {
     name,
-    initialValue,
-    placeholder,
     helpText,
     required,
     options,
   } = props;
 
-  const [selected,  setSelected] = useState(initialValue);
-
-  useEffect(() => {
-    setSelected('');
-  }, [placeholder]);
-
-  useEffect(() => {
-    setSelected(initialValue);
-  }, [initialValue]);
+  const selectedOption = options.find(option => option.selected);
+  const value = selectedOption ? selectedOption.value : '';
 
   return (
     <UserComponent>
@@ -42,16 +34,14 @@ const Dropdown = (props) => {
           <div className="select is-fullwidth">
             <select
               id={id}
-              value={options.indexOf(selected) === -1 ? '' : selected}
+              value={value}
               required={required}
               readOnly
-              className="input"
             >
-              {placeholder && (
-                <option disabled>{placeholder}</option>
-              )}
-              {options.map(option => (
-                <option key={option} value={option}>{option}</option>
+              {options.map((option, index) => (
+                <option key={option.id} value={index === 0 ? '' : option.value}>
+                  {option.name}
+                </option>
               ))}
             </select>
           </div>
@@ -66,20 +56,37 @@ const Dropdown = (props) => {
 
 Dropdown.propTypes = {
   name: PropTypes.string,
-  initialValue: PropTypes.string,
-  placeholder: PropTypes.string,
   helpText: PropTypes.string,
   required: PropTypes.bool,
-  options: PropTypes.arrayOf(PropTypes.string),
+  options: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    name: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    selected: PropTypes.bool,
+  })).isRequired,
 };
 
 Dropdown.defaultProps = {
-  name: 'Field Label',
-  initialValue: '',
-  placeholder: '',
+  name: 'Field Name',
   helpText: '',
   required: true,
-  options: [],
+  options: [{
+    id: nanoid(),
+    name: 'Choose an option',
+    value: '',
+  }, {
+    id: nanoid(),
+    name: 'Option A',
+    value: 'a',
+  }, {
+    id: nanoid(),
+    name: 'Option B',
+    value: 'b',
+  }, {
+    id: nanoid(),
+    name: 'Option C',
+    value: 'c',
+  }],
 };
 
 Dropdown.craft = {
