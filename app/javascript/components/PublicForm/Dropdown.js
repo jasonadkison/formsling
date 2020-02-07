@@ -14,7 +14,6 @@ const Dropdown = (props) => {
 
   const selectedOption = options.find(option => option.selected);
   const initialValue = selectedOption ? selectedOption.value : '';
-
   const [value, setValue] = useState(initialValue);
   const { id } = useNode();
   const { state } = useContext(Context);
@@ -37,7 +36,7 @@ const Dropdown = (props) => {
           onChange={onChange}
           disabled={state.loading}
           data-name={name}
-          data-value={value || (options.length ? options[0] : '')}
+          data-value={value}
         >
           {options.map((option, index) => (
             <option key={option.id} value={index === 0 ? '' : option.value}>
