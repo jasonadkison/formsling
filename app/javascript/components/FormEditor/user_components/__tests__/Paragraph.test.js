@@ -1,8 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Paragraph from '../Paragraph';
+import ParagraphProperties from '../../properties/Paragraph';
 
 jest.mock('../UserComponent', () => ({ children }) => children);
+
+test('it sets the craft related properties', () => {
+  expect(Paragraph.craft.related.properties).toEqual(ParagraphProperties);
+});
 
 test('renders the specified text', () => {
   const { getByText } = render(<Paragraph text="Hello World!" />);

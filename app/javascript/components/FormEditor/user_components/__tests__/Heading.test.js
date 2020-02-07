@@ -1,8 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Heading from '../Heading';
+import HeadingProperties from '../../properties/Heading';
 
 jest.mock('../UserComponent', () => ({ children }) => children);
+
+test('it sets the craft related properties', () => {
+  expect(Heading.craft.related.properties).toEqual(HeadingProperties);
+});
 
 it('renders the specified text', () => {
   const { getByText } = render(<Heading text="Hello World" />);

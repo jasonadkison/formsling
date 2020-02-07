@@ -1,9 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Date from '../Date';
+import DateProperties from '../../properties/Date';
 
 jest.mock('../UserComponent', () => ({ children }) => children);
 jest.mock('@craftjs/core', () => ({ useNode: () => ({ id: 'test-node-id' }) }));
+
+test('it sets the craft related properties', () => {
+  expect(Date.craft.related.properties).toEqual(DateProperties);
+});
 
 test('it renders a date input', () => {
   const { getByLabelText } = render(<Date name="Date Field" />);

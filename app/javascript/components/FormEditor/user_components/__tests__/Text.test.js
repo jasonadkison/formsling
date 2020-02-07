@@ -1,9 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Text from '../Text';
+import TextProperties from '../../properties/Text';
 
 jest.mock('../UserComponent', () => ({ children }) => children);
 jest.mock('@craftjs/core', () => ({ useNode: () => ({ id: 'test-node-id' }) }));
+
+test('it sets the craft related properties', () => {
+  expect(Text.craft.related.properties).toEqual(TextProperties);
+});
 
 test('renders a text input by default', () => {
   const { getByLabelText } = render(<Text name="Test Field" />);
