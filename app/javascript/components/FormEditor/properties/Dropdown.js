@@ -1,13 +1,8 @@
 import React from 'react';
-import { useNode } from '@craftjs/core';
 
 import {
   Name,
-  Label,
-  Placeholder,
-  DropdownAttributes,
-  DefaultValue,
-  Rows,
+  DropdownOptions,
   HelpText,
   InputAttributes,
 } from './all';
@@ -15,9 +10,7 @@ import {
 const DropdownProperties = () => (
   <>
     <Name />
-    <DropdownAttributes />
-    <Placeholder />
-    <DefaultValue />
+    <DropdownOptions />
     <HelpText />
     <InputAttributes />
   </>

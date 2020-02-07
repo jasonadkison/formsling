@@ -70,11 +70,13 @@ development:
     disable_host_check: true
     use_local_ip: false
     quiet: false
-    pretty: true
+    pretty: false
     headers:
       'Access-Control-Allow-Origin': '*'
     watch_options:
-      ignored: '**/node_modules/**'
+      ignored:
+        - '**/node_modules/**'
+        - '**/__tests__/**'
 
 
 test:

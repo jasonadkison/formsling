@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import useTextAlignmentClass from 'components/hooks/useTextAlignmentClass';
 import UserComponent from './UserComponent';
 import ParagraphProperties from '../properties/Paragraph';
 
 const Paragraph = (props) => {
   const { text, textAlignment } = props;
+  const textAlignmentClass = useTextAlignmentClass(textAlignment);
 
   return (
     <UserComponent>
       <div className="content">
-        <p data-testid="paragraph" className={`has-text-${textAlignment}`}>{text}</p>
+        <p data-testid="paragraph" className={textAlignmentClass}>{text}</p>
         <p />
       </div>
     </UserComponent>

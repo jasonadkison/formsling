@@ -23,7 +23,7 @@ const Text = (props) => {
   return (
     <UserComponent>
       <div className="field">
-        <label className="label" htmlFor={id} data-testid="label">
+        <label className="label" htmlFor={id}>
           {name}
           {required && (
             <>
@@ -42,7 +42,6 @@ const Text = (props) => {
               readOnly
               required={required}
               id={id}
-              data-testid="field"
             />
           ) : (
             <input
@@ -53,12 +52,11 @@ const Text = (props) => {
               readOnly
               required={required}
               id={id}
-              data-testid="field"
             />
           )}
         </div>
         {helpText && (
-          <p className="help">{helpText}</p>
+          <p className="help" data-testid="help">{helpText}</p>
         )}
       </div>
     </UserComponent>
