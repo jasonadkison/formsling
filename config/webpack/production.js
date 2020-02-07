@@ -6,4 +6,6 @@ const BabelMinifyPlugin = require('babel-minify-webpack-plugin')
 
 environment.config.optimization.minimizer = [new BabelMinifyPlugin()]
 
+environment.loaders.get('babel').exclude = [/\.test\.js$/, environment.loaders.get('babel').exclude];
+
 module.exports = environment.toWebpackConfig()
