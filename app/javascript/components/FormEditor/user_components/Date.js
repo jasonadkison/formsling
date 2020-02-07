@@ -33,11 +33,12 @@ const Date = (props) => {
             value={initialValue}
             readOnly
             required={required}
+            placeholder="yyyy-mm-dd" // fallback for safari/ie
             id={id}
           />
         </div>
         {helpText && (
-          <p className="help">{helpText}</p>
+          <p className="help" data-testid="help">{helpText}</p>
         )}
       </div>
     </UserComponent>
