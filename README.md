@@ -15,6 +15,14 @@ Build and embed web forms with ease.
 - DigitalOcean
 - Dokku
 
+## Get started
+1. clone this repo
+1. obtain the `master.key` and put it in `config/` directory.
+1. give `master.key` correct permissions: `chmod 600 config/master.key`
+1. build the image `docker-compose build`
+1. setup for development `docker-compose run --rm app /bin/bash -c "bundle config --delete without && gem install foreman && bundle && yarn && rails db:setup"`
+1. run `docker-compose up`
+
 ## Seeds
 
 Admin: `admin@example.com` / `password`
