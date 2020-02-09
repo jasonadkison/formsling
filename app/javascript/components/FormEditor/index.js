@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useParams, Redirect } from 'react-router-dom';
-import useApi from '../hooks/use-api';
+import useApi from '../hooks/useApi';
 
 import Loader from '../Loader';
 import BreadcrumbPortal from '../BreadcrumbPortal';

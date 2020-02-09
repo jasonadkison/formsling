@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import useTextAlignmentClass from 'components/hooks/useTextAlignmentClass';
 import UserComponent from './UserComponent';
 import HeadingProperties from '../properties/Heading';
 
 const Heading = (props) => {
   const { text, type, textAlignment } = props;
-
   const Heading = type;
+  const textAlignmentClass = useTextAlignmentClass(textAlignment);
 
   return (
     <UserComponent>
       <div className="content">
-        <Heading data-testid="heading" className={`has-text-${textAlignment}`}>{text}</Heading>
+        <Heading className={textAlignmentClass}>
+          {text}
+        </Heading>
       </div>
     </UserComponent>
   );
