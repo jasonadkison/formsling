@@ -20,12 +20,14 @@
     "bulma-switch": "^2.0.0",
     "bulma-tooltip": "^3.0.2",
     "classnames": "^2.2.6",
+    "date-fns": "^2.9.0",
     "iframe-resizer": "^4.2.9",
     "jquery": "^3.4.1",
     "lzutf8": "^0.5.5",
     "nanoid": "^2.1.10",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
+    "react-day-picker": "^7.4.0",
     "react-dom": "^16.12.0",
     "react-google-recaptcha": "^2.0.1",
     "react-router": "^5.1.2",
@@ -39,6 +41,7 @@
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^9.4.0",
     "babel-jest": "^25.1.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^25.1.0",
     "jest-junit": "^10.0.0",
     "react-test-renderer": "^16.12.0",
@@ -59,7 +62,10 @@
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/app/javascript/jest/setup.jest.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "identity-obj-proxy"
+    }
   },
   "scripts": {
     "test": "NODE_ENV=test jest --config package.json",

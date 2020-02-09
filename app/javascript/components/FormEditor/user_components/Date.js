@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
+import { parseDate, formatDate } from '../../utils';
 
 import UserComponent from './UserComponent';
 import DateProperties from '../properties/Date';
 
-const Date = (props) => {
+const DateField = (props) => {
   const { id } = useNode();
   const {
     name,
@@ -13,6 +16,11 @@ const Date = (props) => {
     helpText,
     required,
   } = props;
+
+  // updates the key when the picker is hidden
+  // this causes a re-render and resets the picker state so it mimicks a readonly field
+  const onDayPickerHide = () => setKey(new Date().getTime());
+  const [key, setKey] = useState(new Date().getTime());
 
   return (
     <UserComponent>
@@ -27,14 +35,21 @@ const Date = (props) => {
           )}
         </label>
         <div className="control">
-          <input
-            type="date"
-            className="input"
+          <DayPickerInput
+            inputProps={{
+              id,
+              className: 'input',
+              readOnly: true,
+              required,
+            }}
+            style={{ display: 'block' }}
+            formatDate={formatDate}
+            format="MM/dd/yyyy"
+            parseDate={parseDate}
+            placeholder="MM/DD/YYYY"
+            onDayPickerHide={onDayPickerHide}
+            key={key}
             value={initialValue}
-            readOnly
-            required={required}
-            placeholder="yyyy-mm-dd" // fallback for safari/ie
-            id={id}
           />
         </div>
         {helpText && (
@@ -45,25 +60,25 @@ const Date = (props) => {
   );
 };
 
-Date.propTypes = {
+DateField.propTypes = {
   name: PropTypes.string,
   initialValue: PropTypes.string,
   helpText: PropTypes.string,
   required: PropTypes.bool,
 };
 
-Date.defaultProps = {
+DateField.defaultProps = {
   name: 'Date',
   initialValue: '',
   helpText: '',
   required: true,
 };
 
-Date.craft = {
+DateField.craft = {
   name: 'Date',
   related: {
     properties: DateProperties,
   },
 };
 
-export default Date;
+export default DateField;

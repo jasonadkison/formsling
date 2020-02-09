@@ -10,16 +10,10 @@ test('it sets the craft related properties', () => {
   expect(Date.craft.related.properties).toEqual(DateProperties);
 });
 
-test('it renders a date input', () => {
-  const { getByLabelText } = render(<Date name="Date Field" />);
-  const input = getByLabelText(/date field/i);
-  expect(input).toHaveAttribute('type', 'date')
-})
-
 test('it has a placeholder', () => {
   const { getByLabelText } = render(<Date name="Date Field" />);
   const input = getByLabelText(/date field/i);
-  expect(input).toHaveAttribute('placeholder', 'yyyy-mm-dd')
+  expect(input).toHaveAttribute('placeholder', 'MM/DD/YYYY')
 })
 
 test('it is required by default', () => {
