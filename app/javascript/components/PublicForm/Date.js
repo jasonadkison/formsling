@@ -1,12 +1,23 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useNode } from '@craftjs/core';
+
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
+import { parseDate, formatDate } from '../utils';
+
 import { Context } from '../PublicForm';
 
 const Date = ({ name, initialValue, readOnly, required, helpText }) => {
   const [value, setValue] = useState(initialValue);
   const { id } = useNode();
   const { state } = useContext(Context);
+
+  const onDayChange = (day) => {
+    if (day) {
+      setValue(formatDate(day, 'MM/dd/yyyy'));
+    }
+  };
 
   return (
     <div className="field">
@@ -17,18 +28,24 @@ const Date = ({ name, initialValue, readOnly, required, helpText }) => {
         )}
       </label>
       <div className="control">
-        <input
-          name={name}
-          id={id}
-          readOnly={readOnly}
-          required={required}
-          disabled={state.loading}
-          onChange={e => setValue(e.target.value)}
-          data-name={name}
-          data-value={value}
-          value={value}
-          className="input"
-          type="date"
+        <DayPickerInput
+          inputProps={{
+            id,
+            name,
+            className: 'input',
+            readOnly,
+            required,
+            disabled: state.loading,
+            'data-name': name,
+            'data-value': value,
+          }}
+          style={{ display: 'block' }}
+          formatDate={formatDate}
+          format="MM/dd/yyyy"
+          parseDate={parseDate}
+          placeholder="MM/DD/YYYY"
+          onDayChange={onDayChange}
+          value={initialValue}
         />
       </div>
       {helpText && (
