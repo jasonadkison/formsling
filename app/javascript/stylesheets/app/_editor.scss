@@ -111,6 +111,8 @@ $editor-primary-highlight-color: $primary;
         right: 0;
         cursor: move;
 
+        [data-icon] { display: none; }
+
         .component-name {
           text-transform: uppercase;
           font-size: 0.75rem;
@@ -166,14 +168,6 @@ $editor-primary-highlight-color: $primary;
 // to document.body while being actively dragged. By default, craftjs uses shows the drag element,
 // but we want to instead show a little box with the element's icon.
 body > [draggable="true"] {
-  $icon-smiley: "\f4da";
-  $icon-text: "\f11c";
-  $icon-dropdown: "\f022";
-  $icon-columns: "\f0db";
-  $icon-toggle: "\f14a";
-  $icon-heading: "\f1dc";
-  $icon-date: "\f073";
-  $icon-paragraph: "\f1dd";
 
   // The toolbar button (already has icon specified in the markup)
   &.button {
@@ -183,51 +177,24 @@ body > [draggable="true"] {
 
   // The draggable element title bar
   &.user-component-indicator {
-    * {
+    width: 3rem !important;
+    height: 3rem !important;
+    text-align: center;
+
+    > * {
       display: none !important;
     }
 
-    width: 3rem !important;
-    height: 3rem !important;
-
-    &::after {
-      display: block;
-      line-height: 3rem;
-      text-align: center;
-      background: #fff;
-      font-family: 'Font Awesome 5 Free';
-      font-weight: 900;
+    > [data-icon] {
+      display: block !important;
+      background: white;
       font-size: 2rem;
-      content: $icon-smiley; // default is a smiley so we don't forget to specify an icon
+      font-weight: 900;
       color: $primary;
+      width: 3rem;
+      height: 3rem;
+      line-height: 3rem;
     }
 
-    &[data-name="Text"]::after {
-      content: $icon-text;
-    }
-
-    &[data-name="Dropdown"]::after {
-      content: $icon-dropdown;
-    }
-
-    &[data-name="Columns"]::after {
-      content: $icon-columns;
-    }
-
-    &[data-name="Toggle"]::after {
-      content: $icon-toggle;
-    }
-
-    &[data-name="Heading"]::after {
-      content: $icon-heading;
-    }
-
-    &[data-name="Date"]::after {
-      content: $icon-date;
-    }
-
-    &[data-name="Paragraph"]::after {
-      content: $icon-paragraph;
-    }
   }
 }

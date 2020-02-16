@@ -1,3 +1,96 @@
+.formsling {
+  // spacing helpers
+  &-space {
+    margin-bottom: rem(24);
+  }
+
+  &-space-top {
+    margin-top: rem(48);
+  }
+
+  &-space-bottom {
+    margin-bottom: rem(48);
+  }
+
+  &-space-around {
+    justify-content: space-around;
+  }
+
+  &-half-space {
+    margin-bottom: rem(12) !important;
+  }
+
+  &-center-items {
+    align-items: center;
+  }
+
+  // text helpers
+  &-strikethrough {
+    text-decoration: line-through;
+    ;
+  }
+
+  &-align-super {
+    font-size: .6em !important;
+    line-height: .5;
+    vertical-align: super;
+  }
+
+  // color helpers
+  &-orange {
+    color: $orange;
+  }
+
+  &-purple {
+    color: $purple;
+  }
+
+  &-rainbow-gradient {
+    background-image: linear-gradient(90deg, #9647ff, #9449fe 1.8%, #924bfe 3.8%, #8755f9 15.2%, #8557f8 17.1%, #7e5df6 22%, #7b60f4 24.3%, #7962f4 25.7%, #7368f1 30.4%, #6a70ed 36.3%, #6673ec 38.3%, #6773ec 38.9%, #6574ec 38.9%, #5c7de8 44.8%, #5782e6 48.4%, #4e8ae2 53.7%, #488fe0 57.1%, #4593de 59.6%, #4196dd 62%, #16bdcc 95.1%, #13bfcb);
+  }
+
+  &-background-light {
+    background-color: $color-background-light !important;
+  }
+}
+
+
+a {
+  &.formsling-orange {
+
+    &:hover,
+    &:active {
+      color: $orange;
+    }
+  }
+
+  &.formsling-purple {
+
+    &:hover,
+    &:active {
+      color: $purple;
+    }
+  }
+}
+
+.section {
+  padding-bottom: rem(64);
+  padding-top: rem(64);
+}
+
+.screen-reader-text {
+  border: 0;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+}
+
 // spacing helpers settings
 $spacing-range-start: 5 !default;
 $spacing-range-end: 150 !default;

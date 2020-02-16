@@ -20,7 +20,7 @@ jobs:
           command: docker pull "${DOCKERHUB_REPO}:master"
       - run:
           name: Create the build image with the checked out source code
-          command: docker build --cache-from "${DOCKERHUB_REPO}:master" --tag "build:${CIRCLE_BRANCH}" .
+          command: docker build --cache-from "${DOCKERHUB_REPO}:master" --tag "build:pre-${CIRCLE_SHA1}" .
       - run:
           name: Prepare volume for storing build artifacts
           command: |
@@ -36,7 +36,7 @@ jobs:
             --env NODE_ENV=production \
             --env DEFAULT_URL_HOST=localhost \
             --env ACTION_MAILER_SMTP_SETTINGS={} \
-            "build:${CIRCLE_BRANCH}" bundle exec rake assets:precompile \
+            "build:pre-${CIRCLE_SHA1}" bundle exec rake assets:precompile \
             /
       - run:
           name: Copy artifacts from volume to project
@@ -46,13 +46,13 @@ jobs:
       - run:
           name: Create the final build image
           command: |
-            docker build --cache-from "build:${CIRCLE_BRANCH}" --tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" .
+            docker build --cache-from "build:pre-${CIRCLE_BRANCH}" --tag "${DOCKERHUB_REPO}:final-${CIRCLE_SHA1}" .
       - run:
           name: Push the build image to Docker Hub
-          command: docker push "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
+          command: docker push "${DOCKERHUB_REPO}:final-${CIRCLE_SHA1}"
   test:
     docker:
-      - image: jadkison/formsling-ci:<< pipeline.git.revision >>
+      - image: jadkison/formsling-ci:final-<< pipeline.git.revision >>
         auth:
           <<: *dockerauth
         environment:
@@ -127,10 +127,10 @@ jobs:
           command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
           name: Pull build image from Docker Hub
-          command: docker pull "${DOCKERHUB_REPO}:${CIRCLE_SHA1}"
+          command: docker pull "${DOCKERHUB_REPO}:final-${CIRCLE_SHA1}"
       - run:
           name: Create dokku tag from build image
-          command: docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "dokku/${DOKKU_APP}:${CIRCLE_SHA1}"
+          command: docker image tag "${DOCKERHUB_REPO}:final-${CIRCLE_SHA1}" "dokku/${DOKKU_APP}:${CIRCLE_SHA1}"
       - run:
           name: Deploy build image to dokku
           command: |
@@ -143,11 +143,11 @@ jobs:
             echo "Cleaning up..."
             ssh formsling.com 'bash -s' < scripts/cleanup-dokku-tag.sh $DOKKU_APP
           no_output_timeout: 10m
-      - run:
-          name: Cache the build image as the new base image with Docker Hub
-          command: |
-            docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}"
-            docker push "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}"
+#      - run:
+#          name: Cache the build image as the new base image with Docker Hub
+#          command: |
+#            docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}"
+#            docker push "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}"
 
 workflows:
   version: 2

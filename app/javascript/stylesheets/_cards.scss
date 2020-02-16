@@ -1,0 +1,63 @@
+.formsling-feature-card {
+  border-radius: 8px;
+  box-shadow: 0 0 26.19px .81px rgba(42, 74, 91, .08), 0 0 0 1px rgba(50, 46, 97, .1);
+  padding: rem(60) 16% rem(40);
+
+  .image {
+    margin: 0 auto rem(16);
+    max-width: 100%;
+  }
+
+  .title {
+    margin-bottom: rem(16);
+  }
+
+  .card-content {
+    padding: 0;
+  }
+}
+
+
+.formsling-features-cards {
+  .formsling-section-content {
+    margin-bottom: rem(40);
+  }
+}
+
+.formsling-price-card {
+  border-radius: 5px;
+  box-shadow: 0 1px 19px 0 rgba(42, 74, 91, .07), 0 0 0 1px rgba(50, 46, 97, .1);
+  flex: 1 1 260px;
+  margin: 0 rem(24) rem(32);
+  padding: rem(64) 2.5%;
+
+  &.formsling-active {
+    box-shadow: 0 12px 28px 0 rgba(42, 74, 91, .18), 0 0 0 1px rgba(50, 46, 97, .1);
+    padding: rem(112) 3%;
+  }
+
+  .subtitle {
+    font-size: rem(24);
+    margin-bottom: rem(48);
+    margin-top: -.75rem !important;
+  }
+
+  li {
+    margin-bottom: rem(8);
+  }
+
+  .button {
+    font-size: rem(18);
+    margin-top: rem(48);
+    max-width: 100%;
+    width: rem(242);
+  }
+
+  @media(max-width: $tablet) {
+    padding: rem(28) 2.5%;
+
+    &.formsling-active {
+      padding: rem(36) 3%;
+    }
+  }
+}

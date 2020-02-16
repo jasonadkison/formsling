@@ -1,40 +1,60 @@
-<section id="pricing" class="section is-medium">
-  <h2 class="title has-text-centered">Get started for Free</h2>
-  <p class="subtitle has-text-centered">No credit card required.</p>
-
-  <div class="columns is-vcentered">
-    <div class="column is-6 is-offset-3">
-
-      <div class="pricing-table has-margin-bottom-20">
-
-        <div class="pricing-plan is-primary is-active">
-          <div class="plan-header">Standard Subscription</div>
-          <div class="plan-price"><span class="plan-price-amount"><span class="plan-price-currency">$</span>10</span>/month</div>
-          <div class="plan-items">
-            <div class="plan-item">Unlimited Forms</div>
-            <div class="plan-item">Unlimited Submissions</div>
-            <div class="plan-item">Unlimited Shared Forms</div>
-            <div class="plan-item">Unlimited Embedded Forms</div>
-            <!--<div class="plan-item">Custom Styling</div>-->
-            <div class="plan-item">Spam Protection</div>
-            <!--<div class="plan-item">Analytics</div>-->
-          </div>
-          <div class="plan-footer">
-            <% if user_signed_in? %>
-              <button class="button is-fullwidth" disabled>Already Signed Up</button>
-            <% else %>
-              <%= link_to 'Try it for free for 30 days', new_user_registration_path, class: 'button is-fullwidth' %>
-              <p class="has-margin-top-10">No credit card required</p>
-            <% end %>
-          </div>
+<section class="section formsling-pricing-section">
+  <div class="container">
+    <div class="columns formsling-space-bottom">
+      <div class="column is-8 is-offset-2">
+        <div class="formsling-section-content has-text-centered formsling-space-bottom">
+          <h3 class="title has-text-dark">Pricing Tailored for You</h3>
+          <p class="content has-text-grey has-text-weight-light is-size-5">
+            Capitalize on low hanging fruit to identify a ballpark value added activity to beta test.
+            Override the digital divide with additional clickthroughs.
+          </p>
         </div>
       </div>
+    </div>
+    <div class="columns formsling-center-items formsling-space-around">
+      <div class="column formsling-price-card has-text-centered">
+        <h4 class="title is-1 has-text-dark has-text-weight-bold">Free</h4>
+        <h5 class="subtitle has-text-weight-bold formsling-orange">30 Day Trial</h5>
+        <ul class="has-text-weight-light has-text-dark is-size-6">
+          <li class="plan-item">Unlimited Forms</li>
+          <li class="plan-item">Unlimited Submissions</li>
+          <li class="plan-item">Unlimited Shared Forms</li>
+          <li class="plan-item">Unlimited Embedded Forms</li>
+          <li class="plan-item">Spam Protection</li>
+        </ul>
+        <%= link_to('Get Started', new_user_registration_path,
+            class: "button has-text-weight-bold formsling-orange is-rounded is-outlined") %>
+      </div>
+      <div class="column formsling-price-card has-text-centered formsling-active">
+        <h4 class="title is-1 has-text-dark has-text-weight-bold"><span
+            class="formsling-align-super is-size-2">$</span>10<span class="is-size-7">/month</span></h4>
+        <h5 class="subtitle has-text-link has-text-weight-bold">Standard</h5>
+        <ul class="has-text-weight-light has-text-dark is-size-6">
+          <li class="plan-item">Unlimited Forms</li>
+          <li class="plan-item">Unlimited Submissions</li>
+          <li class="plan-item">Unlimited Shared Forms</li>
+          <li class="plan-item">Unlimited Embedded Forms</li>
+          <li class="plan-item">Spam Protection</li>
 
-      <p class="help has-text-centered">
-        For partial months, the cost is prorated. Cancel at any time.
-      </p>
-
+        </ul>
+        <%= link_to('Buy Now', new_user_registration_path,
+            class: "button has-text-weight-bold is-link is-rounded is-outlined") %>
+      </div>
+      <div class="column formsling-price-card has-text-centered">
+        <h4 class="title is-1 has-text-dark has-text-weight-bold"><span
+            class="formsling-align-super is-size-2">$</span>25<span class="is-size-7">/month</span></h4>
+        <h5 class="subtitle formsling-purple has-text-weight-bold formsling-orange">Advanced</h5>
+        <ul class="has-text-weight-light has-text-dark is-size-6">
+          <li class="plan-item">Unlimited Forms</li>
+          <li class="plan-item">Unlimited Submissions</li>
+          <li class="plan-item">Unlimited Shared Forms</li>
+          <li class="plan-item">Unlimited Embedded Forms</li>
+          <li class="plan-item">Spam Protection</li>
+          <li class="plan-item">Custom Styling</li>
+          <li class="plan-item">Advanced Analytics</li>
+        </ul>
+        <button class="button has-text-weight-bold formsling-purple is-rounded is-outlined" disabled>Coming Soon</button>
+      </div>
     </div>
   </div>
-
 </section>
