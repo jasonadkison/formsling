@@ -5,8 +5,8 @@
         <div class="formsling-section-content has-text-centered">
           <h3 class="title has-text-dark">How to Get Started</h3>
           <p class="content has-text-grey is-size-5">
-            It is easy to begin using formsling. Sing up for our 30 trial to see how easy it is to create
-            your own forms.
+            <%= link_to 'Sign Up', new_user_registration_path %> for your free 30 day trial to see
+            just how easy it is to create your own forms.
           </p>
         </div>
       </div>
@@ -17,20 +17,20 @@
           imageName: "cons-pros.svg",
           imageAlt: "Build Icon",
           title: "Build",
-          body: "Build your form using the easy to use form creator."
+          body: "Build your form using our easy to use form builder."
       }%>
       <%= render partial:"welcome/feature_card",
         locals: {
           imageName: "agile.svg",
           imageAlt: "Embed Icon",
           title: "Embed",
-          body: "Embed the form in your website or app for people to use."
+          body: "Embed your forms into your website or app for people to use."
       }%>
       <%= render partial:"welcome/feature_card",
         locals: {
           imageName: "planning.svg",
-          imageAlt: "Notify Icon",
-          title: "Notify",
+          imageAlt: "Collect Icon",
+          title: "Collect",
           body: "Check your email or dashboard to see your form results."
       }%>
     </div>
