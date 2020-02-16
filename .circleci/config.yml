@@ -58,7 +58,7 @@ jobs:
       - run:
           name: Create the final build image
           command: |
-            docker build --cache-from "build:pre-${CIRCLE_BRANCH}" --tag "${DOCKERHUB_REPO}:final-${CIRCLE_SHA1}" .
+            docker build --cache-from "build:pre-${CIRCLE_SHA1}" --tag "${DOCKERHUB_REPO}:final-${CIRCLE_SHA1}" .
       - run:
           name: Push the build image to Docker Hub
           command: docker push "${DOCKERHUB_REPO}:final-${CIRCLE_SHA1}"
