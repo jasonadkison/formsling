@@ -1,9 +1,20 @@
-<% if user_signed_in? %>
-  <section class="section">
-    <div class="container">
-      <%= react_component("App") %>
-    </div>
-  </section>
-<% else %>
-  <%= render('landing') %>
-<% end %>
+<div class="welcome">
+  <% set_meta_tags(
+    title: 'A Platform for Building and Publishing Web Forms',
+    canonical: root_url,
+    description: "FormSling is a platform for building and publishing web forms that allows you to create, share, and embed forms without any server infrastructure.",
+  ) %>
+
+  <%= render 'hero' %>
+
+  <a name="features"></a>
+  <%= render 'features' %>
+
+  <%= render 'benefits' %>
+
+  <a name="pricing"></a>
+  <%= render 'pricing' %>
+
+  <a name="faq"></a>
+  <%= render 'faq' %>
+</div>

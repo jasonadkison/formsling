@@ -1,6 +1,9 @@
 <section class="hero formsling-main-hero">
   <div class="hero-head">
-    <%= render 'layouts/welcome/nav' unless controller_name == 'public_form' %>
+    <nav class="navbar container formsling-main-nav" role="navigation" aria-label="main navigation">
+      <%= render 'layouts/navbar_brand' %>
+      <%= render 'layouts/navbar_menu' %>
+    </nav>
   </div>
 
   <div class="hero-body container">
