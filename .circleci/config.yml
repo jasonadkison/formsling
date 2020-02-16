@@ -16,11 +16,23 @@ jobs:
           name: Login to Docker Hub
           command: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - run:
-          name: Pull master image from Docker Hub
-          command: docker pull "${DOCKERHUB_REPO}:master"
+          name: Pull base image from Docker Hub
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+              docker pull "${DOCKERHUB_REPO}:master"
+            else
+              docker pull "${DOCKERHUB_REPO}:develop"
+            fi
       - run:
           name: Create the build image with the checked out source code
-          command: docker build --cache-from "${DOCKERHUB_REPO}:master" --tag "build:pre-${CIRCLE_SHA1}" .
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+              docker build --cache-from "${DOCKERHUB_REPO}:master" --tag "build:pre-${CIRCLE_SHA1}" .
+            else
+              docker build --cache-from "${DOCKERHUB_REPO}:develop" --tag "build:pre-${CIRCLE_SHA1}" .
+            fi
       - run:
           name: Prepare volume for storing build artifacts
           command: |
@@ -143,11 +155,18 @@ jobs:
             echo "Cleaning up..."
             ssh formsling.com 'bash -s' < scripts/cleanup-dokku-tag.sh $DOKKU_APP
           no_output_timeout: 10m
-#      - run:
-#          name: Cache the build image as the new base image with Docker Hub
-#          command: |
-#            docker image tag "${DOCKERHUB_REPO}:${CIRCLE_SHA1}" "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}"
-#            docker push "${DOCKERHUB_REPO}:${CIRCLE_BRANCH}"
+      - run:
+          name: Cache the build image as the new base image with Docker Hub
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+              docker image tag "${DOCKERHUB_REPO}:final-${CIRCLE_SHA1}" "${DOCKERHUB_REPO}:master"
+              docker push "${DOCKERHUB_REPO}:master"
+            else
+              docker image tag "${DOCKERHUB_REPO}:final-${CIRCLE_SHA1}" "${DOCKERHUB_REPO}:develop"
+              docker push "${DOCKERHUB_REPO}:develop"
+            fi
+
 
 workflows:
   version: 2
