@@ -47,6 +47,16 @@ const UserComponent = ({ children }) => {
 
   const [expanded, setExpanded] = useState(false);
 
+  const iconClass = cx('fas', {
+    'fa-keyboard': name === 'Text',
+    'fa-list-alt': name === 'Dropdown',
+    'fa-calendar-alt': name === 'Date',
+    'fa-check-square': name === 'Toggle',
+    'fa-columns': name === 'Columns',
+    'fa-heading': name === 'Heading',
+    'fa-paragraph': name === 'Paragraph',
+  });
+
   return (
     <div
       data-user-component ref={ref => connect(ref)}
@@ -55,6 +65,9 @@ const UserComponent = ({ children }) => {
     >
       {enabled && (
         <div className="user-component-indicator" ref={drag} data-name={name}>
+          <span className="icon" data-icon>
+            <i className={iconClass} />
+          </span>
           <div className="level is-mobile">
             <div className="level-left">
               <div className="level-item">
