@@ -2576,11 +2576,6 @@ bulma-divider@^0.2.0:
   resolved "https://registry.yarnpkg.com/bulma-divider/-/bulma-divider-0.2.0.tgz#a9b4d9fe8b270c7cb7573023c575062bc62616f3"
   integrity sha512-REe3k56GECRfDaqFjC8cwLhV4RxXmV0RubuzDJqwior9wlJcdHlN0qfW0tvUX+qphikaTQegIeRuhjRIAqkjkw==
 
-bulma-pricingtable@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/bulma-pricingtable/-/bulma-pricingtable-0.2.0.tgz#d4bb5827c6859a4303be1474644d10b1e5a579ed"
-  integrity sha512-4feDoGG5kxfzYNo+eplIbofEerO2FjwJgWoTdM1K8frU1eMHzd2Beh0Jo+18Q0N/83l+YxZydxw/xPijbCOsdQ==
-
 bulma-slider@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/bulma-slider/-/bulma-slider-2.0.0.tgz#0be9b016228b62b8189891e67eafbf5aba846699"

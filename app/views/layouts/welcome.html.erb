@@ -6,8 +6,7 @@
     <%= favicon_link_tag(asset_pack_path('media/images/favicon.ico')) %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_pack_tag 'welcome', media: 'all' unless user_signed_in? %>
-    <%= stylesheet_pack_tag 'application', media: 'all' if user_signed_in? %>
+    <%= stylesheet_pack_tag 'application', media: 'all' %>
     <script src="https://kit.fontawesome.com/ae926a1cf5.js" crossorigin="anonymous"></script>
   </head>
   <body>
