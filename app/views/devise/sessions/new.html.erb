@@ -6,31 +6,36 @@
 
 <h1 class="title">Login to Your Existing Account</h1>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email, class: 'label' %>
-    <div class="control">
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: 'input' %>
-    </div>
+<div class="columns">
+  <div class="column is-6">
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field">
+        <%= f.label :email, class: 'label' %>
+        <div class="control">
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", required: true, class: 'input' %>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= f.label :password, class: 'label' %>
+        <div class="control">
+          <%= f.password_field :password, autocomplete: "current-password", required: true, class: 'input' %>
+        </div>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="field">
+          <%= f.check_box :remember_me, class: 'is-checkradio' %>
+          <%= f.label :remember_me, class: 'checkbox' %>
+        </div>
+      <% end %>
+
+      <div class="actions">
+        <%= f.submit "Log in", class: 'button is-primary' %>
+      </div>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
   </div>
-
-  <div class="field">
-    <%= f.label :password, class: 'label' %>
-    <div class="control">
-      <%= f.password_field :password, autocomplete: "current-password", required: true, class: 'input' %>
-    </div>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me, class: 'is-checkradio' %>
-      <%= f.label :remember_me, class: 'checkbox' %>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in", class: 'button is-primary' %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
