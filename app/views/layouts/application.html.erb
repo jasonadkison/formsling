@@ -14,8 +14,10 @@
       <%= yield %>
     <% else %>
       <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
-        <%= render 'layouts/navbar_brand' %>
-        <%= render 'layouts/navbar_menu' %>
+        <div class="container">
+          <%= render 'layouts/navbar_brand' %>
+          <%= render 'layouts/navbar_menu' %>
+        </div>
       </nav>
       <div class="app-container">
         <section class="section">
