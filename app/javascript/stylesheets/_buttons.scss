@@ -1,0 +1,34 @@
+.button {
+  transition: $button-transition, border 0.2s $transition-function;
+
+  &.formsling-orange {
+    border-color: currentColor;
+    color: $orange;
+
+    &:hover,
+    &:active {
+      background-color: $orange;
+      color: $white;
+    }
+  }
+
+  &.formsling-purple {
+    border-color: currentColor;
+    color: $purple;
+
+    &:hover,
+    &:active {
+      background-color: $purple;
+      color: $white;
+    }
+  }
+
+  &.formsling-button {
+    box-shadow: $button-shadow;
+    max-width: 100%;
+    padding: rem(20) rem(25);
+    transition: $button-transition;
+  }
+}
+
+

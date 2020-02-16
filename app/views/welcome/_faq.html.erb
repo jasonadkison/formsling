@@ -1,90 +1,31 @@
-<section id="faq" class="section is-medium">
-
-  <h2 class="title">
-    Frequently Asked Questions
-  </h2>
-
-  <article class="has-padding-top-20 has-padding-bottom-20">
-    <div class="title is-spaced is-4">
-      <span class="icon is-size-5 has-text-primary">
-        <i class="fa fa-plus"></i>
-      </span>
-      What is FormSling?
-    </div>
-    <div class="subtitle">
-      <div class="content">
-        <p>FormSling is a self service web form builder and hosting platform that allows you to build
-        data collecting forms and publish them online.</p>
-        <p>You can share your forms with others and have them visit formsling.com to complete them.</p>
-        <p>You can also embed your forms into any web page using a simple embed code.</p>
+<section class="section formsling-background-light">
+  <div class="container has-white-text">
+    <div class="columns formsling-space-bottom">
+      <div class="column is-8 is-offset-2">
+        <div class="formsling-section-content has-text-centered">
+          <h3 class="title">Frequently Asked Questions</h3>
+        </div>
       </div>
     </div>
-  </article>
-
-  <article class="has-padding-top-20 has-padding-bottom-20">
-    <div class="title is-spaced is-4">
-      <span class="icon is-size-5 has-text-primary">
-        <i class="fa fa-plus"></i>
-      </span>
-      How much does it cost?
-    </div>
-    <div class="subtitle">
-      After your 30 day trial, the standard monthly subscription cost is $10. Billing is prorated
-      so you only pay for the number of days your subscription is active.
-    </div>
-  </article>
-
-  <article class="has-padding-top-20 has-padding-bottom-20">
-    <div class="title is-spaced is-4">
-      <span class="icon is-size-5 has-text-primary">
-        <i class="fa fa-plus"></i>
-      </span>
-      How do I keep my subscription active after my free 30 day trial?
-    </div>
-    <div class="subtitle">
-      Throughout your trial, you can enter a payment method at any time by visiting your
-      Manage Account page. When your trial ends, we'll bill your provided payment method automatically
-      and your standard monthly subscription will begin.
-    </div>
-  </article>
-
-  <article class="has-padding-top-20 has-padding-bottom-20">
-    <div class="title is-spaced is-4">
-      <span class="icon is-size-5 has-text-primary">
-        <i class="fa fa-plus"></i>
-      </span>
-      What happens when my trial ends?
-    </div>
-    <div class="subtitle">
-      If you haven't provided a payment method, and your trial ends, your subscription may be
-      canceled. If that happens you can start your standard subscription by visiting your Manage
-      Account page.
-    </div>
-  </article>
-
-  <article class="has-padding-top-20 has-padding-bottom-20">
-    <div class="title is-spaced is-4">
-      <span class="icon is-size-5 has-text-primary">
-        <i class="fa fa-plus"></i>
-      </span>
-      What happens when my subscription is canceled?
-    </div>
-    <div class="subtitle">
-      While canceled, your forms will continue functioning as normal, but you'll need to start a
-      new subscription to edit them and reveal their results.
-    </div>
-  </article>
-
-  <article class="has-padding-top-20 has-padding-bottom-20">
-    <div class="title is-spaced is-4">
-      <span class="icon is-size-5 has-text-primary">
-        <i class="fa fa-plus"></i>
-      </span>
-      How do I cancel my subscription?
-    </div>
-    <div class="subtitle">
-      Visit your Manage Account page to find the option to cancel your subscription.
-    </div>
-  </article>
-
+      <%= render partial:"welcome/faq_question",
+        locals: {
+          question: "How do I keep my subscription active after my free 30 day trial?",
+          answer: "Throughout your trial, you can enter a payment method at any time by visiting your Manage Account page. When your trial ends, we'll bill your provided payment method automatically and your standard monthly subscription will begin."
+      }%>
+      <%= render partial:"welcome/faq_question",
+        locals: {
+          question: "What happens when my trial ends?",
+          answer: "If you haven't provided a payment method, and your trial ends, your subscription may be canceled. If that happens you can start your standard subscription by visiting your Manage Account page."
+      }%>
+      <%= render partial:"welcome/faq_question",
+        locals: {
+          question: "What happens when my subscription is cancelled?",
+          answer: "While canceled, your forms will continue functioning as normal, but you'll need to start a new subscription to edit them and reveal their results."
+      }%>
+      <%= render partial:"welcome/faq_question",
+        locals: {
+          question: "How do I cancel my subscription?",
+          answer: "Visit your Manage Account page to find the option to cancel your subscription."
+      }%>
+  </div>
 </section>

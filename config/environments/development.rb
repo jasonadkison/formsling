@@ -70,5 +70,5 @@ Rails.application.configure do
   # config.web_console.whiny_requests = false
 
   # Allow web console access to this subnet
-  config.web_console.permissions = '172.16.238.0/24'
+  config.web_console.permissions = '172.0.0.0/8'
 end

@@ -10,5 +10,5 @@ $(document).ready(function() {
   // Check for click events on the navbar burger icon
   $(".navbar-burger").click(toggleNavbar);
 
-  $('nav.navbar .navbar-item').on('click', toggleNavbar);
+  $('nav.navbar .navbar-menu .navbar-item').on('click', toggleNavbar);
 });

@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   end
 
   # pages
-  get '/contact', to: 'welcome#contact', as: 'contact'
+  get '/contact', to: 'contact#index', as: 'contact'
 
   # catch every other request and send it to our react app
   get '*anything', to: 'dashboard#index',
@@ -56,6 +56,10 @@ Rails.application.routes.draw do
       # exclude any engine routes manually (e.g. sidekiq)
       req.path.exclude?('/sidekiq')
     }
+
+  authenticated :user do
+    root to: 'dashboard#index', as: 'dashboard'
+  end
 
   root 'welcome#index'
 end
