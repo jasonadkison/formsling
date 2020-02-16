@@ -65,7 +65,7 @@ const UserComponent = ({ children }) => {
     >
       {enabled && (
         <div className="user-component-indicator" ref={drag} data-name={name}>
-          <span className="icon" data-icon>
+          <span className="icon" data-user-component-icon>
             <i className={iconClass} />
           </span>
           <div className="level is-mobile">

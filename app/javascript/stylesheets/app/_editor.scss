@@ -111,7 +111,7 @@ $editor-primary-highlight-color: $primary;
         right: 0;
         cursor: move;
 
-        [data-icon] { display: none; }
+        [data-user-component-icon] { display: none; }
 
         .component-name {
           text-transform: uppercase;
@@ -185,7 +185,7 @@ body > [draggable="true"] {
       display: none !important;
     }
 
-    > [data-icon] {
+    > [data-user-component-icon] {
       display: block !important;
       background: white;
       font-size: 2rem;
