@@ -1,0 +1,46 @@
+<nav class="navbar container formsling-main-nav" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <%= link_to root_path, class: 'navbar-item' do %>
+    <%= image_tag asset_pack_path('media/images/formsling-logo-black.svg'), alt: "formsling", class: "nav-logo" %>
+    <span class="nav-logo-text">ormSling</span>
+    <% end %>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu" id="mainNavMenu">
+    <div class="navbar-end has-text-info">
+      <% unless user_signed_in? %>
+      <%= link_to 'Features', root_path(anchor: 'features'), class: 'navbar-item' %>
+      <%= link_to 'Pricing', root_path(anchor: 'pricing'), class: 'navbar-item' %>
+      <%= link_to 'FAQ', root_path(anchor: 'faq'), class: 'navbar-item' %>
+      <%= link_to 'Contact', contact_path, class: 'navbar-item' %>
+      <%= link_to('Sign In', new_user_session_path, class: 'navbar-item') %>
+      <% end %>
+      <% if user_signed_in? && current_user.admin? %>
+      <%= link_to 'ActiveAdmin', admin_root_path, target: '_blank', class: 'navbar-item' %>
+      <%= link_to 'Sidekiq', sidekiq_web_path, target: '_blank', class: 'navbar-item' %>
+      <% end %>
+
+      <% if user_signed_in? %>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          <%= current_user.full_name %>
+        </a>
+
+        <div class="navbar-dropdown">
+          <%= link_to 'View Your Forms', root_path, class: 'navbar-item' %>
+          <%= link_to 'Manage Account', edit_user_registration_path, class: 'navbar-item' %>
+          <hr class="navbar-divider">
+          <%= link_to 'Contact', contact_path, class: 'navbar-item' %>
+          <%= link_to('Logout', destroy_user_session_path, method: :delete, class: 'navbar-item') %>
+        </div>
+      </div>
+      <% else %>
+      <%= link_to('Sign Up', new_user_session_path, class: 'navbar-item formsling-main-nav--signup') %>
+      <% end %>
+    </div>
+</nav>

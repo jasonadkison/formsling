@@ -1,1 +1,9 @@
-<%= user_signed_in? ? react_component("App") : render('landing') %>
+<% if user_signed_in? %>
+  <section class="section">
+    <div class="container">
+      <%= react_component("App") %>
+    </div>
+  </section>
+<% else %>
+  <%= render('landing') %>
+<% end %>

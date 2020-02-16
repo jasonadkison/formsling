@@ -9,6 +9,7 @@ gem 'ahoy_matey'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'devise'
 gem 'devise-async'
+gem 'foreman'
 gem 'jbuilder', '~> 2.7'
 gem 'meta-tags'
 gem 'pg'

@@ -1,0 +1,40 @@
+.formsling-footer {
+  padding: rem(32) 0 0;
+
+  .formsling-bottom-links {
+    align-items: center;
+    justify-content: flex-end;
+
+    @media(max-width: $tablet) {
+      justify-content: space-around;
+    }
+
+    @media(max-width: 568px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  .formsling-bottom-link {
+    padding: 0 1rem;
+
+    a {
+      color: $grey;
+      transition: $button-transition;
+
+      &:hover,
+      &:active {
+        color: darken($grey, 12);
+      }
+    }
+
+    @media(max-width: 568px) {
+      flex-wrap: wrap;
+      padding: 1rem;
+    }
+  }
+}
+
+.footer {
+  background-color: $color-background-light !important;
+  padding: 3rem 1.5rem 1.75rem;
+}

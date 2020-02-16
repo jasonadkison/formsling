@@ -1,0 +1,140 @@
+.formsling-main-hero {
+  overflow: hidden;
+  padding-top: rem(16);
+  position: relative;
+
+  &::before {
+    background: $primary-gradient;
+    bottom: 7vw;
+    content: '';
+    height: 150%;
+    position: absolute;
+    right: 0;
+    transform: skewY(-5deg);
+    width: 100%;
+  }
+
+  .hero-body {
+    padding-top: rem(30);
+    width: 100%;
+  }
+
+  .subtitle {
+    margin-bottom: rem(48);
+  }
+
+  .left {
+    margin-top: rem(60);
+
+    @media(max-width: $tablet) {
+      margin-top: 0;
+    }
+  }
+
+  .formsling-banner {
+    margin-bottom: rem(40);
+  }
+
+  &--button {
+    margin-right: rem(16);
+  }
+
+  &--image {
+    width: 100%;
+  }
+
+  .buttons {
+    display: flex;
+    width: 100%;
+
+    .button {
+      flex: 0 1 rem(195);
+
+      @media(max-width: 414px) {
+        flex: 0 1 100%;
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+
+.formsling-hero-image {
+  background: $primary-gradient;
+  padding-bottom: 0;
+  padding-top: rem(64);
+
+  .columns {
+    align-items: flex-end;
+  }
+
+  .image {
+    @media(min-width: 1981px) {
+      transform: translateX(16.5%);
+    }
+
+    @media(max-width: 1980px) and (min-width: $tablet) {
+      transform: translateX(33%);
+    }
+
+    @media (max-width: $tablet) {
+      transform: translateX(.75rem);
+    }
+
+    img {
+      width: 70%;
+    }
+  }
+
+  .column {
+    &:nth-child(1) {
+      margin-bottom: rem(105);
+
+      @media(max-width: $tablet) {
+        margin-bottom: rem(40);
+      }
+    }
+
+    &:nth-child(2) {
+      padding: 0;
+    }
+  }
+}
+
+
+.formsling-hero-icons {
+
+  .formsling-icon-snippet {
+    .title {
+      margin-bottom: rem(6);
+    }
+
+    .content {
+      margin: 0 auto;
+      max-width: 360px;
+    }
+  }
+
+  .formsling-section-content {
+    margin-bottom: rem(64);
+  }
+
+  .formsling-icon {
+    margin-bottom: rem(16);
+    text-align: center;
+
+    .icon {
+      height: auto;
+    }
+
+    img {
+      pointer-events: none;
+    }
+  }
+
+  .columns.is-multiline {
+    .column {
+      margin-bottom: rem(40);
+    }
+  }
+}

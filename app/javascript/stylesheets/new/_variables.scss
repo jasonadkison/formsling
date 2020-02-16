@@ -1,0 +1,92 @@
+// Redefine some of Bulma colors and variables.
+$blue: #28afd0;
+$purple: #6967ce;
+$purple-light-1: #817ed6;
+$purple-light-2: #9795dd;
+$purple-light-3: #b4b3e7;
+$purple-dark-1: #615fc9;
+$purple-dark-2: #5654c2;
+$purple-dark-3: #4c4abc;
+$purple-accent-1: #e2e2ff;
+$purple-accent-2: #cac9ff;
+$purple-accent-3: #9996ff;
+$cyan: #3fcf94;
+$light-blue: #28afd0;
+$dark: #3e396b;
+$light-grey: rgba($black, .5);
+$grey: #b0aebe;
+$orange: #e98f46;
+$yellow: #fdb901;
+$red: #fa626b;
+$green: #5ed84f;
+
+$text1: #6b7081;
+
+$success: $cyan;
+$card-color: $light-grey;
+$primary: $cyan;
+$primary-invert: $white;
+$info: $white;
+$info-invert: $blue;
+$primary: $blue;
+$color-tag: $green;
+$color-main-gradient-left: #9f78ff;
+$color-main-gradient-right: #32cafe;
+$color-background-light: #f8faff;
+$color-carousel-bulltes: $blue;
+
+$primary-gradient: linear-gradient(90deg, #9647ff, #9449fe 1.8%, #924bfe 3.8%, #8755f9 15.2%, #8557f8 17.1%, #7e5df6 22%, #7b60f4 24.3%, #7962f4 25.7%, #7368f1 30.4%, #6a70ed 36.3%, #6673ec 38.3%, #6773ec 38.9%, #6574ec 38.9%, #5c7de8 44.8%, #5782e6 48.4%, #4e8ae2 53.7%, #488fe0 57.1%, #4593de 59.6%, #4196dd 62%, #16bdcc 95.1%, #13bfcb);
+$secondary-gradient: linear-gradient(to right, #00cef9, #00e6af);
+$button-gradient: linear-gradient(90deg, #a376fc 0, #f96f9b 50%, #a376fc 100%);
+
+$warn-gradient: linear-gradient(45deg, #fcaa01, #fece4d);
+$error-gradient: linear-gradient(45deg, #f95058, #fc9197);
+$success-gradient: linear-gradient(45deg, #63d457, #9fe797);
+$info-gradient: linear-gradient(45deg, #1e9fc4, #69c7de);
+
+$facebook: #3b5998;
+$twitter: #55acee;
+$instagram: #6a453b;
+$google-plus: #dc4e41;
+$pinterest: #cb2027;
+
+$input-border-color: $grey;
+
+$footer-background-color: $white;
+
+// Navbar Colors
+$navbar-background-color: $blue;
+$navbar-item-hover-background-color: rgba(0, 0, 0, .1);
+
+$transition-function: ease-in-out;
+$button-transition: color .2s $transition-function,
+background .2s $transition-function;
+$button-shadow: 0 4px 9px rgba(0, 0, 0, .3);
+
+// Font variables
+$size-2: 2rem;
+$size-3: 1.75rem;
+$family-sans-serif: 'Lato',
+sans-serif;
+$size-7: .875rem;
+
+// Columns Variables
+$column-gap: .8125rem;
+
+// Images dimensions
+$dimensions: 16 24 32 48 64 96 128 159;
+
+// Function to convert pixels to rems
+$base-font-size: 16;
+
+@function rem($pixels, $context: $base-font-size) {
+  @if (unitless($pixels)) {
+    $pixels: $pixels * 1px;
+  }
+
+  @if (unitless($context)) {
+    $context: $context * 1px;
+  }
+
+  @return $pixels / $context * 1rem;
+}

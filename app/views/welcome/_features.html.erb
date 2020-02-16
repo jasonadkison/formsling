@@ -1,65 +1,38 @@
-<section id="features" class="section is-medium">
-
+<section class="section formsling-features-cards">
   <div class="container">
-    <div class="title-wrapper has-text-centered">
-      <h2 class="title is-2">Features</h2>
-      <div class="divider is-centered"></div>
-    </div>
-
-    <div class="columns is-vcentered has-margin-top-60">
-      <div class="column is-4 is-offset-1">
-        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
-          Build your forms
-        </h3>
-        <p class="subtitle is-5">
-          Drag and drop fields to construct your forms.
-        </p>
-      </div>
-      <div class="column is-5 is-offset-1">
-        <%= image_tag asset_pack_path('media/images/editor-screenshot.png'), alt: "Form Builder Screenshot" %>
+    <div class="columns">
+      <div class="column is-8-desktop is-offset-2-desktop">
+        <div class="formsling-section-content has-text-centered">
+          <h3 class="title has-text-dark">How to Get Started</h3>
+          <p class="content has-text-grey is-size-5">
+            It is easy to begin using formsling. Sing up for our 30 trial to see how easy it is to create
+            your own forms.
+          </p>
+        </div>
       </div>
     </div>
-
-    <div class="columns is-vcentered has-margin-top-60">
-      <div class="column is-4 is-offset-1">
-        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
-          Configure your fields
-        </h3>
-        <p class="subtitle is-5">
-          Each form field is easily configurable in the editor.
-        </p>
-      </div>
-      <div class="column is-5 is-offset-1">
-        <%= image_tag asset_pack_path('media/images/settings-screenshot.png'), alt: "Field Settings Screenshot" %>
-      </div>
-    </div>
-
-    <div class="columns is-vcentered has-margin-top-60">
-      <div class="column is-4 is-offset-1">
-        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
-          Share and embed your forms
-        </h3>
-        <p class="subtitle is-5">
-          Share your forms with others. Add your forms to any website with a simple embed code.
-        </p>
-      </div>
-      <div class="column is-5 is-offset-1">
-        <%= image_tag asset_pack_path('media/images/share-embed-screenshot.png'), alt: "Share and Embed Screenshot" %>
-      </div>
-    </div>
-
-    <div class="columns is-vcentered has-margin-top-60">
-      <div class="column is-4 is-offset-1">
-        <h3 class="title is-3 has-margin-bottom-10 is-spaced">
-          Capture results
-        </h3>
-        <p class="subtitle is-5">
-          Receive a notification each time a form submission arrives.
-        </p>
-      </div>
-      <div class="column is-5 is-offset-1">
-        <%= image_tag asset_pack_path('media/images/result-screenshot.png'), alt: "Result Screenshot" %>
-      </div>
+    <div class="columns">
+      <%= render partial:"welcome/partials/feature_card",
+        locals: {
+          imageName: "cons-pros.svg",
+          imageAlt: "Build Icon",
+          title: "Build",
+          body: "Build your form using the easy to use form creator."
+      }%>
+      <%= render partial:"welcome/partials/feature_card",
+        locals: {
+          imageName: "agile.svg",
+          imageAlt: "Embed Icon",
+          title: "Embed",
+          body: "Embed the form in your website or app for people to use."
+      }%>
+      <%= render partial:"welcome/partials/feature_card",
+        locals: {
+          imageName: "planning.svg",
+          imageAlt: "Notify Icon",
+          title: "Notify",
+          body: "Check your email or dashboard to see your form results."
+      }%>
     </div>
   </div>
 </section>

@@ -1,0 +1,70 @@
+.formsling-main-nav {
+  box-shadow: none;
+
+  img {
+    pointer-events: none;
+  }
+
+  .navbar-brand {
+    .navbar-item img {
+      max-height: none;
+    }
+  }
+
+  .navbar-menu {
+    .navbar-end {
+      .navbar-item {
+        border-radius: 3px;
+        color: inherit;
+        transition: $button-transition;
+      }
+    }
+  }
+
+  @media (min-width: $tablet) {
+    a {
+      border-radius: 6px !important;
+      font-size: rem(14) !important;
+      padding: rem(14) rem(16);
+    }
+  }
+
+  @media (min-width: 1088px) {
+
+    .navbar,
+    .navbar-menu,
+    .navbar-start,
+    .navbar-end {
+      align-items: center !important;
+    }
+  }
+
+  .formsling-main-nav--signup {
+    background-color: rgba(0, 0, 0, .1);
+  }
+}
+
+#mainNavMenu {
+  @media(max-width: $desktop) {
+    box-shadow: $button-shadow;
+    left: 0;
+    padding: 0;
+    position: fixed;
+    top: rem(70);
+    width: 100%;
+    z-index: 1;
+  }
+}
+
+
+.nav-logo {
+  height: 50px;
+  opacity: .35;
+}
+
+.nav-logo-text {
+  color: black;
+  font-size: 16px;
+  opacity: .35;
+  padding-left: 2px;
+}
