@@ -11,14 +11,10 @@
   </head>
   <body>
     <%= yield %>
-    <section class="section">
-      <div class="container">
-        <p class="has-text-centered is-size-7 has-margin-top-20">
-          <em>Powered by</em>
-          <strong><%= link_to 'FormSling.com', root_url, title: 'FormSling.com' %></strong>
-        </p>
-      </div>
-    </section>
+    <p class="has-text-centered is-size-7 has-margin-top-20 has-margin-bottom-20">
+      <em>Powered by</em>
+      <strong><%= link_to 'FormSling.com', root_url, title: 'FormSling.com' %></strong>
+    </p>
     <%= javascript_pack_tag 'application' %>
   </body>
 </html>

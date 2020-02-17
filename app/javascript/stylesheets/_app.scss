@@ -1,4 +1,33 @@
-@import './app/layout';
-@import './app/forms';
-@import './app/editor';
-@import './app/shame';
+body > .app-container {
+  min-height: 100vh;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  padding-bottom: 168px;
+
+  .breadcrumb {
+    margin: 1rem 0;
+  }
+
+  .navbar.main-menu {
+    z-index: 29;
+  }
+
+  footer.footer {
+    height: 168px;
+    position: absolute;
+    bottom: 0;
+    width: 100%
+  }
+
+  .breadcrumb-container {
+    .breadcrumb {
+      margin-top: 0;
+    }
+  }
+
+  @import './app/loader';
+  @import './app/forms';
+  @import './app/editor';
+  @import './app/shame';
+}

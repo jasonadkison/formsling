@@ -1,10 +1,10 @@
-<div class="welcome">
-  <% set_meta_tags(
-    title: 'A Platform for Building and Publishing Web Forms',
-    canonical: root_url,
-    description: "FormSling is a platform for building and publishing web forms that allows you to create, share, and embed forms without any server infrastructure.",
-  ) %>
+<% set_meta_tags(
+  title: 'A Platform for Building and Publishing Web Forms',
+  canonical: root_url,
+  description: "FormSling is a platform for building and publishing web forms that allows you to create, share, and embed forms without any server infrastructure.",
+) %>
 
+<div class="welcome">
   <%= render 'hero' %>
 
   <a name="features"></a>
@@ -18,3 +18,32 @@
   <a name="faq"></a>
   <%= render 'faq' %>
 </div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns formsling-footer">
+      <div class="column is-5 is-marginless has-text-centered-mobile content has-text-grey">
+        <p>Copyright &copy; <%= Time.now.year %> FormSling. All rights reserved.</p>
+      </div>
+      <div class="column is-7">
+        <ul class="columns formsling-bottom-links is-mobile is-multiline is-marginless">
+          <li class="formsling-bottom-link">
+            <%= link_to 'Contact Us', contact_path %>
+          </li>
+          <% unless user_signed_in? %>
+            <li class="formsling-bottom-link">
+              <%= link_to('Sign Up', new_user_registration_path) %>
+            </li>
+          <% end %>
+          <li class="formsling-bottom-link">
+            <% if user_signed_in? %>
+              <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
+            <% else %>
+              <%= link_to('Sign In', new_user_session_path) %>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
