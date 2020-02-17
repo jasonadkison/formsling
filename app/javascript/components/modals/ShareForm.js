@@ -79,7 +79,7 @@ const ShareForm = ({ form }) => {
   return (
     <>
       <a
-        className="button is-inline is-info is-outlined"
+        className="button is-inline is-warning is-outlined"
         onClick={() => setIsOpen(true)}
       >
         Share / Embed
