@@ -13,22 +13,28 @@
     <% if controller_name == 'welcome' %>
       <%= yield %>
     <% else %>
-      <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
-        <div class="container">
-          <%= render 'layouts/navbar_brand' %>
-          <%= render 'layouts/navbar_menu' %>
-        </div>
-      </nav>
       <div class="app-container">
+        <nav class="navbar has-shadow" role="navigation" aria-label="main navigation">
+          <div class="container">
+            <%= render 'layouts/navbar_brand' %>
+            <%= render 'layouts/navbar_menu' %>
+          </div>
+        </nav>
         <section class="section">
           <div class="container">
             <%= render 'layouts/notifications' %>
             <%= yield %>
           </div>
         </section>
+        <footer class="footer">
+          <div class="container">
+            <div class="content has-text-centered">
+              <p>Copyright &copy; <%= Time.now.year %> FormSling. All rights reserved.</p>
+            </div>
+          </div>
+        </footer>
       </div>
     <% end %>
-    <%= render 'layouts/footer' %>
     <%= javascript_pack_tag 'application' %>
   </body>
 </html>

@@ -5,8 +5,20 @@ import PropTypes from 'prop-types';
 const delay = 500;
 
 const Loader = ({ loading }) => {
+  const [shouldDisplay, setShouldDisplay] = useState(false);
 
-  if (!loading) return null;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (loading) setShouldDisplay(true);
+    }, delay);
+
+    return () => {
+      setShouldDisplay(false);
+      clearTimeout(timer);
+    }
+  }, [loading]);
+
+  if (!shouldDisplay) return null;
 
   return (
     <div id="loading-overlay">

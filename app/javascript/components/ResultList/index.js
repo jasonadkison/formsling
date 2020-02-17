@@ -55,7 +55,7 @@ const ResultList = () => {
 
   useEffect(() => {
     const timer = setTimeout(fetchData);
-    return () => clearTimeout(setTimeout);
+    return () => clearTimeout(timer);
   }, [formId]);
 
   if (error) {
@@ -70,10 +70,12 @@ const ResultList = () => {
     <>
       <Loader loading={loading} />
       <div id="result-list">
-        <BreadcrumbPortal>
-          <Breadcrumbs {...form} />
-        </BreadcrumbPortal>
-        {results.length > 0 ? (
+        {!loading && (
+          <BreadcrumbPortal>
+            <Breadcrumbs {...form} />
+          </BreadcrumbPortal>
+        )}
+        {results.length > 0 && (
           <>
             <h1 className="title">Results</h1>
             <div className="table-container">
@@ -131,7 +133,8 @@ const ResultList = () => {
               </table>
             </div>
           </>
-        ) : (
+        )}
+        {!loading && !results.length && (
           <EmptyState
             top="No Results Found"
             middle="This form has not received any submissions."

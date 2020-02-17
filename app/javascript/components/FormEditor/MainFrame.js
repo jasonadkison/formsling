@@ -22,10 +22,7 @@ const MainFrame = ({ payload }) => {
 
   return (
     <Frame json={payload ? decompress(payload) : undefined}>
-      <Canvas id="root-canvas">
-        <Text name="First Name" />
-        <Text name="Last Name" />
-      </Canvas>
+      <Canvas id="root-canvas" />
     </Frame>
   );
 };

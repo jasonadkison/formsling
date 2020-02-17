@@ -57,6 +57,15 @@ $footer-background-color: $white;
 // Navbar Colors
 $navbar-background-color: $blue;
 $navbar-item-hover-background-color: rgba(0, 0, 0, .1);
+$navbar-item-color: $white;
+$navbar-item-hover-color: $white;
+$navbar-dropdown-background-color: $blue;
+$navbar-dropdown-item-hover-color: $navbar-item-hover-background-color;
+$navbar-dropdown-item-hover-background-color: $navbar-item-hover-background-color;
+$navbar-divider-background-color: $navbar-item-hover-background-color;
+$navbar-dropdown-item-hover-color: $white;
+$navbar-dropdown-border-top: 2px solid $color-background-light;
+$navbar-dropdown-arrow: $white;
 
 $transition-function: ease-in-out;
 $button-transition: color .2s $transition-function,
