@@ -20,8 +20,9 @@ Rails.application.routes.draw do
   get '/health', to: proc {[200, {}, ['ok']]}
 
   # public form routes
-  get '/embed', to: 'public_form#embed', as: 'embed'
+  get '/embed', to: 'public_form#embed', as: 'embed_js'
   get '/f/:id', to: 'public_form#show', as: 'public_form'
+  get '/f/:id/embed', to: 'public_form#show', defaults: { embed: true }, as: 'public_form_embed'
   post '/f/:id', to: 'public_form#submit', defaults: { format: :json }
 
   # result endpoint

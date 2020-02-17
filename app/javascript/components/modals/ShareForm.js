@@ -10,8 +10,8 @@ const ShareForm = ({ form }) => {
     setIsOpen(false);
   };
 
-  const embedCode = `<script type="text/javascript" src="${form.embed_url}"></script>
-<a class="formsling-form-widget" href="${form.public_url}">${form.name}</a>`;
+  const embedCode = `<script type="text/javascript" src="${form.embed_js_url}"></script>
+<a class="formsling-form-widget" href="${form.public_form_embed_url}">${form.name}</a>`;
 
 
   const modal = isOpen ? (
