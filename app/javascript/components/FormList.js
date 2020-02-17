@@ -122,7 +122,7 @@ const FormList = () => {
     <>
       <Loader loading={loading} />
       <div id="form-list">
-        {forms.length > 0 ? (
+        {forms.length > 0 && (
           <>
             <div className="level">
               <div className="level-left">
@@ -148,7 +148,9 @@ const FormList = () => {
               <FormTable forms={forms} setDeletingForm={setDeletingForm} />
             </div>
           </>
-        ) : (
+        )}
+
+        {!loading && !forms.length && (
           <EmptyState
             top="No Forms Found"
             middle="Let's get started by creating your first form."
@@ -167,9 +169,11 @@ const FormList = () => {
             )}
           />
         )}
+
         {isCreating && (
           <NewForm onClose={() => setIsCreating(false)} />
         )}
+
         {deletingForm && (
           <DeleteForm
             {...deletingForm}

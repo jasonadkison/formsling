@@ -37,16 +37,20 @@ const FormEditor = ({ enabled: initialEnabled }) => {
     <>
       <Loader loading={loading} />
       <div id="editor" className={enabled ? 'is-enabled' : 'is-disabled'}>
-        <BreadcrumbPortal>
-          <Breadcrumbs {...form} />
-        </BreadcrumbPortal>
-        <Editor
-          enabled={enabled}
-          setEnabled={setEnabled}
-          form={form}
-          afterSaveEditor={refresh}
-          afterSaveForm={refresh}
-        />
+        {!loading && (
+          <BreadcrumbPortal>
+            <Breadcrumbs {...form} />
+          </BreadcrumbPortal>
+        )}
+        {!loading && (
+          <Editor
+            enabled={enabled}
+            setEnabled={setEnabled}
+            form={form}
+            afterSaveEditor={refresh}
+            afterSaveForm={refresh}
+          />
+        )}
       </div>
     </>
   );
